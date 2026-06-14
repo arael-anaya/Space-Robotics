@@ -43,7 +43,7 @@
 }
 
 \newcommand{\Name}{Arael Anaya}
-\newcommand{\Assignment}{2.1 Exploring Research Challenges in Space Missions}
+\newcommand{\Assignment}{Exploring Research Challenges in Space Missions}
 \newcommand{\course}{Space Robotics}
 
 \begin{document}
@@ -53,15 +53,29 @@
 % ====================================================
 \section*{OWL Scientific Question}
 
-% State the research topic/question you selected from the OWL Decadal Survey (pages 36-39).
-
-\noindent\textbf{Topic:}
+\noindent\textbf{Topic:} Ocean Worlds Exploration \& Sampling \cite[pp.~36--39]{owlDecadal}
 
 \noindent\textbf{Interest:}
 
+Ocean worlds like Europa represent the most compelling environments for studying life beyond Earth,
+and the most difficult for autonomous systems. What draws me to this topic is the engineering challenge that arise from the question:
+how do you keep a robot operational, navigating, and decision-making in a GPS-denied, high-radiation, cryogenic environment with no possibility of
+real-time human intervention? The decadal survey speaks to the real physical needs here: Jupiter's Galilean moons reveal
+``the fundamental importance of gravitational tides in generating internal heat,'' with those tides actively ``melting ice on Europa and
+Ganymede'' \cite[p.~37]{owlDecadal}. That subsurface ocean exists because of a process we cannot turn off, and any
+robotic system sent to study it must be designed around that reality. These are the exact conditions that highlight every weakness in current autonomy stacks.
+
 \noindent\textbf{Connection to Space Resources:}
 
+Accessing a subsurface ocean requires penetrating kilometers of ice, a process that may yield
+in-situ resources (liquid water, chemical energy gradients) critical to sustaining any long-duration mission. Understanding the composition of that ocean
+directly informs the feasibility of using local materials to support future human or robotic infrastructure in the outer solar system.
+
 \noindent\textbf{Relationship to Robotics:}
+
+Reaching and operating in a subsurface ocean demands a full robotic stack operating without outside reference:
+special robots for ice penetration, underwater vehicles for ocean navigation, and autonomous sampling systems capable of detecting and responding to scientifically
+interesting features. Every subsystem (perception, localization, path planning, controls) must function independently.
 
 
 % ====================================================
@@ -69,15 +83,33 @@
 % ====================================================
 \section*{STMD Technology Shortfall}
 
-% State the technology shortfall you selected from the STMD readings.
-
-\noindent\textbf{Topic:}
+\noindent\textbf{Topic:} Multi-Agent Robotic Coordination and
+Interoperability for Cooperative Task Planning and
+Performance \cite{stmdShortfall}
 
 \noindent\textbf{Interest:}
 
+Swarm robotics is the next step in advancing the capabilities of robots to complete high level missions. NASA's own shortfall rankings
+confirm how urgent this is: multi-agent coordination received an integrated score of 4.7856 and ranked 139th among all civil space technology
+gaps \cite{stmdShortfall}, placing it right in the near-term priority tier for Autonomous Systems and Robotics. I am most interested in the 
+version of it where each robot in the swarm is genuinely capable on its own, not a simple unit that only functions
+within the group (similar to how drone swarms work). Instead we'd have a system of robots with unique capabilities
+that all come together to complete a high-level task.
+
 \noindent\textbf{Connection to Space Resources:}
 
+Cooperative exploration and mapping by a distributed robotic fleet dramatically increases the spatial coverage
+and fault tolerance of resource missions. A swarm can survey a large asteroid surface, map subsurface ice deposits via 
+distributed sensing, or maintain constant monitoring of a volatile-rich region far more efficiently than any single agent, 
+with adversarial identification algorithms when individual units fail.
+
 \noindent\textbf{Relationship to Robotics:}
+
+This topic is a direct application of the consensus and coordination algorithms I have studied for the last year.
+Deploying them in space introduces new constraints (limited bandwidth, high latency, radiation-induced faults, and no GPS) 
+that stress-test the theoretical properties I've studied (convergence, resilience, scalability). Building swarm systems 
+that consinstantly maintain coordination under these conditions allows me to further see the applications of this field.
+
 
 
 % ====================================================
@@ -85,15 +117,57 @@
 % ====================================================
 \section*{NASA SBIR Research Topic}
 
-% State the research topic you selected from NASA SBIR.
-
-\noindent\textbf{Topic:}
+\noindent\textbf{Topic:} Flight Dynamics and Navigation Technologies \cite{nasaSBIR} (Topic COMNAV.1.S26B)
 
 \noindent\textbf{Interest:}
 
+Communication delays and blackouts are not random edge cases in deep-space missions; they are the default operating condition.
+The SBIR solicitation states the gap directly: ``NASA currently has limited navigational and guidance technologies that permit fully
+autonomous approach, proximity operations, distributed spacecraft operations, and landing without support from Earth-based resources''
+\cite{nasaSBIR}. This shortfall interests me because it forces onboard autonomy to be the primary decision-making layer, eliminating
+the safety net of human-in-the-loop oversight. A robot that cannot function robustly without a communication link is not truly autonomous.
+Closing this gap is a requirement for any serious deep-space resource or exploration mission.
+
 \noindent\textbf{Connection to Space Resources:}
+
+Remote resource operations (prospecting, extraction, processing) cannot depend on continuous communication
+to Earth. Whether managing an ISRU plant on the lunar surface or conducting a sampling traverse on an asteroid, the system must detect anomalies, replan,
+and execute without waiting for human feedback. Autonomous operations capability is therefore a direct necessity for in-space resource utilization.
 
 \noindent\textbf{Relationship to Robotics:}
 
+My research in consensus algorithms and resilient multi-agent coordination already deals with how distributed
+systems reach agreement under adversarial conditions. Extending this to communication-constrained space contexts is a natural progression my PI has brought up:
+the same algorithms that allow a swarm of Crazyflies to maintain stability during packet loss should also apply to a team of planetary rovers operating through
+a communication outage.
+
+% ====================================================
+% REFERENCES
+% ====================================================
+
+\begin{thebibliography}{9}
+
+\bibitem{owlDecadal}
+National Academies of Sciences, Engineering, and Medicine,
+\textit{Origins, Worlds, and Life: A Decadal Strategy for Planetary Science and Astrobiology 2023--2032},
+The National Academies Press, Washington, D.C., 2022.
+[Online]. Available: \url{https://www.nationalacademies.org/read/26522}.
+[Accessed: Jun.\ 14, 2026].
+
+\bibitem{stmdShortfall}
+NASA Space Technology Mission Directorate,
+``Civil Space Technology Shortfall Rankings,''
+NASA, Washington, D.C., Jul.\ 2024.
+[Online]. Available: \url{https://www.nasa.gov/wp-content/uploads/2024/07/civil-space-shortfall-ranking-july-2024.pdf}.
+[Accessed: Jun.\ 14, 2026].
+
+\bibitem{nasaSBIR}
+NASA,
+``FY 2026--2027 SBIR/STTR Program Solicitation, Appendix 26B-I: SBIR Topics,''
+NASA Small Business Innovation Research Program, 2025.
+
+\end{thebibliography}
 
 \end{document}
+
+

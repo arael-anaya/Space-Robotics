@@ -1,0 +1,186 @@
+\documentclass[11pt]{article}
+
+% ====================================================
+% PACKAGES
+% ====================================================
+\usepackage[margin=1in, headheight=13.6pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{tcolorbox}
+\usepackage{amsmath, amssymb, mathtools}
+\usepackage{siunitx}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}
+
+\usepackage{enumitem}
+\usepackage{booktabs}
+
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+\usepackage{listings}
+\usepackage{indentfirst}
+\usepackage[justification=centering]{caption}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\Assignment\ |\ \course}
+\rhead{\Name\ |\ \today}
+\cfoot{Page \thepage\ of~\pageref{LastPage}}
+
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+
+\newcommand{\Name}{Arael Anaya}
+\newcommand{\Assignment}{Identifying Mission Objectives for a Space Robot}
+\newcommand{\course}{Space Robotics}
+
+\begin{document}
+
+
+% ====================================================
+% RESEARCH GAP SELECTION
+% ====================================================
+\section*{Selected Research Gap}
+
+While most robotic space missions have focused on a single agent carrying all the capabilities needed to complete the
+mission objectives, the future of advanced planetary exploration lies in multi-agent systems that are able to share
+responsibility and support each other. In order to fully understand a body as complex as Europa, it is necessary to
+divide surveying tasks across the main exploration rover and the potential cryobot needed to penetrate the thick layers
+of ice. My mission will focus on designing a robust system of agents that can orbit Europa and perform reconnaissance for
+a rover traversing the surface in search of a proper drilling site to access the inner layers of the moon. This mission
+directly addresses three converging research gaps: autonomous operations in GPS-denied, high-radiation environments
+\cite{owlDecadal}; multi-agent coordination and interoperability for cooperative task planning \cite{stmdShortfall};
+and fully autonomous approach and proximity operations without Earth-based navigational support \cite{nasaSBIR}.
+
+\subsection*{Mission Objective Statement:}
+A coordinated multi-agent system deployed to Europa's surface to autonomously conduct ice characterization and initiate
+subsurface access, operating without real-time Earth support.
+
+% ====================================================
+% MISSION DESTINATION
+% ====================================================
+\section*{Mission Destination}
+
+My mission would take place on Europa, Jupiter's icy moon. I chose this destination due to the abundance of knowledge
+there is to gain from an in-depth exploration of the system. Europa holds strong indicators of conditions favorable to
+life and contains all the chemical building blocks necessary to support it \cite{owlDecadal}. The layers of ice
+introduce in-situ resources that might benefit further exploration of the moon as long-term infrastructure is developed,
+as well as imposing significant rover design constraints. Any surface vehicle must feature traction-optimized wheels
+capable of accurately traversing the fractured, chaotic terrain.
+
+Europa is also incredibly challenging. The 44-minute one-way light delay means every decision from landing onward must
+be fully autonomous \cite{nasaSBIR}. Due to the intense radiation environment driven by Jupiter's magnetosphere,
+the rover would rely on orbiting satellite robots to scan the terrain and share terrain maps prior to surface traversal.
+Such a system would have to be highly robust to faulted or adversarial agents, as incorrect or incomplete maps shared
+across the swarm are likely to produce dangerous navigation decisions.
+
+This location is essential to the mission because it provides an incredibly challenging environment that will
+necessitate smart, advanced robot design and algorithm development. It is the perfect stage to push robotic
+capabilities to their limits.
+
+% ====================================================
+% ENVIRONMENTAL & OPERATIONAL CHALLENGES
+% ====================================================
+\section*{Environmental \& Operational Challenges}
+
+Europa's environment is hostile in ways that shape every design decision in this mission.
+Jupiter's magnetosphere floods the moon's surface with high-energy charged particles, exposing
+electronics to radiation doses far greater than what commercial components can tolerate. This motivates a requirement
+for radiation-hardened electronics and a shielded vault setup for the rover's core computing hardware,
+similar to the approach taken on the Galileo spacecraft \cite{owlDecadal}. Redundancy at the agent level
+is an equally important mitigation. If one surface relay node builds-up enough single-event upsets to
+go silent, the remaining agents must autonomously reconfigure the network to maintain coverage.
+
+Surface temperatures on Europa are around 90~K, which introduces thermal management challenges for both
+batteries and actuators. Power storage capacity drops significantly at cryogenic temperatures, meaning
+the rover must actively manage its thermal systems to keep cells within an operational range rather
+than simply relying on passive insulation.
+
+The complete absence of GPS and the communication blackout due to the 44-minute light delay means
+the swarm cannot depend on any external reference for localization or replanning. Each agent must
+maintain its own state estimate using onboard sensors and inter-agent ranging, and the swarm must
+reach consensus on shared map data using algorithms that are resilient to packet loss and
+radiation-induced faults \cite{stmdShortfall, nasaSBIR}. There is no human in the loop to catch
+a bad map before the rover commits to a traverse.
+
+% ====================================================
+% REQUIRED ROBOT CAPABILITIES
+% ====================================================
+\section*{Required Robot Capabilities}
+
+\noindent\textbf{Mobility:}
+
+The rover must be able to navigate Europa's icy, fractured terrain and accurately drive without losing
+localization. It should be capable of traversing mild inclines and obstacles commonly encountered in
+planetary surface missions, with wheel geometry selected for the low-gravity, low-traction conditions
+specific to Europa's surface.
+
+\noindent\textbf{Autonomy:}
+
+The robot shall localize itself using onboard sensor data and inter-agent range measurements in the
+absence of GPS, generate a planned traverse path, and accurately execute that path. It should also
+analyze sensor readings to prioritize target areas based on mission objectives. Ground-penetrating
+radar sounder data indicating ice shell thickness will directly inform site selection logic, guiding
+the rover toward the thinnest viable ice for cryobot deployment.
+
+\noindent\textbf{Power Systems:}
+
+Due to the rover's distance from the sun, solar power is not viable. Instead, the system must rely on a
+Radioisotope Thermoelectric Generator (RTG) or similar nuclear power source. Power budget management
+is a crucial. The robot should track consumption across planned traverses and coordinate with the
+swarm to avoid scheduling high power draw operations simultaneously across multiple agents.
+
+\noindent\textbf{Communication:}
+
+The robot must communicate with surface relay nodes to exchange sensor readings, map updates, and
+mission state. This local mesh network is the primary coordination channel for the swarm. Communication
+with Earth still exists as a secondary channel but is non-deterministic due to the 44-minute delay and
+periodic occultation by Jupiter. The inter-agent protocol must tolerate partial dropouts and continue
+operating under degraded connectivity without stalling consensus.
+
+\noindent\textbf{Durability \& Specialized Instruments:}
+
+The rover shall be designed to withstand Europa's radiation and cryogenic environment, targeting
+operation across the full mission lifecycle. It shall carry a ground-penetrating radar sounder (
+analogous to the REASON instrument used for Europa Clipper) to characterize ice shell
+thickness and build a subsurface map as it traverses the surface in search of the optimal cryobot
+insertion point \cite{owlDecadal}.
+
+\newpage
+
+\begin{thebibliography}{9}
+
+\bibitem{owlDecadal}
+National Academies of Sciences, Engineering, and Medicine,
+\textit{Origins, Worlds, and Life: A Decadal Strategy for Planetary Science and Astrobiology 2023--2032},
+The National Academies Press, Washington, D.C., 2022.
+[Online]. Available: \url{https://www.nationalacademies.org/read/26522}.
+[Accessed: Jun.\ 14, 2026].
+
+\bibitem{stmdShortfall}
+NASA Space Technology Mission Directorate,
+``Civil Space Technology Shortfall Rankings,''
+NASA, Washington, D.C., Jul.\ 2024.
+[Online]. Available: \url{https://www.nasa.gov/wp-content/uploads/2024/07/civil-space-shortfall-ranking-july-2024.pdf}.
+[Accessed: Jun.\ 14, 2026].
+
+\bibitem{nasaSBIR}
+NASA,
+``FY 2026--2027 SBIR/STTR Program Solicitation, Appendix 26B-I: SBIR Topics,''
+NASA Small Business Innovation Research Program, 2025.
+
+\end{thebibliography}
+
+\end{document}
