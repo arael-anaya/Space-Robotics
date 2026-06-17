@@ -58,76 +58,64 @@
 
 \subsection*{a. Goal}
 
-\noindent\textbf{Mission Objective:} REQ.03.01 --- The ground-penetrating radar sounder shall resolve
-ice shell thickness to within $\pm$10\% accuracy for ice layers between 1~km and 30~km depth,
-producing a subsurface map at a minimum spatial resolution of 100~m along the traverse track.
-This requirement is directly traceable to the overarching mission objective of autonomously
-identifying and reaching an optimal cryobot insertion site on Europa's surface.
+\noindent\textbf{Mission Objective:} Autonomously characterize Europa's ice shell thickness
+along a surface traverse and identify an optimal cryobot insertion site without real-time
+Earth support (REQ.03.01: ground-penetrating radar sounder resolves ice thickness to
+$\pm$10\% for depths of 1--30~km at $\geq$100~m along-track spatial resolution).
 
-\noindent\textbf{Data Product Goal:} The data product is a georeferenced subsurface ice-thickness
-map assembled from continuous ground-penetrating radar (GPR) sounder returns collected
-during surface traversal. It provides mission engineers and onboard autonomy with a
-spatially resolved picture of where the ice shell is thinnest along the planned route, enabling
-data-driven site selection for cryobot deployment without real-time Earth support. Scientists
-receive a secondary product --- a dielectric permittivity profile --- that constrains ice
-composition and the presence of brine layers that would affect cryobot thermal penetration
-rates.
+\noindent\textbf{Data Product Goal:} Provide engineers and scientists with a time-aligned
+record of radar sounder returns, rover localization, terrain context, and system health to
+verify that the subsurface map meets REQ.03.01 and that the onboard site-selection
+algorithm correctly identifies a candidate cryobot insertion point.
 
-\noindent\textbf{Success Criterion:} The map is considered mission-sufficient when it covers the
-full planned traverse track at no worse than 100~m along-track spatial resolution and reports
-ice thickness values with a demonstrated accuracy of $\pm$10\% against calibration targets
-across the 1--30~km depth range (REQ.03.01). The onboard site-selection algorithm must
-be able to ingest this map and autonomously designate a candidate insertion waypoint without
-a ground-in-the-loop decision.
+\noindent\textbf{Success Criterion:} Full traverse track covered at $\leq$100~m along-track
+spacing, ice thickness accuracy within $\pm$10\% against calibration targets, and at least
+one candidate insertion site flagged by the onboard algorithm (ice thickness $<$5~km,
+surface slope $<$20$^\circ$, terrain roughness $<$0.7).
 
 
 \subsection*{b. Data Collected by the Robot}
 
 \begin{itemize}[leftmargin=1.5em]
 
-    \item \textbf{Category 1 --- Radar Sounder Returns (Primary Science Data):}
+    \item \textbf{Category 1 --- Radar Sounder (Primary Science):}
     \begin{itemize}
-        \item Two-way travel time of radar pulse to primary basal reflector (nanoseconds, ns)
-        \item Received signal amplitude at basal reflector (dB relative to transmitted power)
-        \item Estimated dielectric permittivity of bulk ice column (dimensionless, $\varepsilon_r$)
-        \item Derived ice shell thickness from travel-time inversion (meters, m)
+        \item Two-way travel time to basal reflector (ns)
+        \item Received signal amplitude at basal reflector (dB)
+        \item Estimated bulk ice dielectric permittivity (dimensionless)
+        \item Derived ice shell thickness (m)
     \end{itemize}
 
-    \item \textbf{Category 2 --- Rover Localization and Pose:}
+    \item \textbf{Category 2 --- Rover Localization:}
     \begin{itemize}
-        \item Rover position estimate from visual odometry and inter-agent ranging (meters, m; in
-              local ENU frame)
-        \item Position uncertainty (1-$\sigma$ ellipse semi-axes, meters)
-        \item Rover heading (degrees, relative to local North)
-        \item Accumulated odometry error flag (Boolean: within $\pm$0.5~m bound per REQ.02.01)
+        \item Position estimate from visual odometry and inter-agent ranging (m, local ENU)
+        \item 1$\sigma$ position uncertainty (m)
+        \item Rover heading (deg)
+        \item Localization error flag (Boolean: uncertainty exceeds $\pm$0.5~m per REQ.02.01)
     \end{itemize}
 
-    \item \textbf{Category 3 --- Surface Terrain Context:}
+    \item \textbf{Category 3 --- Terrain Context:}
     \begin{itemize}
-        \item Surface slope at measurement site (degrees)
-        \item Terrain roughness index derived from stereo or lidar returns (dimensionless, 0--1 scale)
-        \item Surface temperature at measurement site (Kelvin, K)
-        \item Estimated surface albedo at measurement site (dimensionless, 0--1 scale)
+        \item Surface slope at measurement site (deg)
+        \item Terrain roughness index (dimensionless, 0--1)
+        \item Surface temperature (K)
     \end{itemize}
 
-    \item \textbf{Category 4 --- System Health and Data Quality Flags:}
+    \item \textbf{Category 4 --- System Health:}
     \begin{itemize}
-        \item Total ionizing dose accumulated by radar front-end electronics at time of measurement
-              (krad)
-        \item Radar sounder noise floor at time of measurement (dB)
-        \item Inter-agent network link quality at time of measurement (packet loss rate, \%)
-        \item Data quality flag for each radar trace (enumerated: NOMINAL / CLUTTER /
-              NOISE\_FLOOR / INVALID)
+        \item Total ionizing dose accumulated by radar electronics (krad)
+        \item Radar noise floor (dB)
+        \item Inter-agent link packet loss rate (\%)
+        \item Per-trace data quality flag (NOMINAL / CLUTTER / NOISE\_FLOOR / INVALID)
     \end{itemize}
 
     \item \textbf{Daily Summary:}
     \begin{itemize}
-        \item Total traverse distance completed in sol (meters, m)
-        \item Number of valid radar traces collected in sol (count)
-        \item Minimum ice thickness value observed in sol (meters, m) and associated position
-        \item Number of candidate insertion sites flagged by onboard site-selection algorithm
-              (count)
-        \item Mean consensus convergence time for terrain map updates in sol (minutes)
+        \item Total traverse distance completed in sol (m)
+        \item Valid radar trace count (count)
+        \item Minimum observed ice thickness in sol (m)
+        \item Candidate insertion sites flagged by onboard algorithm (count)
+        \item Mean inter-agent consensus convergence time (min)
     \end{itemize}
 
 \end{itemize}
@@ -144,41 +132,28 @@ Below is a breakdown of each sheet:
 \begin{enumerate}
 
     \item \textbf{Sheet 1 --- Radar\_Traces:}\\
-    One row per radar sounder measurement. Columns capture the along-track position
-    (local X, Y coordinates in meters), two-way travel time (ns), received amplitude (dB),
-    estimated permittivity $\varepsilon_r$, derived ice thickness (m), and per-trace data
-    quality flag. This is the raw science record; every other sheet derives from it.
-    Columns are locked after initial population to preserve data integrity. A permittivity
-    lookup table embedded in the sheet converts travel time to thickness using the
-    formula $d = \frac{c \cdot t}{2\sqrt{\varepsilon_r}}$, expressed as an Excel formula
-    referencing the measured travel-time and permittivity columns rather than hardcoded
-    values.
+    Time-aligned record of all sounder measurements, one row per trace. Records the
+    along-track position, two-way travel time, received amplitude, estimated permittivity,
+    and derived ice thickness (computed as $d = c \cdot t / 2\sqrt{\varepsilon_r}$), alongside
+    a per-trace quality flag. This is the primary science record that feeds the
+    subsurface map and site-selection logic.
 
     \item \textbf{Sheet 2 --- Localization\_Log:}\\
-    One row per odometry update, timestamped and synchronized with radar trace indices
-    for georeferencing. Columns include rover position (X, Y, m), heading (deg), 1-$\sigma$
-    position uncertainty (m), and the Boolean localization error flag. This sheet provides
-    the spatial backbone that maps each radar trace in Sheet~1 to a physical surface
-    location. Cross-sheet \texttt{INDEX/MATCH} formulas in Sheet~1 pull the nearest
-    position fix for each radar trace timestamp.
+    Per-trace rover position fix synchronized to the Radar\_Traces timestamp index.
+    Captures position (X, Y), heading, 1$\sigma$ uncertainty, and the REQ.02.01 error flag.
+    Georeferences each sounder trace to a physical surface coordinate.
 
     \item \textbf{Sheet 3 --- Terrain\_and\_Health:}\\
-    One row per measurement epoch, aligned to the same trace index as Sheet~1. Captures
-    surface slope (deg), terrain roughness index, surface temperature (K), accumulated
-    TID (krad), radar noise floor (dB), and inter-agent link packet loss (\%). This sheet
-    contextualizes each radar measurement: high slope or high roughness values flag
-    geometrically challenging measurement conditions that degrade thickness accuracy,
-    while elevated TID or noise floor values inform science team confidence in the
-    corresponding trace.
+    Per-trace terrain and system health data, aligned to the same trace index. Captures
+    surface slope, roughness, temperature, accumulated TID, radar noise floor, and
+    inter-agent packet loss. Contextualizes each radar measurement and flags traces
+    collected under degraded system or terrain conditions.
 
     \item \textbf{Sheet 4 --- Daily Summary:}\\
-    One row per sol of operations. Auto-populated via Excel formulas referencing Sheets
-    1--3: total traverse distance (\texttt{SUM} of incremental odometry steps), valid
-    trace count (\texttt{COUNTIF} on quality flag column), minimum observed ice thickness
-    (\texttt{MIN} on derived thickness column for the sol), candidate site count
-    (\texttt{COUNTIF} on a site-selection flag column), and mean consensus convergence
-    time. This sheet is the primary operational report delivered to mission planning each
-    sol and feeds directly into the onboard replan trigger logic.
+    One row per sol. Auto-populated via formulas from Sheets 1--3: total traverse
+    distance, valid trace count, minimum ice thickness, candidate site count, and mean
+    consensus convergence time. Primary operational report for mission planning and
+    onboard replan decisions.
 
 \end{enumerate}
 
@@ -189,42 +164,41 @@ Below is a breakdown of each sheet:
 \section*{IV. Rationale and Alignment with Mission Objective}
 
 \noindent\textbf{Alignment with Objective:}
-Every data category maps directly to a requirement in the mission requirements document.
-The radar sounder returns (Category 1) are the primary data product required by REQ.03.01:
-without two-way travel time and permittivity, no thickness inversion is possible and the
-cryobot insertion site cannot be selected. The localization log (Category 2) is required
-by REQ.02.01: each radar trace must be georeferenced to $\pm$0.5~m to produce a spatially
-accurate subsurface map. Without position, the sounder data is a series of unlocated
-depth readings rather than a map. Terrain context (Category 3) directly feeds the
-autonomous site-selection logic: surface slope and roughness constrain physically
-accessible insertion sites independent of ice thickness, and temperature informs thermal
-modeling for cryobot descent rate estimation. System health flags (Category 4) are
-required by REQ.01.02 and REQ.04.01: elevated TID accumulation can degrade radar
-front-end performance, and inter-agent link quality affects the timeliness of map consensus
-updates that drive traverse planning.
+Each data category maps to a specific requirement. The radar sounder returns (Category 1)
+are the direct measurement required by REQ.03.01. Without travel time and permittivity
+there is no thickness inversion and no subsurface map. The localization log (Category 2)
+is required by REQ.02.01: each trace must be placed within $\pm$0.5~m to produce a
+spatially accurate map rather than an unordered list of depth readings. Terrain context
+(Category 3) drives the site-selection filter, where slope and roughness constrain physical
+accessibility independent of ice thickness. System health data (Category 4) is required
+by REQ.01.02 and REQ.04.01: elevated TID can degrade radar performance, and packet
+loss above 30\% directly stresses the consensus convergence bound.
 
 \noindent\textbf{Why These Measurements Are Sufficient:}
-The four categories together provide complete closure on REQ.03.01 and its supporting
-requirements. Two-way travel time plus permittivity produces thickness; localization pins
-it to a map coordinate; terrain context filters candidate sites by physical accessibility;
-health flags bound the confidence of every measurement. The daily summary sheet provides
-the aggregate statistics needed by the onboard planner to decide whether to continue
-traversing or commit to an insertion attempt. No additional measurements are required
-to make the site-selection decision autonomously.
+The four categories together close the loop on REQ.03.01 and its dependencies. Travel
+time plus permittivity produces thickness; localization georeferences it; terrain context
+filters by physical accessibility; health flags bound measurement confidence. The daily
+summary aggregates these into the per-sol statistics the onboard planner needs to decide
+whether to continue traversing or commit to a cryobot insertion attempt.
 
 \noindent\textbf{Potential Gaps or Limitations:}
-The primary limitation is that permittivity estimation from GPR returns alone carries
-uncertainty when the ice column contains brine inclusions or heterogeneous layering,
-as identified in RISK-05 of the requirements document. Brine lenses increase local
-permittivity and produce spurious reflections that could cause the thickness algorithm
-to underestimate depth to the basal interface. The data product mitigates this by flagging
-affected traces with the CLUTTER quality code, but it does not eliminate the ambiguity
-without a secondary instrument (e.g., a seismic sensor or a multi-frequency radar). A
-second limitation is that along-track spatial resolution of 100~m is defined by REQ.03.01
-but cross-track coverage depends on the swarm's orbital relay scan width, which is not
-yet specified; the current dataset captures a 1D profile along the traverse, not a
-2D areal map. Future mission iterations should consider expanding the swarm's orbital
-synthetic aperture to provide cross-track coverage before committing to a surface traverse
-direction.
+The main limitation is permittivity estimation uncertainty when brine inclusions or
+heterogeneous layering are present (RISK-05 in the requirements document). Brine lenses
+increase local permittivity and produce reflections that can cause the thickness
+algorithm to underestimate depth to the basal interface. The CLUTTER quality flag
+mitigates this by excluding affected traces from site selection, but does not resolve the
+ambiguity without a secondary instrument. Additionally, the along-track resolution of
+100~m defined by REQ.03.01 produces a 1D profile along the traverse; cross-track
+coverage depends on orbital relay scan width, which is not yet specified.
+
+
+% ====================================================
+% AI DISCLOSURE
+% ====================================================
+\vspace{1em}
+\noindent\small\textit{AI Disclosure: Artificial intelligence tools were used to verify that the technical 
+statements, parameter values, and requirement references made in this document are consistent with the background 
+research on Europa ice-shell radar sounding, cryobot mission concepts, and planetary robotics requirements 
+engineering. AI also generated fake data to demonstrate the data being recorded.}
 
 \end{document}
