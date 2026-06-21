@@ -10,17 +10,12 @@
 \usepackage{setspace}
 \usepackage{amsmath, amssymb, mathtools}
 \usepackage{siunitx}
-\usepackage{graphicx}
-\usepackage{float}
 \usepackage{enumitem}
-\usepackage{booktabs}
-\usepackage{array}
 \usepackage{xcolor}
 \usepackage{hyperref}
 \usepackage{fancyhdr}
 \usepackage{lastpage}
 \usepackage{indentfirst}
-\usepackage[justification=centering]{caption}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -44,11 +39,7 @@
 % ====================================================
 \begin{document}
 
-% ============================================================
 \noindent\textbf{Payload: REASON (Radar for Europa Assessment and Sounding: Ocean to Near-surface)}
-% ============================================================
-
-\medskip
 
 REASON is a dual-frequency ice-penetrating radar sounder currently flying aboard NASA's Europa
 Clipper spacecraft. The instrument was developed by researchers at the University of Texas
@@ -64,78 +55,59 @@ altitude~[2]. That is exactly what Clipper is designed to do, and it will do it 
 Clipper is not doing is surface-level, high-resolution traverse profiling targeted at a specific
 candidate cryobot insertion site. There is no rover, no in-situ localization, and no onboard
 site-selection logic. The orbital geometry also limits any single flyby to a brief snapshot
-rather than a continuous along-track profile. My mission picks up where Clipper leaves off: a
-surface rover carrying an adapted REASON-heritage sounder drives a continuous traverse, building
-a spatially registered subsurface map at 100~m resolution or better, and autonomously flags the
-thinnest viable ice for a future cryobot deployment.
+rather than a continuous along-track profile.
 
-\bigskip
+This mission picks up where Clipper leaves off: a surface rover carrying an adapted
+REASON-heritage sounder drives a continuous traverse, building a spatially registered subsurface
+map at 100~m resolution or better, and autonomously flags the thinnest viable ice for a future
+cryobot deployment.
 
 \begin{enumerate}[label=\Roman*., leftmargin=2.5em, itemsep=0.75em]
 
     \item \textbf{What parameters are measured?}
 
-    REASON measures four primary parameterse. \textbf{Two-way travel time}~(ns)
-    is the elapsed time between the transmitted pulse and the received basal reflection. The
-    raw measurement from which ice thickness is derived. \textbf{Signal amplitude at the basal
-    reflector}~(dB) captures the strength of the return from the ice-ocean interface. Returns
-    too weak to distinguish from the noise floor are flagged and excluded from site-selection
-    logic. \textbf{Bulk ice dielectric permittivity} (dimensionless) is estimated from the
-    travel time and signal characteristics, where pure water ice sits around 3.15 and deviations
-    indicate brine inclusions or heterogeneous layering. Finally, \textbf{derived ice shell
-    thickness}~(m) is computed onboard as $d = c \cdot t \,/\, 2\sqrt{\varepsilon_r}$, where
-    $c$ is the speed of light, $t$ is the two-way travel time in seconds, and $\varepsilon_r$
-    is the estimated permittivity. This is the primary science output that feeds the subsurface
-    map and the site-selection filter.
+    REASON measures four primary parameters to map Europa's subsurface environment.
+    Two-Way Travel Time~(ns) is the elapsed time between the transmitted pulse and the
+    received basal reflection, and serves as the fundamental raw measurement. Signal
+    Amplitude~(dB) captures the strength of the return from the ice-ocean interface;
+    echoes that fall into the noise floor are flagged to prevent false positives in site
+    selection. Bulk Ice Dielectric Permittivity (dimensionless) is estimated from the
+    sounding's travel characteristics ($\varepsilon_r \approx 3.15$ for pure water ice),
+    with deviations flagging brine pockets or structural impurities. Finally, Derived Ice
+    Shell Thickness~(m) is computed autonomously onboard using the relationship
+    $d = c \cdot t\, /\, (2\sqrt{\varepsilon_r})$, where $c$ is the speed of light.
 
     \item \textbf{What would a single data entry or record look like?}
 
-    The data product is organized as a multi-sheet spreadsheet with one row per radar trace,
-    time-aligned across sheets by \texttt{trace\_id}. Each record captures the full measurement
-    context: radar sounder outputs, rover position, terrain conditions, and system health. A
-    data quality flag (NOMINAL / CLUTTER / NOISE\_FLOOR / INVALID) is attached to every trace
-    so the onboard planner and downstream scientists can immediately distinguish usable science
-    data from degraded returns.
+    REASON produces time-stamped radar trace logs stored as a multi-sheet spreadsheet
+    aligned by trace identifier. Each entry records subsurface sounding parameters at a
+    given rover position, enabling reconstruction of the ice-shell profile along the
+    traverse. The dataset is structured as a spatial series, with rows representing
+    individual radar traces and columns representing measured and derived parameters.
+    Each record includes a trace ID, sol number, rover position in local ENU coordinates,
+    two-way travel time, return amplitude, estimated permittivity, derived ice thickness,
+    accumulated radiation dose, and a quality flag.
 
-    \smallskip
-    \noindent\textit{Example single record (Radar\_Traces sheet):}
+    \textbf{Example of a single data record:}
 
-    \begin{table}[H]
-    \centering
-    \small
-    \begin{tabular}{ll}
-    \toprule
-    \textbf{Field} & \textbf{Value} \\
-    \midrule
-    \texttt{trace\_id}         & TR-0001 \\
-    \texttt{sol}               & 1 \\
-    \texttt{timestamp\_s}      & 94.4~s \\
-    \texttt{pos\_x\_m}         & 93.8~m (local ENU east) \\
-    \texttt{pos\_y\_m}         & $-7.1$~m (local ENU north) \\
-    \texttt{along\_track\_m}   & 94.0~m \\
-    \texttt{twt\_ns}           & 21647.3~ns \\
-    \texttt{amplitude\_dB}     & $-41.62$~dB \\
-    \texttt{permittivity}      & 3.0624 \\
-    \texttt{ice\_thickness\_m} & 1855.5~m \\
-    \texttt{tid\_krad}         & 0.542~krad \\
-    \texttt{quality\_flag}     & NOMINAL \\
-    \bottomrule
-    \end{tabular}
-    \end{table}
+    On Sol~1 at 94.4~s elapsed mission time (trace TR-0001), REASON recorded a two-way
+    travel time of 21{,}647.3~ns, a return amplitude of $-41.62$~dB, a bulk ice
+    permittivity of 3.06, and a derived ice shell thickness of 1{,}855.5~m at rover
+    position (93.8~m east, $-7.1$~m north), with an accumulated total ionizing dose of
+    0.542~krad and the record flagged as NOMINAL.
 
     \item \textbf{Who is the intended user of this data?}
 
-    The primary real-time consumer is the \textbf{onboard autonomous planning algorithm}.
-    After each consensus round, the planner ingests the daily summary sheet to decide whether
-    the traverse has produced a viable candidate site (ice thickness ${<}$5~km, slope
-    ${<}20^{\circ}$, roughness ${<}$0.7). If the criteria are met, it triggers a cryobot
-    deployment recommendation; if not, it generates the next traverse waypoint. No human is in
-    this loop. The secondary long-term consumer is \textbf{planetary scientists}: the full
-    four-sheet data product, downlinked to Earth over the mission lifetime, provides a spatially
-    registered along-track profile of ice shell thickness and permittivity variation across
-    Europa's surface. This feeds directly into habitability assessments and informs the design
-    of future subsurface access missions, extending the science value of the dataset well beyond
-    the immediate site-selection objective.
+    The intended users of REASON data span two distinct communities. The onboard
+    autonomous planning algorithm serves as the real-time consumer: it continuously
+    processes daily trace summaries to locate viable cryobot deployment sites---defined
+    as ice thickness ${<}5$~km, surface slope ${<}20^{\circ}$, and roughness
+    index~${<}0.7$---and issues a deployment trigger without human intervention when
+    conditions are satisfied. Earth-bound planetary scientists form the long-term consumer
+    base: the full downlinked dataset provides a high-resolution, spatially registered
+    along-track profile of Europa's ice shell that can be used to model global
+    habitability, constrain ocean-access scenarios, and plan future deep-subsurface entry
+    missions.
 
 \end{enumerate}
 
@@ -149,8 +121,9 @@ thinnest viable ice for a future cryobot deployment.
     [Online]. Available: \url{https://www.jpl.nasa.gov/missions/europa-clipper/}.
     [Accessed: Jun.\ 16, 2026].
 
-    \item Wikipedia contributors, ``Europa Clipper,'' \textit{Wikipedia, The Free Encyclopedia}.
-    [Online]. Available: \url{https://en.wikipedia.org/wiki/Europa_Clipper}.
+    \item Wikipedia contributors, ``Europa Clipper,'' \textit{Wikipedia, The Free
+    Encyclopedia}. [Online]. Available:
+    \url{https://en.wikipedia.org/wiki/Europa_Clipper}.
     [Accessed: Jun.\ 16, 2026].
 
     \item University of Texas at Austin Jackson School of Geosciences,
