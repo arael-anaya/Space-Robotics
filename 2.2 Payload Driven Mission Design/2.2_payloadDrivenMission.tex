@@ -51,13 +51,13 @@ The instrument is flight-proven hardware with full mission-level heritage, placi
 
 Europa Clipper carries REASON as part of a flyby science campaign: the spacecraft will loop
 past Europa roughly 50 times, collecting wide-swath regional maps of the ice shell from
-altitude~[2]. That is exactly what Clipper is designed to do, and it will do it well. What
+altitude~[2]. However, my mission seeks to address things not covered by the CLIPPER mission. What
 Clipper is not doing is surface-level, high-resolution traverse profiling targeted at a specific
 candidate cryobot insertion site. There is no rover, no in-situ localization, and no onboard
 site-selection logic. The orbital geometry also limits any single flyby to a brief snapshot
 rather than a continuous along-track profile.
 
-This mission picks up where Clipper leaves off: a surface rover carrying an adapted
+This mission is esentially a continuation of CLIPPER. A surface rover carrying an adapted
 REASON-heritage sounder drives a continuous traverse, building a spatially registered subsurface
 map at 100~m resolution or better, and autonomously flags the thinnest viable ice for a future
 cryobot deployment.
@@ -68,7 +68,7 @@ cryobot deployment.
 
     REASON measures four primary parameters to map Europa's subsurface environment.
     Two-Way Travel Time~(ns) is the elapsed time between the transmitted pulse and the
-    received basal reflection, and serves as the fundamental raw measurement. Signal
+    received basal reflection, and serves as the raw measurement. Signal
     Amplitude~(dB) captures the strength of the return from the ice-ocean interface;
     echoes that fall into the noise floor are flagged to prevent false positives in site
     selection. Bulk Ice Dielectric Permittivity (dimensionless) is estimated from the
@@ -98,13 +98,13 @@ cryobot deployment.
 
     \item \textbf{Who is the intended user of this data?}
 
-    The intended users of REASON data span two distinct communities. The onboard
+    There are multiple users of the REASON data, but I will focus on the two most crucial. The onboard
     autonomous planning algorithm serves as the real-time consumer: it continuously
-    processes daily trace summaries to locate viable cryobot deployment sites---defined
+    processes daily trace summaries to locate viable cryobot deployment sites (defined
     as ice thickness ${<}5$~km, surface slope ${<}20^{\circ}$, and roughness
-    index~${<}0.7$---and issues a deployment trigger without human intervention when
+    index~${<}0.7$) and issues a deployment trigger without human intervention when
     conditions are satisfied. Earth-bound planetary scientists form the long-term consumer
-    base: the full downlinked dataset provides a high-resolution, spatially registered
+    base. The full downlinked dataset provides a high-resolution, spatially registered
     along-track profile of Europa's ice shell that can be used to model global
     habitability, constrain ocean-access scenarios, and plan future deep-subsurface entry
     missions.
@@ -113,6 +113,7 @@ cryobot deployment.
 
 \bigskip
 
+\newpage
 \noindent\textbf{\underline{References:}}
 
 \begin{enumerate}[label={[\arabic*]}, leftmargin=3em, itemsep=0.25em]
