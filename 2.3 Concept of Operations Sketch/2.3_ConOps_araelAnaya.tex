@@ -1,82 +1,71 @@
 \documentclass[11pt]{article}
 
-% ====================================================
-% PACKAGES
-% ====================================================
-\usepackage[margin=1in, headheight=13.6pt]{geometry}
-\usepackage[T1]{fontenc}
-\usepackage{lmodern}
-\usepackage{microtype}
-\usepackage{setspace}
-\usepackage{amsmath, amssymb, mathtools}
-\usepackage{siunitx}
-
-\usepackage{graphicx}
-\usepackage{float}
-\usepackage{subcaption}
-
-\usepackage{enumitem}
-\usepackage{booktabs}
-
-\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
 \usepackage{hyperref}
-
-\usepackage{fancyhdr}
-\usepackage{lastpage}
-
-\usepackage{indentfirst}
-\usepackage[justification=centering]{caption}
-
-\pagestyle{fancy}
-\fancyhf{}
-\lhead{\Assignment\ |\ \course}
-\rhead{\Name\ |\ \today}
-\cfoot{Page \thepage\ of~\pageref{LastPage}}
-
-\hypersetup{
-    colorlinks,
-    linkcolor={red!50!black},
-    citecolor={blue!50!black},
-    urlcolor={blue!80!black}
-}
-
-\newcommand{\Name}{Arael Anaya}
-\newcommand{\Assignment}{Concept of Operations}
-\newcommand{\course}{Space Robotics}
 
 \begin{document}
 
-% ====================================================
-% AUTHOR'S NOTE (optional — remove if not needed)
-% ====================================================
-{\color{red}\textit{*Authors note: AI was used to check grammar and rephrase for better wording. The prompt used was: ``Please check grammar, cohesiveness and correct wording of the following''.}}
+\textit{Author's note: AI was used to check grammar and rephrase for better wording. The prompt used was: ``Please check grammar, cohesiveness and correct wording of the following.''}
 
-\bigskip
+\vspace{1em}
 
-% ====================================================
-% BODY — inline bold labels, no section headings
-% ====================================================
-\noindent\textbf{Mission Statement:} Your mission statement text goes here.
+\noindent\textbf{Mission Statement:}
 
-\bigskip
+A coordinated multi-agent system deployed to Europa's surface to autonomously characterize 
+ice shell thickness and identify an optimal cryobot insertion site without real-time Earth
+support. The destination is Europa, chosen because its subsurface ocean makes it one of the
+most promising locations in the Solar System for astrobiology and future exploration. 
+The mission will deploy a surface rover equipped with a ground-penetrating radar sounder, 
+supported by two orbital reconnaissance agents that provide terrain mapping, communications 
+relay, and cooperative localization. By leveraging radar sounding techniques analogous to the 
+Europa Clipper REASON instrument, the system will generate detailed subsurface ice maps to 
+support future cryobot missions.
 
-\noindent\textbf{Operational Phases:} Your operational phases description goes here.
+\vspace{1em}
 
-\bigskip
+\noindent\textbf{Operational Phases:}
 
-\noindent\textbf{Systems Roles:} Your systems roles description goes here.
+The mission consists of six main phases: Launch and Commissioning, Cruise, Europa Orbit 
+Insertion and Reconnaissance, Landing, Surface Checkout and Site Characterization, Surface 
+Survey and Ice Characterization, and End-of-Mission Operations. Launch and cruise prepare the
+system for arrival at Europa. Upon arrival, the orbital agents conduct reconnaissance and 
+identify a suitable landing region. Landing is followed by rover deployment, system checkout, 
+and sensor calibration. Main surface operations focus on autonomous rover traversal while 
+collecting radar measurements of the ice shell and building a subsurface map. The orbital 
+agents continuously update terrain maps and relay communications. The final phase includes 
+science data downlink, candidate cryobot site selection, optional extended operations, and 
+safe system passivation.
 
-% ====================================================
-% REFERENCES
-% ====================================================
-\bigskip
+\vspace{1em}
 
-\noindent\underline{\textbf{References:}}
+\noindent\textbf{Systems Roles:}
 
-\begin{enumerate}[leftmargin=*, label={[\arabic*]}]
-    \item Author, ``Title,'' Source, URL (accessed Mon.\ DD, YYYY).
-    \item Author, ``Title,'' Source, URL (accessed Mon.\ DD, YYYY).
-    \item Author, ``Title,'' Source, URL (accessed Mon.\ DD, YYYY).
-\end{enumerate}
+The rover operates autonomously during critical events such as landing, navigation, radar 
+sounding, and site-selection activities. The two orbital agents provide terrain reconnaissance,
+communications relay, cooperative localization support, and validation of shared mapping data. 
+Ground teams remain in the loop during cruise, strategic mission planning, and anomaly 
+resolution, but all tactical decisions must be performed onboard due to the approximately 
+43--44 minute one-way communication delay between Earth and Jupiter. Radiation exposure, 
+cryogenic temperatures, communication delays, and limited bandwidth are key operational
+constraints. The radar sounder provides continuous subsurface measurements that support 
+ice-thickness estimation and cryobot site identification throughout the mission.
+
+\vspace{1em}
+
+\noindent\textbf{References}
+
+\begin{thebibliography}{9}
+
+\bibitem{EuropaClipper}
+NASA, ``Europa Clipper Mission Overview,'' NASA Science. [Online]. Available: \url{https://science.nasa.gov/mission/europa-clipper/}. [Accessed: Jun. 21, 2026].
+
+\bibitem{REASON}
+NASA, ``Radar for Europa Assessment and Sounding: Ocean to Near-surface (REASON),'' Europa Clipper Mission. [Online]. Available: \url{https://europa.nasa.gov/spacecraft/instruments/reason/}. [Accessed: Jun. 21, 2026].
+
+\bibitem{DecadalSurvey}
+National Academies of Sciences, Engineering, and Medicine, \textit{Origins, Worlds, and Life: A Decadal Strategy for Planetary Science and Astrobiology 2023--2032}. Washington, DC: National Academies Press, 2022.
+
+\end{thebibliography}
 
 \end{document}
+```
