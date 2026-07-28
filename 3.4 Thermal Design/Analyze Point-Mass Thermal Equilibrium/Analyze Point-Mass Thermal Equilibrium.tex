@@ -1,0 +1,93 @@
+\documentclass[11pt]{article}
+
+% ====================================================
+% PACKAGES
+% ====================================================
+\usepackage[margin=1in, headheight=13.6pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{amsmath, amssymb, mathtools}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\setlist{nosep}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{indentfirst}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\Assignment\ |\ \course}
+\rhead{\Name\ |\ \today}
+\cfoot{Page \thepage\ of~\pageref{LastPage}}
+
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+
+\newcommand{\Name}{Arael Anaya}
+\newcommand{\Assignment}{3.4 Point-Mass Thermal Equilibrium Analysis}
+\newcommand{\course}{Space Robotics}
+
+% ====================================================
+% DOCUMENT
+% ====================================================
+\begin{document}
+
+\section*{I. Assumed Parameters}
+\begin{enumerate}[label=\alph*.]
+  \item Radiating/absorbing area of avionics enclosure: $A = 0.12\ \mathrm{m^2}$ (external, top and partial side view)
+  \item Optical/thermal properties (uninsulated painted enclosure, conservative high-emissivity case): solar absorptivity $\alpha = 0.20$, emissivity $\varepsilon = 0.85$
+  \item Solar irradiance at Europa ($\sim$5.2 AU): $S_{Europa} \approx \dfrac{1361}{5.2^2} \approx 50\ \mathrm{W/m^2}$
+  \item Albedo: Europa surface albedo $\approx 0.64$ (one of the most reflective bodies in the Solar System), effective view factor $\approx 0.3$; $S_{alb,eff} \approx 0.64 \times 0.3 \times 50 \approx 9.7\ \mathrm{W/m^2}$
+  \item Planetary IR to the node (effective): Europa surface $\approx 90$ K $\Rightarrow \sigma T^4 \approx 3.7\ \mathrm{W/m^2}$; $S_{IR,eff} \approx 3.7\ \mathrm{W/m^2}$ (essentially negligible)
+  \item Internal heat (hot/operating case, avionics + payload electronics): $Q_{int,hot} = 20\ \mathrm{W}$
+  \item Internal heat (cold/survival case at night, electronics only, pre-heater): $Q_{int,cold} = 5\ \mathrm{W}$
+  \item Stefan-Boltzmann constant: $\sigma = 5.67\times10^{-8}\ \mathrm{W/m^2K^4}$
+\end{enumerate}
+
+\section*{II. Methods}
+\begin{enumerate}[label=\alph*.]
+  \item Gain:
+  \begin{enumerate}[label=\roman*.]
+    \item $Q_{sun} = \alpha S_{Europa} A$
+    \item $Q_{alb} = \alpha S_{alb,eff} A$
+    \item $Q_{IR} = \varepsilon S_{IR,eff} A$
+    \item $Q_{int} = (given)$
+  \end{enumerate}
+  \item Loss: $\quad Q_{out} = \varepsilon \sigma A T^4$
+  \item Equilibrium: $\quad Q_{in} = Q_{sun} + Q_{alb} + Q_{IR} + Q_{int}, \qquad T = \left(\dfrac{Q_{in}}{\varepsilon \sigma A}\right)^{1/4}$
+\end{enumerate}
+
+\section*{III. Hot Scenario (daytime operations)}
+\begin{enumerate}[label=\alph*.]
+  \item $Q_{sun} = \alpha S_{Europa} A = 0.20 \times 50 \times 0.12 = 1.21\ \mathrm{W}$
+  \item $Q_{alb} = \alpha S_{alb,eff} A = 0.20 \times 9.7 \times 0.12 = 0.23\ \mathrm{W}$
+  \item $Q_{IR} = \varepsilon S_{IR,eff} A = 0.85 \times 3.7 \times 0.12 = 0.38\ \mathrm{W}$
+  \item $Q_{int} = 20\ \mathrm{W}$
+  \item $Q_{in} = 1.21 + 0.23 + 0.38 + 20 = 21.82\ \mathrm{W}$
+  \item $T_{hot} = \left(\dfrac{21.82}{0.85 \times 5.67\times10^{-8} \times 0.12}\right)^{1/4} \approx 248\ \mathrm{K} = -25\ ^\circ\mathrm{C}$
+\end{enumerate}
+
+\section*{IV. Cold Scenario (night survival)}
+\begin{enumerate}[label=\alph*.]
+  \item $Q_{sun} = 0$
+  \item $Q_{alb} = 0$
+  \item $Q_{IR} = \varepsilon S_{IR,eff} A = 0.85 \times 3.7 \times 0.12 = 0.38\ \mathrm{W}$
+  \item $Q_{int} = 5\ \mathrm{W}$
+  \item $Q_{in} = 0.38 + 5 = 5.38\ \mathrm{W}$
+  \item $T_{cold} = \left(\dfrac{5.38}{0.85 \times 5.67\times10^{-8} \times 0.12}\right)^{1/4} \approx 175\ \mathrm{K} = -98\ ^\circ\mathrm{C}$
+\end{enumerate}
+
+\section*{V. Reflection}
+This Europa surface point-mass estimate shows a $\sim$73 K swing between daytime operation ($\sim$248 K, $-25\ ^\circ$C) and night survival ($\sim$175 K, $-98\ ^\circ$C). Unlike a Mars-class mission, the problem on Europa is not rejecting heat but retaining it: solar irradiance at 5.2 AU collapses to $\sim$50 W/m\textsuperscript{2}, so internal dissipation dominates the energy balance and even the operating case falls below the $\sim$253 K ($-20\ ^\circ$C) lower bound for Li-ion battery charging. The survival case sits far outside any electronics or battery limit and would freeze the system without intervention. This drives three coupled design decisions: MLI to reduce the effective emissivity of the enclosure and suppress radiative loss at night, routed RTG waste heat as the primary always-on thermal source (the MMRTG-class unit rejects on the order of 2 kW thermal continuously), and controlled survival heaters to hold the batteries within their operational band. Because heater energy competes directly with the 110 W continuous RTG electrical budget, thermal and power design must be co-optimized: better insulation lowers heater demand, which frees power for science and mobility. These results justify requirements for battery temperature limits, a bounded survival heater load, and thermal-vacuum verification at 90 K before flight.
+
+\vspace{0.5em}
+\noindent\textit{AI was used to fact-check the results.}
+\end{document}
