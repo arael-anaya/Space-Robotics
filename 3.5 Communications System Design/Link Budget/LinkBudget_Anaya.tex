@@ -1,0 +1,279 @@
+\documentclass[11pt]{article}
+
+% ====================================================
+% PACKAGES
+% ====================================================
+\usepackage[margin=1in, headheight=13.6pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{amsmath, amssymb, mathtools}
+\usepackage{siunitx}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}
+
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+\usepackage{indentfirst}
+\usepackage[justification=centering]{caption}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\Assignment\ |\ \course}
+\rhead{\Name\ |\ \today}
+\cfoot{Page \thepage\ of~\pageref{LastPage}}
+
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+
+\newcommand{\Name}{Arael Anaya}
+\newcommand{\Assignment}{3.5 Link Budget Analysis}
+\newcommand{\course}{Space Robotics}
+
+\begin{document}
+
+% ====================================================
+% SECTION 0: LINK DEFINITION
+% ====================================================
+\section*{I. Link Definition and Desired Margin}
+
+\begin{enumerate}[label=\alph*., leftmargin=*]
+    \item \textbf{Next communication node:} the nearer of the two orbital relay agents. The rover does
+    not run its mission through a direct-to-Earth link; Section~V shows why. Uplink is taken in the
+    assignment's sense of rover~$\rightarrow$~relay (the science return direction), and downlink as
+    relay~$\rightarrow$~rover (the command forward direction).
+
+    \item \textbf{Band and channel:} UHF proximity link on the CCSDS Proximity-1 return/forward
+    pair, \SI{401.6}{MHz} return and \SI{437.1}{MHz} forward, the same split flown by Electra and
+    Electra-Lite on the Mars Relay Network.
+
+    \item \textbf{Desired margin:} \SI{3}{dB} above the $E_b/N_0$ required for a post-decoding bit
+    error rate of $10^{-6}$. With CCSDS turbo coding at rate $1/2$ that threshold is
+    $\approx \SI{1.5}{dB}$, so the link must deliver at least \SI{4.5}{dB}. Three decibels is the
+    right allowance here because the relay orbit geometry, the helix pattern at the rover, and the
+    Jovian synchrotron contribution to receiver noise are all only coarsely known before flight.
+
+    \item \textbf{Worst-case geometry:} both relays fly a \SI{200}{km} circular Europa orbit. With
+    $R_{\mathrm{Europa}} = \SI{1561}{km}$ and a \SI{10}{\degree} elevation mask, the slant range at
+    the edge of the pass is
+    \[
+        R = -R_E \sin\varepsilon + \sqrt{R_E^2\sin^2\varepsilon + \left(r^2 - R_E^2\right)}
+          = \SI{588}{km},
+    \]
+    against \SI{200}{km} at zenith. Every budget below uses the \SI{588}{km} worst case.
+\end{enumerate}
+
+% ====================================================
+% SECTION II: ASSUMED PARAMETERS
+% ====================================================
+\section*{II. Assumed Parameters}
+
+\begin{enumerate}[label=\alph*., leftmargin=*]
+    \item $P_t = \SI{5}{W}$ RF (rover), $\SI{8}{W}$ RF (relay). The rover's UHF radio draws
+    \SI{35}{W} DC in the power budget; an Electra-Lite class transceiver puts roughly
+    \SI{5}{W} of that on the antenna. The relay agent is not power-constrained the way the rover is,
+    so it carries a larger amplifier.
+
+    \item $G_t = 3.16$ (\SI{5.0}{dBi}) rover quadrifilar helix; $G_r = 5.01$ (\SI{7.0}{dBi}) relay
+    UHF patch array. The helix is the antenna already carried in the mass budget, and its
+    near-hemispherical pattern is what lets the rover close a pass without pointing.
+
+    \item $L_a = 0.89$ ($\SI{-0.51}{dB}$). Europa has no meaningful atmosphere at
+    $\sim\!10^{-12}$~bar, so this term is not atmospheric absorption. It covers circular-to-linear
+    polarization mismatch and Jovian plasma scintillation on the path.
+
+    \item $L_l = 0.71$ ($\SI{-1.49}{dB}$) transmitter-to-antenna line loss, from cabling and
+    connectors run to a mast-mounted antenna and derated for cryogenic operation at \SI{90}{K}.
+
+    \item $\lambda = \SI{0.7465}{m}$ return (\SI{401.6}{MHz}), $\lambda = \SI{0.6859}{m}$ forward
+    (\SI{437.1}{MHz}), from $\lambda = c/f$.
+
+    \item $k = \SI{1.38e-23}{J/K}$.
+
+    \item $T_s = \SI{3000}{K}$ at the relay receiver, $\SI{4000}{K}$ at the rover receiver. This is
+    the parameter that separates a Europa proximity link from a Mars one. At \SI{400}{MHz} the
+    receiver sees galactic background plus Jupiter's synchrotron emission, and the rover's front end
+    has no cryogenic cooling and a warmer view of the source, so it is assigned the higher figure.
+
+    \item $R = \SI{5.879e5}{m}$, the \SI{10}{\degree}-elevation slant range derived above.
+
+    \item $R_b = \SI{128}{kbps}$ return, \SI{8}{kbps} forward. These are the floors set by
+    REQ.10.01: \SI{55}{MB} of compressed data per sol delivered inside the \SI{90}{min} relay window
+    the ConOps allocates works out to \SI{90}{kbps}, and \SI{128}{kbps} is the next standard step up.
+\end{enumerate}
+
+% ====================================================
+% SECTION III: METHOD
+% ====================================================
+\section*{III. Method}
+
+\begin{enumerate}[label=\alph*., leftmargin=*]
+    \item Ratio form:
+    \[
+        \frac{E_b}{N_0} = \frac{P_t G_t G_r L_a L_l \lambda^2}{(4\pi R)^2\, k\, T_s\, R_b}
+    \]
+    \item Decibel form: $\left(E_b/N_0\right)_{\mathrm{dB}} = 10\log_{10}\left(E_b/N_0\right)$
+    \item Margin: $M = \left(E_b/N_0\right)_{\mathrm{dB}} - \left(E_b/N_0\right)_{\mathrm{req}}$,
+    with $\left(E_b/N_0\right)_{\mathrm{req}} = \SI{1.5}{dB}$.
+    \item The link closes when $M \geq \SI{3}{dB}$.
+\end{enumerate}
+
+% ====================================================
+% SECTION IV: UPLINK
+% ====================================================
+\section*{IV. Uplink --- Rover to Relay (Science Return)}
+
+\begin{enumerate}[label=\alph*., leftmargin=*]
+    \item Numerator:
+    \[
+        P_t G_t G_r L_a L_l \lambda^2
+        = 5 \times 3.16 \times 5.01 \times 0.89 \times 0.71 \times (0.7465)^2
+        = 27.87
+    \]
+    \item Denominator:
+    \[
+        (4\pi R)^2 k T_s R_b
+        = \left(4\pi \times 5.879\!\times\!10^5\right)^2 \times \SI{1.38e-23}{} \times 3000
+          \times 1.28\!\times\!10^5
+        = 0.2892
+    \]
+    \item Result: $E_b/N_0 = 27.87 / 0.2892 = 96.4$
+    \item In decibels: $10\log_{10}(96.4) = \SI{19.84}{dB}$
+    \item Margin: $19.84 - 1.5 = \SI{18.3}{dB}$. \textbf{The uplink closes.}
+\end{enumerate}
+
+\noindent Term-by-term, in decibels, for traceability:
+
+\begin{center}
+\begin{tabular}{lr}
+\toprule
+Term & Value (dB) \\
+\midrule
+$P_t$ (\SI{5}{W})                        & $+6.99$ \\
+$G_t$ (rover helix)                      & $+5.00$ \\
+$G_r$ (relay patch array)                & $+7.00$ \\
+$L_a$ (polarization + plasma)            & $-0.51$ \\
+$L_l$ (line loss)                        & $-1.49$ \\
+$\lambda^2$                              & $-2.54$ \\
+$(4\pi R)^2$ (space loss at \SI{588}{km})& $-137.37$ \\
+$k$                                      & $+228.60$ \\
+$T_s$ (\SI{3000}{K})                     & $-34.77$ \\
+$R_b$ (\SI{128}{kbps})                   & $-51.07$ \\
+\midrule
+$E_b/N_0$                                & $\mathbf{+19.84}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% ====================================================
+% SECTION V: DOWNLINK
+% ====================================================
+\section*{V. Downlink --- Relay to Rover (Command Forward)}
+
+\begin{enumerate}[label=\alph*., leftmargin=*]
+    \item Numerator:
+    \[
+        8 \times 5.01 \times 3.16 \times 0.89 \times 0.71 \times (0.6859)^2 = 37.65
+    \]
+    \item Denominator:
+    \[
+        \left(4\pi \times 5.879\!\times\!10^5\right)^2 \times \SI{1.38e-23}{} \times 4000
+          \times 8.0\!\times\!10^3 = 0.02410
+    \]
+    \item Result: $E_b/N_0 = 37.65 / 0.02410 = 1562$
+    \item In decibels: $10\log_{10}(1562) = \SI{31.94}{dB}$
+    \item Margin: $31.94 - 1.5 = \SI{30.4}{dB}$. \textbf{The downlink closes.}
+\end{enumerate}
+
+\noindent The forward direction has an easier job: the relay transmits more power from a higher-gain
+antenna, and the command load is \SI{8}{kbps} against \SI{128}{kbps} of science return. The
+\SI{16}{\times} rate difference alone accounts for \SI{12}{dB} of the gap.
+
+% ====================================================
+% SECTION VI: DIRECT-TO-EARTH CHECK
+% ====================================================
+\section*{VI. Direct-to-Earth Check (Why the Relay Exists)}
+
+The same equation run on the rover's X-band low-gain antenna against a DSN \SI{34}{m} BWG station
+sets the fallback rate. Using $P_t = \SI{15}{W}$, $G_t = 6.31$ (\SI{8}{dBi} LGA),
+$G_r = 6.6\!\times\!10^6$ (\SI{68.2}{dBi}), $\lambda = \SI{0.0357}{m}$ (\SI{8.4}{GHz}),
+$T_s = \SI{30}{K}$ (cryogenic DSN front end), and solving for the rate that still holds
+\SI{4.5}{dB}:
+
+\begin{center}
+\begin{tabular}{lrr}
+\toprule
+Earth range & $R$ (m) & Max rate at \SI{4.5}{dB} \\
+\midrule
+Opposition ($\SI{4.2}{AU}$)  & $6.28\!\times\!10^{11}$ & \SI{6.9}{bps} \\
+Conjunction ($\SI{6.2}{AU}$) & $9.27\!\times\!10^{11}$ & \SI{3.2}{bps} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent Seven bits per second is a state-of-health beacon, not a science link: one \SI{55}{MB} sol
+of REQ.10.01 would take just over two years to clear. This is the quantitative reason the relay agents are
+architectural rather than optional, and it is the number REQ.10.03 fixes as the \SI{5}{bps}
+fallback floor.
+
+% ====================================================
+% SECTION VII: REFLECTION
+% ====================================================
+\section*{VII. Reflection}
+
+Both directions close, and by a wide margin: \SI{18.3}{dB} on the return and \SI{30.4}{dB} on the
+forward. The interesting result is that the proximity link is not power-limited at all. At
+\SI{4.5}{dB} the return would support roughly \SI{4.4}{Mbps}, so the real ceiling is the radio's
+\SI{2048}{kbps} maximum and the \SI{90}{min} pass, not the RF budget. That surplus is worth keeping
+rather than spending, since $T_s$ is the weakest assumption I made and Jupiter's synchrotron noise
+at \SI{400}{MHz} could plausibly be several times my \SI{3000}{K}. If the link did fail, the first
+parameter I would change is $R_b$, because it is free, and the second is $G_r$ at the relay, since
+adding patch elements to an orbiter is cheaper in mass and power than anything on the rover.
+
+% ====================================================
+% REFERENCES
+% ====================================================
+\bigskip
+
+\noindent\underline{\textbf{References:}}
+
+\begin{enumerate}[leftmargin=*, label={[\arabic*]}]
+    \item Jet Propulsion Laboratory, ``DSN Telecommunications Link Design Handbook,'' 810-005,
+    Rev.~E, NASA/JPL, Pasadena, CA. [Online]. Available:
+    \url{https://deepspace.jpl.nasa.gov/dsndocs/810-005/}.
+    \item Consultative Committee for Space Data Systems, ``Proximity-1 Space Link Protocol ---
+    Physical Layer,'' CCSDS 211.1-B-4, 2013.
+    \item Consultative Committee for Space Data Systems, ``TM Synchronization and Channel Coding,''
+    CCSDS 131.0-B-4, 2017.
+    \item C.~D.~Edwards \textit{et al.}, ``The Electra Proximity Link Payload for Mars Relay
+    Telecommunications and Navigation,'' Jet Propulsion Laboratory, Pasadena, CA.
+    \item NASA, ``Deep Space Network,'' NASA Space Communications and Navigation. [Online].
+    Available: \url{https://www.nasa.gov/communicating-with-missions/dsn/}.
+    \item NASA, ``Radar for Europa Assessment and Sounding: Ocean to Near-surface (REASON),''
+    Europa Clipper Mission. [Online]. Available:
+    \url{https://europa.nasa.gov/spacecraft/instruments/reason/}.
+\end{enumerate}
+
+\bigskip
+
+\noindent{\color{red}\textit{AI disclosure: AI was used to verify the arithmetic in each link budget
+term and to check the assumed parameter values against published Electra and DSN performance
+figures. The architecture choice, parameter selection, and margin definition are mine.}}
+
+\end{document}
