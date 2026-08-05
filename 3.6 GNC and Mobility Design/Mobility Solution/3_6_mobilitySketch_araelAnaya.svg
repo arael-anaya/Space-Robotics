@@ -1,0 +1,228 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1620 960" font-family="'Segoe Print','Bradley Hand','Comic Sans MS','Caveat',cursive">
+  <defs>
+    <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="2.5"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3a3a3a"/>
+    </marker>
+    <marker id="dimA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#7a7a7a"/>
+    </marker>
+    <marker id="dimB" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#7a7a7a"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1620" height="960" fill="#ffffff"/>
+  <text x="810" y="52" text-anchor="middle" font-size="26" fill="#2a2a2a">Europa Ice-Shell Characterization Rover &#8212; Mobility Solution</text>
+  <text x="810" y="80" text-anchor="middle" font-size="16" fill="#666">four-wheel differential drive on a single-pivot rocker, cleated rigid wheels, struts jettisoned after checkout</text>
+
+  <!-- PANEL A: SIDE ELEVATION -->
+  <g transform="translate(90,0)">
+  <text x="350" y="246" font-size="19" fill="#444">side elevation</text>
+  <g filter="url(#rough)" stroke="#3a3a3a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- ground -->
+    <line x1="270" y1="680" x2="700" y2="680" stroke-dasharray="14 10" stroke-width="1.6" stroke="#8a8a8a"/>
+    <g stroke="#a5a5a5" stroke-width="1.2">
+      <line x1="310" y1="682" x2="298" y2="694"/>
+      <line x1="430" y1="682" x2="418" y2="694"/>
+      <line x1="560" y1="682" x2="548" y2="694"/>
+    </g>
+    <!-- 0.20 m step obstacle ahead of the front wheel -->
+    <path d="M 700 680 L 700 612 L 790 612 L 790 680 Z" fill="#f2f2f2"/>
+    <g stroke="#a5a5a5" stroke-width="1.2">
+      <line x1="725" y1="614" x2="713" y2="626"/>
+      <line x1="765" y1="614" x2="753" y2="626"/>
+    </g>
+
+    <!-- chassis / equipment deck -->
+    <path d="M 350 442 L 656 442 L 656 561 L 350 561 Z" fill="#fbfbfb"/>
+    <line x1="350" y1="470" x2="656" y2="470"/>
+    <!-- radiation vault (dashed, houses OBC + IMU) -->
+    <rect x="470" y="484" width="120" height="56" stroke-dasharray="7 5" fill="none"/>
+    <text x="530" y="518" text-anchor="middle" font-size="14" fill="#555" filter="none">OBC + IMU</text>
+
+    <!-- deck-mounted sun sensors -->
+    <path d="M 366 442 L 366 430 L 386 430 L 386 442" fill="#eeeeee"/>
+    <path d="M 620 442 L 620 430 L 640 430 L 640 442" fill="#eeeeee"/>
+
+    <!-- sensor mast + stereo pair -->
+    <line x1="392" y1="442" x2="392" y2="330"/>
+    <line x1="406" y1="442" x2="406" y2="330"/>
+    <line x1="392" y1="410" x2="406" y2="392"/>
+    <line x1="392" y1="384" x2="406" y2="366"/>
+    <rect x="372" y="300" width="58" height="30" fill="#fbfbfb"/>
+    <circle cx="386" cy="315" r="6"/>
+    <circle cx="416" cy="315" r="6"/>
+    <!-- camera look direction, 25 deg below horizontal -->
+    <line x1="432" y1="322" x2="560" y2="382" stroke="#8a8a8a" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+
+    <!-- GPR sounder, belly mounted on standoffs -->
+    <rect x="450" y="561" width="120" height="26" fill="#f4f4f4"/>
+    <line x1="462" y1="561" x2="462" y2="551"/>
+    <line x1="558" y1="561" x2="558" y2="551"/>
+    <line x1="510" y1="592" x2="510" y2="626" stroke="#8a8a8a" marker-end="url(#arrow)"/>
+
+    <!-- rocker suspension: single belly pivot, bent arms to each hub -->
+    <circle cx="503" cy="561" r="9" fill="#ffffff"/>
+    <circle cx="503" cy="561" r="3.5" fill="#3a3a3a"/>
+    <path d="M 503 561 L 452 590 L 400 626"/>
+    <path d="M 503 561 L 566 588 L 638 626"/>
+    <circle cx="452" cy="590" r="5" fill="#ffffff"/>
+    <circle cx="566" cy="588" r="5" fill="#ffffff"/>
+    <!-- damper struts -->
+    <line x1="470" y1="546" x2="452" y2="586" stroke-dasharray="5 4"/>
+    <line x1="548" y1="546" x2="566" y2="584" stroke-dasharray="5 4"/>
+
+    <!-- wheels: 0.32 m dia, cleated -->
+    <g>
+      <circle cx="400" cy="626" r="54" fill="#ffffff"/>
+      <circle cx="400" cy="626" r="14" fill="#f0f0f0"/>
+      <circle cx="638" cy="626" r="54" fill="#ffffff"/>
+      <circle cx="638" cy="626" r="14" fill="#f0f0f0"/>
+    </g>
+    <!-- grousers as short radial ticks -->
+    <g stroke-width="1.6">
+      <line x1="400" y1="572" x2="400" y2="562"/><line x1="438" y1="588" x2="445" y2="581"/>
+      <line x1="454" y1="626" x2="464" y2="626"/><line x1="438" y1="664" x2="445" y2="671"/>
+      <line x1="400" y1="680" x2="400" y2="690"/><line x1="362" y1="664" x2="355" y2="671"/>
+      <line x1="346" y1="626" x2="336" y2="626"/><line x1="362" y1="588" x2="355" y2="581"/>
+      <line x1="638" y1="572" x2="638" y2="562"/><line x1="676" y1="588" x2="683" y2="581"/>
+      <line x1="692" y1="626" x2="702" y2="626"/><line x1="676" y1="664" x2="683" y2="671"/>
+      <line x1="638" y1="680" x2="638" y2="690"/><line x1="600" y1="664" x2="593" y2="671"/>
+      <line x1="584" y1="626" x2="574" y2="626"/><line x1="600" y1="588" x2="593" y2="581"/>
+    </g>
+    <!-- ghosted front wheel articulated up onto the step -->
+    <g stroke-opacity="0.32" stroke-dasharray="8 6">
+      <circle cx="745" cy="558" r="54"/>
+      <path d="M 503 561 L 600 566 L 745 558"/>
+    </g>
+  </g>
+
+  <!-- side view dimensions -->
+  <g stroke="#7a7a7a" stroke-width="1.2" fill="none" font-size="14">
+    <line x1="400" y1="716" x2="638" y2="716" marker-start="url(#dimB)" marker-end="url(#dimA)"/>
+    <text x="519" y="736" text-anchor="middle" fill="#666">wheelbase 0.70 m</text>
+    <line x1="316" y1="561" x2="316" y2="680" marker-start="url(#dimB)" marker-end="url(#dimA)"/>
+    <text x="316" y="552" text-anchor="middle" fill="#666">clearance 0.35 m</text>
+    <line x1="820" y1="612" x2="820" y2="680" marker-start="url(#dimB)" marker-end="url(#dimA)"/>
+  </g>
+
+  <!-- side view labels -->
+  <g font-size="17" fill="#2a2a2a">
+    <text x="240" y="316" text-anchor="end">Stereo nav cameras</text>
+    <text x="240" y="338" text-anchor="end" font-size="14" fill="#555">0.20 m baseline, 25&#176; down</text>
+    <line x1="248" y1="312" x2="366" y2="312" stroke="#8a8a8a" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+    <text x="240" y="440" text-anchor="end">Fine sun sensors (2x)</text>
+    <text x="240" y="462" text-anchor="end" font-size="14" fill="#555">absolute heading fix at each stop</text>
+    <line x1="248" y1="436" x2="360" y2="434" stroke="#8a8a8a" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+    <text x="240" y="506" text-anchor="end">Chassis / equipment deck</text>
+    <line x1="248" y1="502" x2="344" y2="500" stroke="#8a8a8a" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+    <text x="240" y="596" text-anchor="end">GPR sounder (nadir)</text>
+    <text x="240" y="618" text-anchor="end" font-size="14" fill="#555">belly-mounted, 0.35 m standoff</text>
+    <line x1="248" y1="592" x2="444" y2="576" stroke="#8a8a8a" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+    <text x="838" y="596">0.20 m step</text>
+    <text x="838" y="616" font-size="13" fill="#555">reject threshold</text>
+    <text x="838" y="634" font-size="13" fill="#555">(REQ.11.02)</text>
+    <text x="838" y="676">0.30 m climb</text>
+    <text x="838" y="696" font-size="13" fill="#555">by rocker</text>
+    <text x="838" y="714" font-size="13" fill="#555">articulation, 1.5x</text>
+    <line x1="832" y1="670" x2="800" y2="600" stroke="#8a8a8a" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+    <text x="519" y="782" text-anchor="middle">Single-pivot rocker, bent arms, elbow joints</text>
+    <text x="519" y="804" text-anchor="middle" font-size="14" fill="#555">no steering actuators; heading changes are differential-drive skids</text>
+    <line x1="519" y1="758" x2="510" y2="576" stroke="#8a8a8a" stroke-width="1.2" marker-end="url(#arrow)"/>
+  </g>
+
+    </g>
+
+<!-- PANELS B/C: PLAN VIEW + WHEEL DETAIL -->
+  <g transform="translate(220,0)">
+  <text x="960" y="150" font-size="19" fill="#444">plan view</text>
+  <text x="1075" y="150" font-size="14" fill="#777">travel direction &#8594;</text>
+  <g filter="url(#rough)" stroke="#3a3a3a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="960" y="240" width="225" height="150" fill="#fbfbfb"/>
+    <line x1="960" y1="315" x2="1185" y2="315" stroke-dasharray="9 7" stroke="#a5a5a5" stroke-width="1.2"/>
+    <rect x="1095" y="190" width="80" height="50" fill="#f2f2f2"/>
+    <rect x="970" y="190" width="80" height="50" fill="#f2f2f2"/>
+    <rect x="1095" y="390" width="80" height="50" fill="#f2f2f2"/>
+    <rect x="970" y="390" width="80" height="50" fill="#f2f2f2"/>
+    <g stroke-width="1.4" stroke="#8a8a8a">
+      <line x1="990" y1="190" x2="990" y2="240"/><line x1="1010" y1="190" x2="1010" y2="240"/><line x1="1030" y1="190" x2="1030" y2="240"/>
+      <line x1="1115" y1="190" x2="1115" y2="240"/><line x1="1135" y1="190" x2="1135" y2="240"/><line x1="1155" y1="190" x2="1155" y2="240"/>
+      <line x1="990" y1="390" x2="990" y2="440"/><line x1="1010" y1="390" x2="1010" y2="440"/><line x1="1030" y1="390" x2="1030" y2="440"/>
+      <line x1="1115" y1="390" x2="1115" y2="440"/><line x1="1135" y1="390" x2="1135" y2="440"/><line x1="1155" y1="390" x2="1155" y2="440"/>
+    </g>
+    <!-- differential turn arrows -->
+    <path d="M 1205 210 A 34 34 0 0 1 1205 268" stroke="#8a8a8a" marker-end="url(#arrow)"/>
+    <path d="M 1205 420 A 34 34 0 0 0 1205 362" stroke="#8a8a8a" marker-end="url(#arrow)"/>
+    <circle cx="1072" cy="315" r="4" fill="#3a3a3a"/>
+  </g>
+  <g stroke="#7a7a7a" stroke-width="1.2" fill="none" font-size="14">
+    <line x1="922" y1="215" x2="922" y2="415" marker-start="url(#dimB)" marker-end="url(#dimA)"/>
+    <text x="914" y="320" text-anchor="end" fill="#666">track</text>
+    <text x="914" y="340" text-anchor="end" fill="#666">0.80 m</text>
+  </g>
+  <g font-size="15" fill="#2a2a2a">
+    <text x="1245" y="238">opposed wheel</text>
+    <text x="1245" y="258" font-size="13" fill="#555">rates turn the</text>
+    <text x="1245" y="276" font-size="13" fill="#555">chassis in place</text>
+    <text x="1245" y="320" font-size="13" fill="#555">turn center on</text>
+    <text x="1245" y="338" font-size="13" fill="#555">the rocker pivot</text>
+    <text x="960" y="470" font-size="14" fill="#555">deck 0.90 m &#215; 0.60 m; wheels 0.20 m wide</text>
+  </g>
+
+  <!-- =================== PANEL C: WHEEL DETAIL =================== -->
+  <text x="960" y="546" font-size="19" fill="#444">wheel &amp; grouser detail</text>
+  <g filter="url(#rough)" stroke="#3a3a3a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="1050" cy="700" r="86" fill="#ffffff"/>
+    <circle cx="1050" cy="700" r="66" fill="#fbfbfb"/>
+    <circle cx="1050" cy="700" r="22" fill="#f0f0f0"/>
+    <line x1="1050" y1="678" x2="1050" y2="614"/>
+    <line x1="1050" y1="722" x2="1050" y2="786"/>
+    <line x1="1028" y1="700" x2="964" y2="700"/>
+    <line x1="1072" y1="700" x2="1136" y2="700"/>
+    <line x1="960" y1="800" x2="1140" y2="800" stroke-dasharray="12 9" stroke="#8a8a8a" stroke-width="1.6"/>
+  </g>
+  <g filter="url(#rough)" stroke="#3a3a3a" stroke-width="2.4" fill="none">
+    <line x1="1050" y1="614" x2="1050" y2="600"/>
+    <line x1="1104" y1="633" x2="1114" y2="623"/>
+    <line x1="1136" y1="700" x2="1150" y2="700"/>
+    <line x1="1104" y1="767" x2="1114" y2="777"/>
+    <line x1="1050" y1="786" x2="1050" y2="800"/>
+    <line x1="996" y1="767" x2="986" y2="777"/>
+    <line x1="964" y1="700" x2="950" y2="700"/>
+    <line x1="996" y1="633" x2="986" y2="623"/>
+  </g>
+  <g stroke="#7a7a7a" stroke-width="1.2" fill="none" font-size="14">
+    <line x1="1050" y1="600" x2="1050" y2="800" stroke="none"/>
+    <line x1="906" y1="614" x2="906" y2="786" marker-start="url(#dimB)" marker-end="url(#dimA)"/>
+    <text x="898" y="694" text-anchor="end" fill="#666">0.32 m</text>
+  </g>
+  <g font-size="15" fill="#2a2a2a">
+    <text x="1185" y="632">24 hardened cleats</text>
+    <text x="1185" y="652" font-size="13" fill="#555">bite into brittle 90 K ice</text>
+    <text x="1185" y="694">rigid Al rim, no tire</text>
+    <text x="1185" y="714" font-size="13" fill="#555">no elastomer survives 90 K ice</text>
+    <text x="1185" y="756">4.8 kPa contact pressure</text>
+    <text x="1185" y="776" font-size="13" fill="#555">traction is the driver, not sinkage</text>
+    <line x1="1178" y1="628" x2="1120" y2="620" stroke="#8a8a8a" stroke-width="1.2" marker-end="url(#arrow)"/>
+    <line x1="1178" y1="690" x2="1120" y2="690" stroke="#8a8a8a" stroke-width="1.2" marker-end="url(#arrow)"/>
+    <line x1="1178" y1="752" x2="1090" y2="792" stroke="#8a8a8a" stroke-width="1.2" marker-end="url(#arrow)"/>
+  </g>
+
+    </g>
+
+  <g font-size="15" fill="#444">
+    <line x1="60" y1="898" x2="1000" y2="898" stroke="#c8c8c8" stroke-width="1.2"/>
+    <text x="60" y="924">wheel 0.32 m dia &#183; track 0.80 m &#183; wheelbase 0.70 m &#183; clearance 0.35 m &#183; 2 cm/s commanded &#183; 3.74 N&#183;m per wheel at 20&#176;</text>
+    <text x="60" y="946">4x drive actuators, 0 steering actuators &#183; 187 m/sol capability against the 100 m/sol floor in REQ.06.01</text>
+  </g>
+</svg>
