@@ -224,5 +224,6 @@
     <line x1="60" y1="898" x2="1000" y2="898" stroke="#c8c8c8" stroke-width="1.2"/>
     <text x="60" y="924">wheel 0.32 m dia &#183; track 0.80 m &#183; wheelbase 0.70 m &#183; clearance 0.35 m &#183; 2 cm/s commanded &#183; 3.74 N&#183;m per wheel at 20&#176;</text>
     <text x="60" y="946">4x drive actuators, 0 steering actuators &#183; 187 m/sol capability against the 100 m/sol floor in REQ.06.01</text>
+    <text x="1560" y="946" text-anchor="end" font-size="11" fill="#aaaaaa" font-style="italic">figure drafted with AI assistance</text>
   </g>
 </svg>

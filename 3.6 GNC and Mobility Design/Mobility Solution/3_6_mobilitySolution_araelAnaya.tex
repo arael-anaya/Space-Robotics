@@ -67,7 +67,7 @@ manage fractured blocks more gracefully than a rigid wheel does. Both mechanisms
 correctly, every time. A hop that lands wrong on a \SI{90}{K} ice block can end the mission on the spot, and the
 \SI{44}{min} one-way delay leaves no window for Earth to step in before the damage is done. A wheeled rocker
 degrades slowly, bearing by bearing, over many sols. When the recovery loop runs that long, that slow failure
-mode is worth more than the energy a hop would save.
+mode is more important than the energy a hop would save.
 
 \bigskip
 
@@ -99,7 +99,7 @@ the ice during the survey.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{3_6_mobilitySketch_araelAnaya.pdf}
-    \caption{Mobility solution: side elevation, plan view, and wheel detail.}
+    \caption{Mobility solution: side elevation, plan view, and wheel detail. \small\textit{(Figure drafted with AI assistance.)}}
 \end{figure}
 
 \bigskip
@@ -121,7 +121,7 @@ F = W\left(\sin\SI{20}{\degree} + 0.15\cos\SI{20}{\degree}\right)
 \]
 That force works out to \SI{23.4}{N} per wheel, \SI{3.74}{N.m} at a \SI{0.16}{m} radius. At \SI{2}{cm/s} the
 useful mechanical power comes to just \SI{1.87}{W}. Nearly all of the \SI{84}{W} peak already budgeted for the
-four drive motors covers breakout torque and gearbox drag at \SI{90}{K}, where stiff lubricant dominates the
+four drive motors covers breakout torque and gearbox drag at \SI{90}{K}, where stiff lubricant determines the
 load; moving the rover itself barely registers against that number. REQ.09.02 preheats the actuators above
 \SI{-40}{\degreeCelsius} before any commanded motion for the same reason.
 
@@ -136,7 +136,7 @@ cleats are separate hardened inserts bolted onto the rim.
 Per-sol distance comes in well above the requirement. Four hours of drive time at \SI{2}{cm/s}, with a 65\,\%\
 duty cycle after subtracting stops for imaging and hazard assessment, works out to \SI{187}{m} against the
 \SI{100}{m} floor in REQ.06.01. REQ.06.01 only demands an average rate of \SI{6.9}{mm/s}, so hazard rejection
-and the sounding cadence set the pace of the traverse, well before the drive train does.
+and the sounding cadence set the pace of the traverse, before the drive train ever does.
 
 \bigskip
 
@@ -239,7 +239,6 @@ Clipper Mission. [Online]. Available: \url{https://europa.nasa.gov/spacecraft/in
 
 \noindent\footnotesize\textit{AI disclosure: I used AI to check the arithmetic behind the traction, torque, and
 localization error budget numbers, and to cross-check the low-temperature ice friction values against published
-measurements. The mobility architecture is mine: the wheel and suspension configuration, and the call to run
-differential drive without steering actuators.}
+measurements. The mobility architecture is all mine. Diagram generated using Claude Opus 5.}
 
 \end{document}
