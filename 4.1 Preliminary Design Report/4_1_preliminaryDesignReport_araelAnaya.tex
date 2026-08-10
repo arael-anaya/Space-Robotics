@@ -89,13 +89,13 @@
 \begin{gapbox}
 This report is a first-pass synthesis of every prior deliverable in this repository into the
 Section 4.1 template. It was compiled and drafted with the assistance of Claude (Anthropic),
-which read the existing assignments (1.1 through 3.6) and assembled, reorganized, and lightly
+which read the existing assignments (1.1 through 3.7) and assembled, reorganized, and lightly
 rephrased that material into the structure the assignment requires; it did not invent new
 mission design decisions. Every technical number, requirement, trade study, and calculation
 below originates in the author's own prior work product in this repository unless a gap box
 (like this one) says otherwise. Gap boxes throughout the report mark: (1) content that has no
-completed source assignment yet (Command \& Data Handling design, the flight software state
-diagram, the full requirements-verification status), and (2) numbers that were reconstructed
+completed source assignment yet (the flight software state diagram, the full
+requirements-verification status), and (2) numbers that were reconstructed
 or paraphrased from adjacent documents rather than copied verbatim, and should be checked
 against the master spreadsheet before submission. A consolidated gap list is repeated at the
 end of the document. See also Appendix~D for the itemized AI-use disclosure carried over from
@@ -336,7 +336,7 @@ Fractured, chaotic ice terrain & Traction/mobility risk, hazard density & Cleate
 \subsection{Mission Success Criteria}
 
 Requirements are drawn from the master requirements spreadsheet (Appendix~B contains the full
-set, REQ.01.01 through REQ.11.04). Table~\ref{tab:mission-level-reqs} presents three
+set, REQ.01.01 through REQ.12.04). Table~\ref{tab:mission-level-reqs} presents three
 mission-level requirements and Table~\ref{tab:ops-level-reqs} presents three operations-level
 requirements, each with its justification, verification approach, and associated risk.
 
@@ -722,7 +722,7 @@ shows real structured output rather than one synthetic row.
 
 Table~\ref{tab:functional} and Table~\ref{tab:nonfunctional} highlight five functional and five
 nonfunctional requirements drawn from the master requirements set (Appendix~B has the complete
-REQ.01.01--REQ.11.04 list with sources, subsystem ownership, and V\&V plans).
+REQ.01.01--REQ.12.04 list with sources, subsystem ownership, and V\&V plans).
 
 \begin{table}[H]
 \centering
@@ -827,11 +827,7 @@ REQ.07.03's literal text allocates the radiation vault a $28.5$~kg share of the 
 budget, but the Mass Budget rollup (Table~\ref{tab:mass-rollup}) totals the entire Structure
 subsystem at only $25.75$~kg. Either the $28.5$~kg figure in the requirement is stale, or the
 mass budget spreadsheet needs a dedicated vault-allocation line to reconcile against it --
-resolve this discrepancy before final submission. Separately, \textbf{REQ.05.02} (CDH latch-up
-recovery) is referenced by both REQ.07.03's validation plan (``latchup detection/recover per
-REQ.05.02'') and REQ.08.03's reasoning field, consistently pointing to an autonomous
-power-cycling recovery within roughly $330$~s of a radiation-induced latch-up, but its literal
-``shall'' statement has still not been transcribed -- pull it from the master spreadsheet.
+resolve this discrepancy before final submission.
 \end{gapbox}
 
 \subsubsection{Structural Sketch}
@@ -942,6 +938,7 @@ Ductility $0.05$).
 \begin{table}[H]
 \centering
 \small
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{lccc}
 \toprule
 \textbf{Criterion (weight)} & \textbf{Tapered Strut Al 7075-T73} & \textbf{Cross-Braced Tube +
@@ -957,6 +954,7 @@ Cryogenic Ductility (0.05) & 0.20 & 0.25 & 0.15 \\
 \textbf{Total Score} & \textbf{5.29} & 4.46 & 3.97 \\
 \bottomrule
 \end{tabular}
+}
 \caption{Landing leg structure trade study.}
 \label{tab:structures-trade}
 \end{table}
@@ -1079,6 +1077,7 @@ Radiation \& Cryo Robustness $0.25$, Availability/TRL $0.23$).
 \begin{table}[H]
 \centering
 \small
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{lccc}
 \toprule
 \textbf{Criterion (weight)} & \textbf{Solar Arrays + Li-ion} & \textbf{RTG} & \textbf{H\textsubscript{2}/O\textsubscript{2} Fuel Cells} \\
@@ -1092,6 +1091,7 @@ Availability/TRL (0.23) & 0.68 & 1.13 & 0.68 \\
 \textbf{Total Score} & 1.95 & \textbf{4.75} & 2.35 \\
 \bottomrule
 \end{tabular}
+}
 \caption{Power source trade study.}
 \label{tab:power-trade}
 \end{table}
@@ -1178,6 +1178,7 @@ Complexity/Integration $0.13$, Radiation Durability $0.25$, Reliability/TRL $0.2
 \begin{table}[H]
 \centering
 \small
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{lccc}
 \toprule
 \textbf{Criterion (weight)} & \textbf{MLI + Heaters} & \textbf{Aerogel + Heaters} &
@@ -1192,6 +1193,7 @@ Reliability/TRL (0.25) & 1.25 & 0.75 & 0.50 \\
 \textbf{Total Score} & \textbf{4.79} & 3.16 & 2.77 \\
 \bottomrule
 \end{tabular}
+}
 \caption{Night-survival thermal architecture trade study.}
 \label{tab:thermal-trade}
 \end{table}
@@ -1316,6 +1318,7 @@ Capability $0.25$, Pointing \& Ops Complexity $0.13$, Reliability/TRL $0.25$).
 \begin{table}[H]
 \centering
 \small
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{lccc}
 \toprule
 \textbf{Criterion (weight)} & \textbf{UHF Helix} & \textbf{S-band Patch} &
@@ -1330,6 +1333,7 @@ Reliability/TRL (0.25) & 1.25 & 0.75 & 0.50 \\
 \textbf{Total Score} & \textbf{4.55} & 3.79 & 2.64 \\
 \bottomrule
 \end{tabular}
+}
 \caption{Rover-to-relay proximity link configuration trade study.}
 \label{tab:comms-trade}
 \end{table}
@@ -1436,6 +1440,7 @@ Complexity/Cost $0.12$, Accuracy $0.30$, Environmental Tolerance $0.23$).
 \begin{table}[H]
 \centering
 \small
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{lccc}
 \toprule
 \textbf{Criterion (weight)} & \textbf{Fine Sun Sensor Pair} & \textbf{COTS Star Tracker} &
@@ -1450,6 +1455,7 @@ Environmental Tolerance (0.23) & 1.15 & 0.46 & 0.46 \\
 \textbf{Total Score} & \textbf{4.58} & 3.37 & 2.18 \\
 \bottomrule
 \end{tabular}
+}
 \caption{Absolute heading reference trade study.}
 \label{tab:gnc-trade}
 \end{table}
@@ -1477,41 +1483,201 @@ $1$~W, and Cassini flew the same class of sensor further out than Jupiter.
 
 \subsection{Command and Data Handling (CDH)}
 
-\begin{gapbox}
-No dedicated CDH design assignment exists yet in this repository (there is no ``3.7 Command and
-Data Handling Design'' folder analogous to 3.2--3.6). Everything in this subsection is
-\emph{reconstructed} from CDH-adjacent requirements and mentions scattered across the Comms,
-GNC, and payload deliverables -- it is a placeholder sized to show the rubric's required elements
-exist in outline, not a completed CDH design. Before submission this subsection needs its own
-requirements table, a real data budget/storage-strategy write-up, a CDH systems diagram (matching
-the house style of Figures~\ref{fig:power-diagram}, \ref{fig:thermal-diagram}, and
-\ref{fig:comms-systems}), and a CDH trade study (e.g., flight computer or storage-media options).
-\end{gapbox}
-
-\subsubsection{CDH Requirements (reconstructed)}
+\subsubsection{CDH Requirements}
 \begin{itemize}[leftmargin=*]
     \item \reqid{REQ.03.04} --- Retain $\geq 7$ sols of uncompressed radar trace data onboard;
-    apply lossless compression at $\geq 2{:}1$ before inter-agent relay transmission. (CDH,
-    Science/Payload, COMMs)
+    apply lossless compression at $\geq 2{:}1$ to all Radar\_Traces records before inter-agent
+    relay transmission. (CDH, Science/Payload, COMMs)
     \item \reqid{REQ.04.01} --- Support mesh-network consensus on shared terrain maps within
     $\leq 10$~minutes under degraded ($\leq 30\%$ packet loss) link conditions. (CDH, COMMs)
-    \item \reqid{REQ.05.02} --- \textit{(Referenced but not verbatim-confirmed; understood to
-    require autonomous recovery from a radiation-induced latch-up event within roughly $330$~s
-    via power-cycling, without ground intervention. Confirm literal text against the master
-    spreadsheet.)} (CDH, Electronics)
+    \item \reqid{REQ.05.02} --- Detect and autonomously recover from a single-event latch-up in
+    any processor core, restoring nominal operations without ground intervention, and log each
+    event to non-volatile memory with a timestamp and affected core identifier. (CDH, Electronics)
+    \item \reqid{REQ.12.01} --- Provide $\geq 250$~MIPS of radiation-hardened processing
+    throughput with $\geq 30\%$ processor duty-cycle and volatile-memory margin at the
+    worst-case concurrent GNC compute load (visual odometry, hazard assessment, navigation EKF)
+    within a single $5$~m drive-arc cycle. (CDH)
+    \item \reqid{REQ.12.02} --- Provide $\geq 1$~GB of EDAC-protected non-volatile mass storage
+    sized to $7$ sols of raw data at the $91.9$~MB/sol generation rate with $\geq 30\%$ margin,
+    applying a science-priority retention policy that preserves NOMINAL-flagged radar traces and
+    their paired localization records once remaining capacity falls below $10\%$. (CDH)
+    \item \reqid{REQ.12.03} --- Move all payload and navigation data on a cross-strapped
+    SpaceWire primary bus $\geq 20$~Mbps, with an independent RS-422 command/telemetry path
+    $\geq 115.2$~kbps that remains available with the primary bus failed. (CDH)
+    \item \reqid{REQ.12.04} --- Timestamp every record against a single onboard timebase held to
+    $\pm 1$~s absolute per sol and $\pm 10$~ms record-to-record, framed with a trace identifier,
+    sol index, and CCSDS-compliant packet header. (CDH)
 \end{itemize}
 
-\subsubsection{Data Budget and Storage Strategy (reconstructed)}
-The flight computer is a RAD750-class OBC, radiation-vault-mounted, with dedicated I/O and
-storage boards sized to buffer $7$ sols of uncompressed radar trace data (REQ.03.04). At
-approximately 40 traces per sol across the four data-product sheets, raw science data
-accumulates faster than the non-deterministic Earth relay link can clear, which is the entire
-justification for the 7-sol buffer. Lossless compression at $\geq 2{:}1$ is applied before
-inter-agent relay transmission, and the resulting compressed volume ($\geq 55$~MB/day,
-REQ.10.01) is what sizes the $128$~kbps return-link data rate in Section~7.6. A safe-mode command
-path exists directly from the flight computer to the transceiver chain (bypassing the primary
-science-data path) so that a spacecraft-emergency state can always reach the relay network
-regardless of what state the science-data pipeline is in.
+\begin{gapbox}
+REQ.05.02's literal ``shall'' statement gives a $330$~s latch-up recovery bound, but its own
+reasoning field, testing method, and verification/validation plan in the master spreadsheet all
+state a $30$~s bound instead, and the completed CDH design below (Figure~\ref{fig:cdh-diagram})
+was built to the $30$~s figure. This reads as a typo in the requirement statement (a dropped
+digit) rather than an intentional order-of-magnitude relaxation, since every other field agrees
+with $30$~s and the $44$-minute one-way light delay argument in the reasoning text is explicitly
+built around keeping autonomous fault recovery fast. Confirm which figure is authoritative and
+correct the requirement statement before final submission.
+\end{gapbox}
+
+\subsubsection{CDH Architecture \& Assumptions}
+The flight computer is a RAD750-class single-board computer, mounted inside the radiation vault
+(Section~7.3, REQ.07.03) alongside dedicated I/O and mass-storage boards, and it hosts the entire
+CDH function as well as the GNC compute stack described in Section~7.7. All payload and
+navigation data move on a cross-strapped SpaceWire router bus rated $\geq 20$~Mbps: sustained
+rover-wide generation is only $6.3$~kbps in idle modes, but a $1.57$~MB stereo pair read out in
+about $2$~s during Traverse is a $6.3$~Mbps burst, and $20$~Mbps clears that with a factor of
+$3.2$ to spare (REQ.12.03). An independent RS-422 command and telemetry path ($\geq 115.2$~kbps)
+carries safe-mode telemetry directly from the flight computer to the X-band SDST, bypassing the
+SpaceWire bus entirely, so a single bus failure cannot also take down the contingency beacon
+(REQ.10.03) that the comms architecture depends on as a relay-loss fallback.
+
+Every record is timestamped against a single onboard timebase (RTC plus a $1$~PPS distribution)
+held to $\pm 1$~s absolute per sol and $\pm 10$~ms record-to-record, and framed with a trace
+identifier, sol index, and CCSDS-compliant header (REQ.12.04) -- this is what lets the ground
+segment reassemble the Radar\_Traces, Localization\_Log, and Terrain\_and\_Health record sets by
+identifier alone after a lossy pass, rather than depending on packet arrival order. A memory
+scrubber runs a full EDAC scrub of mass memory on an hourly cycle, and the mode manager/FDIR
+function isolates a faulted data bus within $\leq 100$~ms and drives safe-mode entry (REQ.08.03),
+detecting and recovering from a processor single-event latch-up within $30$~s of occurrence
+(REQ.05.02). Figure~\ref{fig:cdh-diagram} traces the full CDH core -- SpaceWire interface,
+processing allocation, RS-422 backup, timebase/framing, EDAC/scrubbing, and mode manager/FDIR on
+one side; mass memory, the lossless compressor, OBC staging RAM, the downlink scheduler,
+science-priority retention, and the contingency-beacon fallback on the other -- against every
+subsystem that feeds it data or draws on its outputs.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/cdh_systems_diagram.png}
+    \caption{CDH systems diagram: data sources and timebase, the SpaceWire/RS-422 avionics core
+    hosted on the RAD750-class flight computer, the mass-memory/compression/downlink pipeline,
+    and the per-sol data budget (Section~7.7, REQ.03.04, REQ.05.02, REQ.10.01--REQ.10.03,
+    REQ.12.01--REQ.12.04).}
+    \label{fig:cdh-diagram}
+\end{figure}
+
+\subsubsection{Data Budget and Storage Strategy}
+Table~\ref{tab:cdh-data-budget} breaks the $91.85$~MB/sol raw-generation figure down by source.
+Nav-camera stereo hazard pairs dominate the budget even though they are the most compressible and
+most re-collectable product on board -- the rover can re-image ground it drives again, but a
+discarded NOMINAL-flagged radar trace and its paired localization record cannot be recovered
+without re-driving the transect. That asymmetry is exactly why REQ.12.02's science-priority
+retention policy protects radar traces and their position fixes ahead of everything else once
+remaining mass-memory capacity drops below $10\%$.
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{lr}
+\toprule
+\textbf{Source} & \textbf{Volume (MB/sol)} \\
+\midrule
+Nav cameras (stereo hazard pairs) & 54.00 \\
+GPR sounder (radar traces) & 20.25 \\
+Flight computer (state/sequencing) & 14.05 \\
+Housekeeping (thermal/power/comms telemetry) & 3.55 \\
+\midrule
+\textbf{Total raw generation} & \textbf{91.85} \\
+\bottomrule
+\end{tabular}
+\caption{Per-sol raw data generation by source.}
+\label{tab:cdh-data-budget}
+\end{table}
+
+Generation rate is far from uniform across modes (Table~\ref{tab:cdh-mode-rates}): Traverse is the
+binding case at $222.75$~KB/min, driven by the nav-camera stereo pairs and the GNC compute
+allocation running together, while Night Low-Power and Battery Emergency fall to single digits.
+Radar Sounding and Traverse Planning tie at $76.5$~KB/min because the sounder never runs
+concurrently with drive motors (REQ.03.03's stop-and-sound logic), so its $67.5$~KB/min raw trace
+rate is the whole story in that mode, mirrored by the flight computer's own $30$~KB/min
+map-generation-and-consensus compute load carried into Traverse Planning at $15$~KB/min plus
+imagery.
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{lr}
+\toprule
+\textbf{Operational Mode} & \textbf{Avg. Data Generation (KB/min)} \\
+\midrule
+Traverse & 222.75 \\
+Radar Sounding & 76.5 \\
+Traverse Planning & 76.5 \\
+Map Gen \& Consensus & 33.0 \\
+Systems Warm-Up & 9.0 \\
+Comms Relay Pass & 6.75 \\
+Thermal Emergency & 5.25 \\
+Night Low-Power & 3.0 \\
+Battery Emergency & 2.25 \\
+\bottomrule
+\end{tabular}
+\caption{Average data-generation rate by operational mode.}
+\label{tab:cdh-mode-rates}
+\end{table}
+
+Sized against a $1$~GB EDAC-protected NAND storage board, $7$ sols of raw data is $643$~MB
+(REQ.03.04's storage horizon), which is $64\%$ of device capacity and leaves $36\%$ margin --
+the figure REQ.12.02 uses as its storage-sizing floor. In nominal operation, though, the buffer
+never gets close to that: the downlink scheduler clears each sol's compressed volume during the
+following relay pass, so mass memory peaks at only about $91.2$~MB ($9.1\%$ of capacity) before
+the next contact drains it, and the full $643$~MB horizon exists purely as an outage reserve if
+one or more relay passes are missed. The lossless compressor runs at $2{:}1$ (REQ.03.04) with
+$8{,}000$~KB/min of throughput margin against a sustained need of only about $1{,}920$~KB/min,
+producing $45.92$~MB of compressed data per sol; adding REQ.10.01's $20\%$ margin gives the
+$\geq 55$~MB/day delivered-volume floor that sizes the $128$~kbps return link in Section~7.6.
+Compressed data queues in $45$~MB of OBC staging RAM, which peaks at $34.14$~MB ($24\%$ margin)
+at steady state -- the tightest margin anywhere in the CDH design and the first place to look if
+the return link ever slows down or a relay outage lets a backlog build. The downlink scheduler
+clears the full $45.92$~MB in $47.8$ of the $90$-minute relay pass ($53\%$ utilization,
+REQ.10.01/REQ.10.02), and if both relay links are lost the contingency-beacon logic falls back to
+the $5$~bps X-band direct-to-Earth beacon from Section~7.6 (REQ.10.03) rather than waiting on the
+primary science-data path.
+
+\subsubsection{CDH Trade Study}
+\noindent\textbf{Study:} Analysis of the onboard flight computer and mass-storage architecture.
+Options were scored against five pairwise-weighted criteria (Mass $0.10$, Power Demand $0.15$,
+Processing Throughput $0.20$, Radiation Durability $0.30$, Reliability/TRL $0.25$).
+
+\begin{table}[H]
+\centering
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lccc}
+\toprule
+\textbf{Criterion (weight)} & \textbf{RAD750-class SBC + 1~GB rad-hard NAND} &
+\textbf{RAD5545 quad-core PowerPC + 4~GB} & \textbf{COTS ARM SoC (Zynq-class) + TMR voting} \\
+\midrule
+Mass (0.10) & 0.40 & 0.30 & 0.50 \\
+Power Demand (0.15) & 0.60 & 0.45 & 0.75 \\
+Processing Throughput (0.20) & 0.60 & 1.00 & 1.00 \\
+Radiation Durability (0.30) & 1.50 & 1.20 & 0.60 \\
+Reliability/TRL (0.25) & 1.25 & 0.75 & 0.50 \\
+\midrule
+\textbf{Total Score} & \textbf{4.35} & 3.70 & 3.35 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Onboard flight computer and mass-storage architecture trade study.}
+\label{tab:cdh-trade}
+\end{table}
+
+\noindent\textbf{Winning option: RAD750-class SBC with a $1$~GB rad-hard NAND storage board.}
+Radiation durability and flight heritage carry $55\%$ of the weight between them, and that is
+what decides this. RAD750 parts are latch-up immune by process and qualified past $100$~krad
+(the figure REQ.01.02 already fixes), and the part flew to Jupiter on Juno and is flying there
+again on Europa Clipper -- nothing else in the trade has seen this environment. Throughput is
+where it gives ground: roughly $266$~MIPS at $200$~MHz against a peak load near $170$~MIPS during
+Traverse, when visual odometry, hazard assessment, and the navigation EKF all run inside one arc
+cycle. That leaves $36\%$ margin against the $30\%$ floor in REQ.12.01, so the answer is adequate
+rather than comfortable, and it is the first term to watch if the visual-odometry pipeline grows.
+The RAD5545 buys throughput the mission does not need: peak generation across the whole rover is
+only $29.7$~kbps and the buffer never climbs past $9\%$ of capacity on a nominal sol, so there is
+no processing or storage problem worth its extra mass and lower TRL. The COTS ARM SoC is the
+tempting option and the wrong one -- it wins mass, power, and throughput outright, then loses on
+the one axis that ends missions here: at $20$--$50$~krad it is consumed inside the $30$-sol
+surface phase even behind the vault, and TMR voting protects a running computation against
+upsets while doing nothing about total dose. With a $44$-minute one-way light delay there is no
+ground recovery for a part that has simply worn out.
 
 % ====================================================
 % 8. REFERENCES
@@ -1598,21 +1764,22 @@ NASA Science, ``Perseverance Rover Components,'' NASA Science Mission Directorat
 
 \section{Extended Trade Study Tables}
 The Structures (Table~\ref{tab:structures-trade}), Power (Table~\ref{tab:power-trade}), Thermal
-(Table~\ref{tab:thermal-trade}), Communications (Table~\ref{tab:comms-trade}), and GNC
-(Table~\ref{tab:gnc-trade}) trade studies in Section~7 already reproduce the full
-pairwise-weighted decision matrices used in the source spreadsheets. Each uses the same
-methodology: criteria weighted by pairwise comparison in $0.25$ increments (summing to $1$ per
-pair, normalized to sum to unity across all criteria), and options scored $1$--$5$ against a
-per-criterion rubric before weighting. Only the Structures and CDH scoring rubrics'
-full $1$--$5$ band definitions are omitted here for length; they are reproduced in the source
-Decision Matrix / Trade Study PDFs in each subsystem's folder.
+(Table~\ref{tab:thermal-trade}), Communications (Table~\ref{tab:comms-trade}), GNC
+(Table~\ref{tab:gnc-trade}), and CDH (Table~\ref{tab:cdh-trade}) trade studies in Section~7
+already reproduce the full pairwise-weighted decision matrices used in the source spreadsheets.
+Each uses the same methodology: criteria weighted by pairwise comparison in $0.25$ increments
+(summing to $1$ per pair, normalized to sum to unity across all criteria), and options scored
+$1$--$5$ against a per-criterion rubric before weighting. Only the Structures and CDH scoring
+rubrics' full $1$--$5$ band definitions are omitted here for length; they are reproduced in the
+source Decision Matrix / Trade Study PDFs in each subsystem's folder.
 
 \section{Full Requirements Spreadsheet}
 Table~\ref{tab:master-reqs} consolidates every requirement identified across the source
-assignments (REQ.01.01 through REQ.11.04), with owning subsystem(s). Full justification,
+assignments (REQ.01.01 through REQ.12.04), with owning subsystem(s). Full justification,
 verification, and validation text for each requirement is maintained in the master spreadsheet
-(\textit{3.6 GNC and Mobility Design/Space Robotics Mission Sheet.xlsx}) and is not fully
-duplicated here for length; representative full-text entries appear in Sections~3.3 and 7.
+(\textit{3.7 Command and Data Handling/Space Robotics Mission Sheet.xlsx}, the cumulative
+requirements sheet) and is not fully duplicated here for length; representative full-text
+entries appear in Sections~3.3 and 7.
 
 \begin{longtable}{p{1.6cm}p{8.6cm}p{3cm}}
 \toprule
@@ -1634,8 +1801,9 @@ Science/Payload, COMMs, CDH \\
 REQ.04.01 & Mesh consensus $\leq 10$~min under $\leq 30\%$ packet loss. & COMMs, CDH \\
 REQ.05.01 & Avionics/battery $0$--$40^\circ$C active, $>-20^\circ$C night mode. & Thermal,
 Power, Structures \\
-REQ.05.02 & \textit{(latch-up recovery $\sim$330~s, autonomous power-cycle --- confirm literal
-text)} & CDH, Electronics \\
+REQ.05.02 & Detect/recover from a processor latch-up autonomously, log event w/ timestamp \&
+core ID (statement says $330$~s; reasoning/V\&V and the CDH design use $30$~s --- see
+gapbox, Section~7.7). & CDH, Electronics \\
 REQ.05.03 & Per-sol draw $\leq 90\%$ RTG output; $\geq 10\%$ margin reserve. & Power, CDH,
 Thermal, Mobility \\
 REQ.06.01 & $\geq 100$~m/sol autonomous traverse; sounding stop $\leq 100$~m intervals. &
@@ -1677,15 +1845,23 @@ REQ.11.03 & Cross-track $\leq 0.5$~m/50~m; waypoint $\pm 0.5$~m; differential dr
 estimate. & GNC, Mobility, Science/Payload \\
 REQ.11.04 & Navigation hold if $1\sigma > 0.5$~m; re-init via 2-relay ranging + map
 correlation. & GNC, COMMs, CDH, Mobility \\
+REQ.12.01 & $\geq 250$~MIPS rad-hard throughput; $\geq 30\%$ duty-cycle/memory margin at
+peak GNC compute load per arc. & CDH \\
+REQ.12.02 & $\geq 1$~GB EDAC NVM sized to 7 sols @ $91.9$~MB/sol, $\geq 30\%$ margin;
+science-priority retention below $10\%$ capacity. & CDH \\
+REQ.12.03 & SpaceWire primary bus $\geq 20$~Mbps, cross-strapped; independent RS-422
+backup $\geq 115.2$~kbps survives primary-bus failure. & CDH \\
+REQ.12.04 & Timebase $\pm 1$~s/sol, $\pm 10$~ms record-to-record; CCSDS header + trace ID
+framing. & CDH \\
 \bottomrule
-\caption{Condensed master requirements list, REQ.01.01--REQ.11.04.}
+\caption{Condensed master requirements list, REQ.01.01--REQ.12.04.}
 \label{tab:master-reqs}
 \end{longtable}
 
 \begin{gapbox}
-Entries above marked ``confirm literal text'' (REQ.05.02, REQ.06.02, REQ.07.01, REQ.07.03,
+Entries above marked ``confirm literal text'' (REQ.06.02, REQ.07.01, REQ.07.03,
 REQ.08.03) were reconstructed from context in adjacent documents rather than transcribed
-directly from the master spreadsheet. Open \textit{3.6 GNC and Mobility Design/Space Robotics
+directly from the master spreadsheet. Open \textit{3.7 Command and Data Handling/Space Robotics
 Mission Sheet - Requirements.pdf} (the authoritative cumulative sheet), copy each row's literal
 statement, reasoning, and V\&V text, and replace the reconstructed text here and in the relevant
 subsystem subsection of Section~7.
