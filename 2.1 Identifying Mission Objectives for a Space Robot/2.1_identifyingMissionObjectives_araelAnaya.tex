@@ -9,6 +9,7 @@
 \usepackage{microtype}
 \usepackage{setspace}
 \usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
 \usepackage{amsmath, amssymb, mathtools}
 \usepackage{siunitx}
 
@@ -46,6 +47,22 @@
 \newcommand{\Assignment}{Identifying Mission Objectives for a Space Robot}
 \newcommand{\course}{Space Robotics}
 
+% ====================================================
+% CORRECTION-NEEDED FLAG BOX: loud, red, impossible-to-miss
+% marker for text that is now out of date with the settled
+% mission design and needs to be rewritten.
+% ====================================================
+\newtcolorbox{fixme}{
+    breakable,
+    colback=red!10,
+    colframe=red!70!black,
+    boxrule=1.2pt,
+    arc=2pt,
+    left=6pt, right=6pt, top=4pt, bottom=4pt,
+    fonttitle=\bfseries\color{red!70!black},
+    title={\textcolor{red!70!black}{\Large\textbullet}\ FIX ME --- Out of Date}
+}
+
 \begin{document}
 
 
@@ -67,6 +84,17 @@ and fully autonomous approach and proximity operations without Earth-based navig
 \subsection*{Mission Objective Statement:}
 A coordinated multi-agent system deployed to Europa's surface to autonomously conduct ice characterization and initiate
 subsurface access, operating without real-time Earth support.
+
+\begin{fixme}
+This statement (and the ``potential cryobot'' framing above) predates the settled mission
+design. Every later deliverable (2.3 ConOps, 3.6 Mobility, the 4.1 report) narrows scope to
+\emph{identifying} a candidate cryobot insertion site, not ``initiating subsurface access'' or
+generating a deployment package --- and settles the agent roster as one rover plus two orbital
+relay agents, not a rover-plus-cryobot pairing. Rewrite the Mission Objective Statement to
+``...autonomously characterize the ice shell and identify an optimal cryobot insertion site...''
+and drop the cryobot-as-agent language in the paragraph above, to match REQ.06.02 and every
+downstream document.
+\end{fixme}
 
 % ====================================================
 % MISSION DESTINATION
