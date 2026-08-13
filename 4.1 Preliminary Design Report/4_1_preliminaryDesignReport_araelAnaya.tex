@@ -536,23 +536,34 @@ Detailed Timeline spreadsheet).}
 
 \subsection{Flight Software State Diagram}
 
+Figure~\ref{fig:conops-state-flow} presents the flight-software state flow (source: \textit{2.5
+ConOps State Flow Diagram}), covering all six mission phases from Launch and Cruise through End
+of Mission. Each rover-state block (purple) is bounded by an orbital-agent or ground-command
+dependency where one exists (e.g., \textsc{Orbital Terrain Mapping \& Localization} gates
+\textsc{Landing Validated?} before Phase 3 begins), and every conditional branch resolves to a
+named exit rather than an implicit fall-through: a failed landing confirmation routes to
+\textsc{Safe Mode}, an out-of-tolerance slope check during Phase 4 traverse planning routes to
+\textsc{Halt Traversal}, and a sub-10-minute consensus failure on the relay pass retries rather
+than proceeding on stale data (REQ.04.01). The Phase 4 steady-state block (Traverse Planning
+$\to$ Survey/Sounding $\to$ Slope Check $\to$ Relay Pass $\to$ Consensus Check $\to$ Map Update
+$\to$ Night Low-Power) loops for sols 1--25 before handing off to Phase 5 site selection, matching
+the daily cycle in Table~\ref{tab:conops-daily-cycle}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{figures/conops_state_flow.png}
+    \caption{Flight-software / ConOps state flow across all six mission phases, with rover-state,
+    orbital-agent, decision, uplink, and downlink blocks distinguished per the figure legend.}
+    \label{fig:conops-state-flow}
+\end{figure}
+
 \begin{gapbox}
-No completed deliverable exists yet for a flight-software state machine (the template references
-a ``2.5 ConOps and Flight Software'' assignment, which is not present in this repository as of
-this draft --- the closest existing work is the ConOps phase flowchart in
-Figure~\ref{fig:conops-flow}). Before submission, build an actual state diagram with clearly
-drawn states, transitions, and decision points. The mission phases and modes already defined
-across the ConOps and GNC deliverables give a natural starting set of candidate states: \textsc{
-Launch/Commissioning}, \textsc{Cruise}, \textsc{Europa Orbit Insertion}, \textsc{Descent \&
-Landing}, \textsc{Checkout \& Calibration}, \textsc{Autonomous Traverse} (with sub-modes
-\textit{Drive Arc}, \textit{Radar Sounding Stop}, \textit{Hazard Replan}), \textsc{Navigation
-Hold} (entered per REQ.11.04 when 1$\sigma$ localization uncertainty exceeds $0.5$~m),
-\textsc{Consensus / Site Selection}, \textsc{Data Downlink}, \textsc{Safe Mode} (entered on TID,
-thermal, or power fault), and \textsc{Passivation}. The transition guards are largely already
-written as requirement thresholds (e.g., REQ.11.02's hazard-rejection criteria, REQ.11.04's
-navigation-hold entry/exit condition, REQ.05.03's power margin floor) and just need to be redrawn
-as a formal diagram (e.g., in draw.io, matching the house style of the other subsystem diagrams
-in this repository) and inserted here.
+The Phase 6 downlink block in Figure~\ref{fig:conops-state-flow} labels one of its outputs
+``Cryobot insertion package'' --- language that reads as generating an actual deployment
+package, whereas the mission's settled scope (REQ.06.02, the Executive Summary) is
+\emph{identifying} a candidate insertion site, not producing hardware or a deployment plan for
+one. The diagram is otherwise complete and ready to use; only that one label needs revising
+(e.g., to ``Candidate site selection'') to stay consistent with the rest of the report.
 \end{gapbox}
 
 % ====================================================
@@ -840,8 +851,10 @@ resolve this discrepancy before final submission.
 \end{figure}
 
 \subsubsection{Mass Budget}
-Table~\ref{tab:mass-budget} reproduces the mass budget in full. Dry mass totals $117.8$~kg
-against a $147.25$~kg contingency cap ($25\%$ allowable mass growth, $29.45$~kg).
+Table~\ref{tab:mass-budget} reproduces the mass budget in full, including the Mobility line item
+(Section~7.7, 3.6 Mobility Solution). Dry mass totals $134.90$~kg ($117.80$~kg core bus plus
+$17.10$~kg of mobility hardware) against the $147.25$~kg contingency cap, leaving $12.35$~kg
+($8.4\%$) of margin.
 
 \begin{table}[H]
 \centering
@@ -886,9 +899,12 @@ power \\
 Software & Flight / GNC / FDIR & 0 & 0 & No physical mass; impacts OBC/EPS sizing only \\
 Harness \& Integration & System harness / connectors / strain relief & 1 & 3.18 &
 $2$--$3\%$ of dry mass \\
+Mobility & Wheels, rocker suspension, drive motors, mast pan/tilt actuator (aggregate) & 1 &
+17.10 & Per 3.6 Mobility Solution; not yet broken into individual component line items in the
+source spreadsheet \\
 \midrule
-\multicolumn{4}{r}{\textbf{Dry Mass Total}} & \textbf{117.80 kg} \\
-\multicolumn{4}{r}{\textbf{Allowable Mass Growth (25\%)}} & \textbf{29.45 kg} \\
+\multicolumn{4}{r}{\textbf{Dry Mass Total}} & \textbf{134.90 kg} \\
+\multicolumn{4}{r}{\textbf{Remaining Margin vs.\ Cap}} & \textbf{12.35 kg (8.4\%)} \\
 \multicolumn{4}{r}{\textbf{Mass Cap Limit}} & \textbf{147.25 kg} \\
 \bottomrule
 \end{tabular}
@@ -903,16 +919,17 @@ $2$--$3\%$ of dry mass \\
 \toprule
 \textbf{Subsystem} & \textbf{Total Mass (kg)} & \textbf{\% Dry Mass} \\
 \midrule
-Structure & 25.75 & 21.86 \\
-Thermal & 18.86 & 16.01 \\
-Power & 54.74 & 46.47 \\
-Comms & 5.71 & 4.85 \\
-Avionics/OBC & 4.06 & 3.45 \\
-Payload & 5.50 & 4.67 \\
-Harness and Integration & 3.18 & 2.70 \\
+Structure & 25.75 & 19.09 \\
+Thermal & 18.86 & 13.98 \\
+Power & 54.74 & 40.58 \\
+Comms & 5.71 & 4.23 \\
+Avionics/OBC & 4.06 & 3.01 \\
+Payload & 5.50 & 4.08 \\
+Harness and Integration & 3.18 & 2.36 \\
 Software & 0.00 & 0.00 \\
+Mobility & 17.10 & 12.68 \\
 \midrule
-\textbf{Total} & \textbf{117.80} & \textbf{100.00} \\
+\textbf{Total} & \textbf{134.90} & \textbf{100.00} \\
 \bottomrule
 \end{tabular}
 \caption{Mass budget rollup by subsystem.}
@@ -920,13 +937,14 @@ Software & 0.00 & 0.00 \\
 \end{table}
 
 \begin{gapbox}
-The mobility solution (Section~7.7) adds an estimated $17.1$~kg (wheels, rocker suspension,
-drive motors, mast pan/tilt actuator) and $3.5$~W that are \emph{not yet} reflected as explicit
-line items in Table~\ref{tab:mass-budget}/\ref{tab:mass-rollup} above -- the mobility document
-itself flags this directly and notes the budget was already sitting near $136.9$~kg against the
-$147.25$~kg cap before that addition. Reconcile the mass budget spreadsheet to add a dedicated
-``Mobility'' subsystem row (or fold the drive train into the existing Structure/Power rows) before
-this table is considered final, and re-check margin against the cap.
+\textbf{Partially resolved.} The mobility solution's $17.1$~kg (Section~7.7: wheels, rocker
+suspension, drive motors, mast pan/tilt actuator) is now carried as an explicit Mobility row in
+Table~\ref{tab:mass-budget}/\ref{tab:mass-rollup} above, and the dry-mass total, rollup
+percentages, and cap margin have been recomputed accordingly ($134.90$~kg vs.\ the $147.25$~kg
+cap, $12.35$~kg/$8.4\%$ margin). The corresponding $3.5$~W from the same design has \emph{not}
+been added to the power budget (Table~\ref{tab:power-budget}, Section~7.4) -- it isn't yet clear
+which operating mode(s) draw it or for how long, and the source spreadsheet still needs that line
+item before the power table is fully reconciled.
 \end{gapbox}
 
 \subsubsection{Structures Trade Study}
@@ -1808,9 +1826,10 @@ REQ.05.03 & Per-sol draw $\leq 90\%$ RTG output; $\geq 10\%$ margin reserve. & P
 Thermal, Mobility \\
 REQ.06.01 & $\geq 100$~m/sol autonomous traverse; sounding stop $\leq 100$~m intervals. &
 Mobility \\
-REQ.06.02 & \textit{(site flagged when ice $<5$~km \& slope $<20^\circ$ \& roughness $<0.7$
---- reconstructed from data-product doc; confirm literal text)} & Science/Payload, Mobility, GNC
-\\
+REQ.06.02 & Onboard site-selection algorithm autonomously evaluates each NOMINAL-flagged radar
+trace against the cryobot insertion criteria (ice $<5$~km, slope $<20^\circ$, roughness $<0.7$)
+and flags a candidate site within one sol of the criteria first being satisfied, without ground
+intervention. & Science/Payload, Mobility, GNC \\
 REQ.06.03 & Daily summary packet autonomously sent within 2~hr of sol's radar window. & COMMs,
 CDH, Science/Payload \\
 REQ.07.01 & Landing legs accommodate $12g$ vertical / $6g$ lateral touchdown loads across four
@@ -1859,12 +1878,16 @@ framing. & CDH \\
 \end{longtable}
 
 \begin{gapbox}
-Entries above marked ``confirm literal text'' (REQ.06.02, REQ.07.01, REQ.07.03,
-REQ.08.03) were reconstructed from context in adjacent documents rather than transcribed
-directly from the master spreadsheet. Open \textit{3.7 Command and Data Handling/Space Robotics
-Mission Sheet - Requirements.pdf} (the authoritative cumulative sheet), copy each row's literal
-statement, reasoning, and V\&V text, and replace the reconstructed text here and in the relevant
-subsystem subsection of Section~7.
+REQ.06.02, REQ.07.01, and REQ.08.03 have been checked directly against the authoritative
+\textit{3.7 Command and Data Handling/Space Robotics Mission Sheet - Requirements.pdf}:
+REQ.06.02's condensed entry above now carries the literal statement text (it was previously a
+reconstruction that also dropped the one-sol response-time clause); REQ.07.01 and REQ.08.03
+were already worded consistently with the master sheet and needed no change. REQ.07.03 remains
+unresolved --- not a wording issue, but the $28.5$~kg vault allocation baked into its literal
+``shall'' statement still does not match the $25.75$~kg Structure subsystem total in the mass
+budget (see the gapbox in Section~7.3); that discrepancy requires a decision (revise the
+requirement's number or grow the mass budget) rather than a transcription fix, and is left open
+for the author.
 \end{gapbox}
 
 \section{Sample Datasets}
@@ -1887,8 +1910,9 @@ documents are consolidated below.
     this document are consistent with the background research on Europa ice-shell radar
     sounding, cryobot mission concepts, and planetary robotics requirements engineering. AI also
     generated fake data to demonstrate the data being recorded.''
-    \item \textbf{2.3 ConOps Sketch:} ``AI was used to check grammar, cohesiveness and correct
-    wording of the following.''
+    \item \textbf{2.3 ConOps Sketch:} ``AI was used to check grammar and rephrase for better
+    wording. The prompt used was: `Please check grammar, cohesiveness and correct wording of
+    the following.'''
     \item \textbf{3.4 Point-Mass Thermal Equilibrium:} ``AI was used to fact-check the results.''
     \item \textbf{3.5 Link Budget:} ``I used AI to check the arithmetic behind each link budget
     term and to cross-check the assumed parameters against published Electra and DSN performance
@@ -1897,8 +1921,7 @@ documents are consolidated below.
     \item \textbf{3.6 Mobility Solution:} ``I used AI to check the arithmetic behind the
     traction, torque, and localization error budget numbers, and to cross-check the
     low-temperature ice friction values against published measurements. The mobility
-    architecture is mine: the wheel and suspension configuration, and the call to run
-    differential drive without steering actuators.''
+    architecture is all mine. Diagram generated using Claude Opus 5.''
     \item \textbf{1.3 Deep Dive into a Robotic Mission:} ``Claude Sonnet 4.6 (Anthropic) was used
     to compare this paper against the assignment rubric and provide a grade estimate.''
 \end{itemize}
