@@ -52,12 +52,6 @@
 \newcommand{\Assignment}{4.1 Preliminary Design Report}
 \newcommand{\course}{Space Robotics}
 
-% ====================================================
-% GAP-FLAG BOX: visually marks content that still needs
-% human (author) input, verification, or a missing
-% source deliverable. Renders inline in the compiled PDF
-% so gaps travel with the document, not just the chat log.
-% ====================================================
 \newtcolorbox{gapbox}{
     breakable,
     colback=orange!8,
@@ -66,7 +60,7 @@
     arc=2pt,
     left=6pt, right=6pt, top=4pt, bottom=4pt,
     fonttitle=\bfseries,
-    title={\textcolor{orange!70!black}{\Large\textbullet}\ GAP --- Needs Author Input}
+    title={\textcolor{orange!70!black}{\Large\textbullet}\ GAP: Needs Author Input}
 }
 
 \newcommand{\reqid}[1]{\textbf{#1}}
@@ -81,24 +75,9 @@
     {\Large A Multi-Agent Robotic System for Autonomous Ice-Shell}\\
     {\Large Characterization and Cryobot Site Selection on Europa}\\[10pt]
     {\large Arael Anaya}\\
-    {\large Space Robotics --- 4.1 Preliminary Design Report}\\
+    {\large Space Robotics: 4.1 Preliminary Design Report}\\
     {\large \today}
 \end{center}
-
-\vspace{0.5em}
-\begin{gapbox}
-This report is a first-pass synthesis of every prior deliverable in this repository into the
-Section 4.1 template. It was compiled and drafted with the assistance of Claude (Anthropic),
-which read the existing assignments (1.1 through 3.7) and assembled, reorganized, and lightly
-rephrased that material into the structure the assignment requires; it did not invent new
-mission design decisions. Every technical number, requirement, trade study, and calculation
-below originates in the author's own prior work product in this repository unless a gap box
-(like this one) says otherwise. Gap boxes throughout the report mark: (1) content that has no
-completed source deliverable yet (e.g., real sampled data for the data product), and (2) numbers
-that were reconstructed or paraphrased from adjacent documents rather than copied verbatim, most
-of which have since been checked against the master spreadsheet and resolved. See also
-Appendix~D for the itemized AI-use disclosure carried over from each source assignment.
-\end{gapbox}
 
 \newpage
 \tableofcontents
@@ -160,11 +139,11 @@ and subsystem designs that support this objective are detailed in the sections t
 Three converging research gaps motivate this mission, drawn from the OWL Planetary Decadal
 Survey, a NASA STMD technology shortfall, and a NASA SBIR/STTR solicitation topic.
 
-\subsection{OWL Decadal Survey --- Ocean Worlds Exploration \& Sampling}
+\subsection{OWL Decadal Survey: Ocean Worlds Exploration \& Sampling}
 
-\noindent\textbf{Topic:} Ocean Worlds Exploration \& Sampling~\cite[pp.~36--39]{owlDecadal}
+\textbf{Topic:} Ocean Worlds Exploration \& Sampling~\cite[pp.~36--39]{owlDecadal}
 
-\noindent\textbf{Interest:} Ocean worlds like Europa represent the most compelling environments
+\textbf{Interest:} Ocean worlds like Europa represent the most compelling environments
 for studying life beyond Earth, and the most difficult for autonomous systems. What draws me to
 this topic is the engineering challenge that arises from the question: how do you keep a robot
 operational, navigating, and decision-making in a GPS-denied, high-radiation, cryogenic
@@ -175,24 +154,24 @@ Europa and Ganymede''~\cite[p.~37]{owlDecadal}. That subsurface ocean exists bec
 process we cannot turn off, and any robotic system sent to study it must be designed around that
 reality.
 
-\noindent\textbf{Connection to Space Exploration:} Accessing a subsurface ocean requires
+\textbf{Connection to Space Exploration:} Accessing a subsurface ocean requires
 penetrating kilometers of ice, a process that may yield in-situ resources (liquid water,
 chemical energy gradients) critical to sustaining any long-duration mission. Understanding the
 composition of that ocean directly informs the feasibility of using local materials to support
 future human or robotic infrastructure in the outer solar system.
 
-\noindent\textbf{Relationship to Robotics:} Reaching and operating in a subsurface ocean demands
+\textbf{Relationship to Robotics:} Reaching and operating in a subsurface ocean demands
 a full robotic stack operating without outside reference: specialized robots for ice
 penetration, underwater vehicles for ocean navigation, and autonomous sampling systems capable of
 detecting and responding to scientifically interesting features. Every subsystem (perception,
 localization, path planning, controls) must function independently.
 
-\subsection{NASA STMD Shortfall --- Multi-Agent Robotic Coordination}
+\subsection{NASA STMD Shortfall: Multi-Agent Robotic Coordination}
 
-\noindent\textbf{Topic:} Multi-Agent Robotic Coordination and Interoperability for Cooperative
+\textbf{Topic:} Multi-Agent Robotic Coordination and Interoperability for Cooperative
 Task Planning and Performance~\cite{stmdShortfall}
 
-\noindent\textbf{Interest:} Swarm robotics is the next step in advancing the capabilities of
+\textbf{Interest:} Swarm robotics is the next step in advancing the capabilities of
 robots to complete high-level missions. NASA's own shortfall rankings confirm how urgent this is:
 multi-agent coordination received an integrated score of $4.7856$ and ranked $139$th among all
 civil space technology gaps~\cite{stmdShortfall}, placing it right in the near-term priority tier
@@ -201,24 +180,24 @@ in the swarm is genuinely capable on its own, not a simple unit that only functi
 group, but a system of robots with unique capabilities that all come together to complete a
 high-level task.
 
-\noindent\textbf{Connection to Space Exploration:} Cooperative exploration and mapping by a
+\textbf{Connection to Space Exploration:} Cooperative exploration and mapping by a
 distributed robotic fleet dramatically increases the spatial coverage and fault tolerance of
 resource missions. A swarm can survey a large asteroid surface, map subsurface ice deposits via
 distributed sensing, or maintain constant monitoring of a volatile-rich region far more
 efficiently than any single agent, with adversarial identification algorithms when individual
 units fail.
 
-\noindent\textbf{Relationship to Robotics:} This topic is a direct application of the consensus
+\textbf{Relationship to Robotics:} This topic is a direct application of the consensus
 and coordination algorithms I have studied for the last year. Deploying them in space introduces
 new constraints (limited bandwidth, high latency, radiation-induced faults, and no GPS) that
 stress-test the theoretical properties I've studied (convergence, resilience, scalability).
 
-\subsection{NASA SBIR/STTR Topic --- Flight Dynamics and Navigation Technologies}
+\subsection{NASA SBIR/STTR Topic: Flight Dynamics and Navigation Technologies}
 
-\noindent\textbf{Topic:} Flight Dynamics and Navigation Technologies~\cite{nasaSBIR} (Topic
+\textbf{Topic:} Flight Dynamics and Navigation Technologies~\cite{nasaSBIR} (Topic
 COMNAV.1.S26B)
 
-\noindent\textbf{Interest:} Communication delays and blackouts are not random edge cases in
+\textbf{Interest:} Communication delays and blackouts are not random edge cases in
 deep-space missions; they are the default operating condition. The SBIR solicitation states the
 gap directly: ``NASA currently has limited navigational and guidance technologies that permit
 fully autonomous approach, proximity operations, distributed spacecraft operations, and landing
@@ -226,12 +205,12 @@ without support from Earth-based resources''~\cite{nasaSBIR}. This shortfall int
 it forces onboard autonomy to be the primary decision-making layer, eliminating the safety net of
 human-in-the-loop oversight.
 
-\noindent\textbf{Connection to Space Exploration:} Remote resource operations (prospecting,
+\textbf{Connection to Space Exploration:} Remote resource operations (prospecting,
 extraction, processing) cannot depend on continuous communication to Earth. Whether managing an
 ISRU plant on the lunar surface or conducting a sampling traverse on an asteroid, the system must
 detect anomalies, replan, and execute without waiting for human feedback.
 
-\noindent\textbf{Relationship to Robotics:} My research in consensus algorithms and resilient
+\textbf{Relationship to Robotics:} My research in consensus algorithms and resilient
 multi-agent coordination already deals with how distributed systems reach agreement under
 adversarial conditions. Extending this to communication-constrained space contexts is a natural
 progression: the same algorithms that allow a swarm of Crazyflies to maintain stability during
@@ -245,7 +224,7 @@ outage.
 
 \subsection{Mission Objective \& Destination}
 
-\noindent\textbf{Selected Research Gap:} While most robotic space missions have focused on a
+\textbf{Selected Research Gap:} While most robotic space missions have focused on a
 single agent carrying all the capabilities needed to complete the mission objectives, the future
 of advanced planetary exploration lies in multi-agent systems that are able to share
 responsibility and support each other. In order to fully understand a body as complex as Europa,
@@ -256,17 +235,17 @@ multi-agent coordination and interoperability for cooperative task planning~\cit
 and fully autonomous approach and proximity operations without Earth-based navigational
 support~\cite{nasaSBIR}.
 
-\noindent\textbf{Mission Statement:} The multi-agent Europa surface system shall autonomously
+\textbf{Mission Statement:} The multi-agent Europa surface system shall autonomously
 characterize the ice shell and identify a cryobot insertion site, operating without real-time
 Earth support.
 
-\noindent\textbf{Success Criteria (summary):} Full traverse track covered at $\leq 100$~m
+\textbf{Success Criteria (summary):} Full traverse track covered at $\leq 100$~m
 along-track spacing, ice-thickness accuracy within $\pm 10\%$ against calibration targets, and
 at least one candidate insertion site flagged by the onboard algorithm (ice thickness $<5$~km,
 surface slope $<20^\circ$, terrain roughness $<0.7$). Section~3.3 develops the full mission- and
 operations-level requirements that this criterion is built from.
 
-\noindent\textbf{Destination Justification:} My mission takes place on Europa, Jupiter's icy
+\textbf{Destination Justification:} My mission takes place on Europa, Jupiter's icy
 moon. I chose this destination due to the abundance of knowledge there is to gain from an
 in-depth exploration of the system. Europa holds strong indicators of conditions favorable to
 life and contains all the chemical building blocks necessary to support it~\cite{owlDecadal}.
@@ -282,7 +261,7 @@ scan the terrain and share terrain maps prior to surface traversal. Such a syste
 highly robust to faulted or adversarial agents, as incorrect or incomplete maps shared across
 the swarm are likely to produce dangerous navigation decisions. This location is essential to the
 mission because it provides an incredibly challenging environment that necessitates smart,
-advanced robot design and algorithm development --- the perfect stage to push robotic
+advanced robot design and algorithm development, the perfect stage to push robotic
 capabilities to their limits.
 
 \subsection{Environmental \& Operational Challenges}
@@ -560,7 +539,7 @@ the daily cycle in Table~\ref{tab:conops-daily-cycle}.
 
 \subsection{Key Payload Description}
 
-\noindent\textbf{Payload: REASON (Radar for Europa Assessment and Sounding: Ocean to
+\textbf{Payload: REASON (Radar for Europa Assessment and Sounding: Ocean to
 Near-surface)}
 
 REASON is a dual-frequency ice-penetrating radar sounder currently flying aboard NASA's Europa
@@ -626,7 +605,7 @@ budgeting (Section~7.4), onboard storage strategy (Section~6), and thermal archi
 
 \subsection{Data Product Table}
 
-\noindent\textbf{Mission Objective:} Autonomously characterize Europa's ice shell thickness
+\textbf{Mission Objective:} Autonomously characterize Europa's ice shell thickness
 along a surface traverse and identify an optimal cryobot insertion site without real-time Earth
 support (REQ.03.01: ground-penetrating radar sounder resolves ice thickness to $\pm 10\%$ for
 depths of 1--30~km at $\geq 100$~m along-track spatial resolution).
@@ -679,37 +658,100 @@ On Sol~1 at $94.4$~s elapsed mission time (trace \texttt{TR-0001}), REASON recor
 travel time of $21{,}647.3$~ns, a return amplitude of $-41.62$~dB, a bulk ice permittivity of
 $3.06$, and a derived ice shell thickness of $1{,}855.5$~m at rover position ($93.8$~m east,
 $-7.1$~m north), with an accumulated total ionizing dose of $0.542$~krad and the record flagged
-as \texttt{NOMINAL}. Table~\ref{tab:sample-record} presents this as a sample row.
+as \texttt{NOMINAL}. Tables~\ref{tab:sample-record} and~\ref{tab:sample-record-2} present this
+trace together with the following 19 consecutive Sol-1 traces, exported directly from the
+\textit{Data Product Space Robotics} spreadsheet (Radar\_Traces sheet, rows \texttt{TR-0001}
+through \texttt{TR-0020}); four of the twenty are flagged \texttt{NOISE\_FLOOR} or
+\texttt{CLUTTER} and correctly excluded from site-selection logic per Section~6.1.
 
 \begin{table}[H]
 \centering
-\small
-\begin{tabular}{lllllll}
+\footnotesize
+\begin{tabular}{lrrrrrr}
 \toprule
 Trace ID & Sol & Pos.\ E (m) & Pos.\ N (m) & TWT (ns) & Ampl.\ (dB) & $\varepsilon_r$ \\
 \midrule
 TR-0001 & 1 & 93.8 & $-7.1$ & 21{,}647.3 & $-41.62$ & 3.06 \\
+TR-0002 & 1 & 185.5 & $-3.2$ & 169{,}839.5 & $-45.53$ & 3.10 \\
+TR-0003 & 1 & 296.4 & 11.4 & 164{,}535.9 & $-25.34$ & 3.19 \\
+TR-0004 & 1 & 382.9 & 7.0 & 131{,}950.8 & $-31.93$ & 3.34 \\
+TR-0005 & 1 & 484.3 & $-0.6$ & 95{,}357.8 & $-49.20$ & 3.46 \\
+TR-0006 & 1 & 577.3 & 7.4 & 23{,}845.1 & $-27.13$ & 3.40 \\
+TR-0007 & 1 & 693.8 & 9.4 & 140{,}352.9 & $-51.49$ & 3.25 \\
+TR-0008 & 1 & 779.5 & $-1.4$ & 145{,}118.1 & $-38.44$ & 3.37 \\
+TR-0009 & 1 & 874.0 & 13.5 & 38{,}346.4 & $-40.26$ & 3.38 \\
+TR-0010 & 1 & 960.4 & 18.9 & 118{,}968.0 & $-44.61$ & 3.30 \\
+TR-0011 & 1 & 1{,}062.5 & 32.2 & 133{,}729.9 & $-55.42$ & 3.44 \\
+TR-0012 & 1 & 1{,}156.1 & 26.0 & 41{,}835.8 & $-59.87$ & 3.36 \\
+TR-0013 & 1 & 1{,}266.6 & 26.3 & 32{,}728.3 & $-34.99$ & 3.42 \\
+TR-0014 & 1 & 1{,}361.5 & 16.1 & 181{,}816.0 & $-23.10$ & 3.46 \\
+TR-0015 & 1 & 1{,}446.0 & 12.0 & 187{,}416.6 & $-27.73$ & 3.12 \\
+TR-0016 & 1 & 1{,}529.2 & 18.9 & 157{,}620.1 & $-20.88$ & 3.27 \\
+TR-0017 & 1 & 1{,}647.0 & 8.9 & 106{,}870.6 & $-35.74$ & 3.48 \\
+TR-0018 & 1 & 1{,}754.6 & 15.3 & 84{,}222.6 & $-33.13$ & 3.19 \\
+TR-0019 & 1 & 1{,}844.6 & 2.2 & 17{,}702.0 & $-37.84$ & 3.29 \\
+TR-0020 & 1 & 1{,}926.9 & $-10.8$ & 19{,}528.7 & $-46.78$ & 3.26 \\
 \bottomrule
 \end{tabular}
-\qquad
-\begin{tabular}{lll}
-\toprule
-Thickness (m) & TID (krad) & Flag \\
-\midrule
-1{,}855.5 & 0.542 & NOMINAL \\
-\bottomrule
-\end{tabular}
-\caption{Example Radar\_Traces record.}
+\caption{Radar\_Traces sample export, Sol 1, traces TR-0001--TR-0020: position and raw sounding
+returns.}
 \label{tab:sample-record}
 \end{table}
 
-\begin{gapbox}
-Only a single illustrative record (shown above) has been generated so far, and it was
-AI-generated to demonstrate the schema rather than sampled from an actual simulation or field
-test. Export a short run (10--20 consecutive rows) of the actual \textit{Data Product Space
-Robotics} spreadsheet and drop it in here (and in Appendix~C) before submission so the report
-shows real structured output rather than one synthetic row.
-\end{gapbox}
+\begin{table}[H]
+\centering
+\footnotesize
+\begin{tabular}{lrrl}
+\toprule
+Trace ID & Thickness (m) & TID (krad) & Flag \\
+\midrule
+TR-0001 & 1{,}855.5 & 0.542 & NOMINAL \\
+TR-0002 & 14{,}478.5 & 0.577 & NOMINAL \\
+TR-0003 & 13{,}818.1 & 0.735 & NOMINAL \\
+TR-0004 & 10{,}827.1 & 0.817 & NOISE\_FLOOR \\
+TR-0005 & 7{,}686.7 & 0.999 & NOMINAL \\
+TR-0006 & 1{,}939.1 & 1.09 & NOMINAL \\
+TR-0007 & 11{,}678.8 & 1.258 & NOMINAL \\
+TR-0008 & 11{,}851.5 & 1.333 & NOMINAL \\
+TR-0009 & 3{,}129.6 & 1.496 & NOMINAL \\
+TR-0010 & 9{,}826.6 & 1.577 & CLUTTER \\
+TR-0011 & 10{,}811.6 & 1.725 & NOMINAL \\
+TR-0012 & 3{,}423.0 & 1.842 & NOMINAL \\
+TR-0013 & 2{,}654.3 & 1.941 & NOMINAL \\
+TR-0014 & 14{,}663.4 & 2.07 & NOMINAL \\
+TR-0015 & 15{,}916.3 & 2.154 & NOMINAL \\
+TR-0016 & 13{,}081.8 & 2.263 & CLUTTER \\
+TR-0017 & 8{,}590.6 & 2.463 & CLUTTER \\
+TR-0018 & 7{,}077.0 & 2.58 & NOMINAL \\
+TR-0019 & 1{,}463.0 & 2.611 & NOMINAL \\
+TR-0020 & 1{,}623.1 & 2.758 & NOMINAL \\
+\bottomrule
+\end{tabular}
+\caption{Radar\_Traces sample export, Sol 1, traces TR-0001--TR-0020: derived ice thickness,
+accumulated dose, and quality flag.}
+\label{tab:sample-record-2}
+\end{table}
+
+Table~\ref{tab:sample-daily} exports both rows currently populated in the Daily\_Summary sheet
+(Sol 1--2); the source spreadsheet has not yet been extended past Sol 2, so this is the complete
+Daily\_Summary export available rather than an arbitrary 2-row excerpt.
+
+\begin{table}[H]
+\centering
+\footnotesize
+\begin{tabular}{rrrrrrrr}
+\toprule
+Sol & Traverse (m) & Valid & Bad & Min.\ Thickness (m) & Cand.\ Sites & Pkt.\ Loss (\%) &
+Consensus (min) \\
+\midrule
+1 & 1{,}841.6 & 16 & 4 & 7{,}754.3 & 4 & 19.845 & 5.969 \\
+2 & 1{,}804.8 & 16 & 4 & 9{,}750.0 & 1 & 19.795 & 5.959 \\
+\bottomrule
+\end{tabular}
+\caption{Daily\_Summary sample export, Sol 1--2 (complete export of the sheet's current
+contents).}
+\label{tab:sample-daily}
+\end{table}
 
 % ====================================================
 % 7. SYSTEM AND SUBSYSTEM DESIGNS
@@ -805,16 +847,16 @@ drive arc.
 
 \subsubsection{Structural Requirements}
 \begin{itemize}[leftmargin=*]
-    \item \reqid{REQ.03.02} --- Antenna boresight within $\pm 5^\circ$ of nadir during sounding;
+    \item \reqid{REQ.03.02}: Antenna boresight within $\pm 5^\circ$ of nadir during sounding;
     rover halts traversal above $20^\circ$ surface slope. (Structures, Science/Payload, Mobility)
-    \item \reqid{REQ.07.01} --- The rover chassis and landing leg structure shall accommodate
+    \item \reqid{REQ.07.01}: The rover chassis and landing leg structure shall accommodate
     vertical landing loads of $12g$ and lateral loads of $6g$ touchdown, with each leg sized to
     distribute peak contact forces across four footpads without permanent deformation or
     buckling. (Structures, Mobility, GNC)
-    \item \reqid{REQ.07.02} --- Primary equipment deck, fasteners, and all structural material
+    \item \reqid{REQ.07.02}: Primary equipment deck, fasteners, and all structural material
     shall remain within specification (yield strength, fatigue life) under sustained $90$~K
     cryogenic operation over the 30-sol mission lifetime. (Structures, Thermal, Power)
-    \item \reqid{REQ.07.03} --- The radiation shielding vault enclosing the flight computer and
+    \item \reqid{REQ.07.03}: The radiation shielding vault enclosing the flight computer and
     power distribution unit shall attenuate the Europa radiation environment to $\leq 1$~krad/sol
     at the electronics level, maintaining structural stiffness and mass allocation within the
     structures budget. (Structures, Power, Electronics, CDH)
@@ -822,10 +864,10 @@ drive arc.
 
 \textbf{Resolved.} REQ.07.03's literal text previously allocated the radiation vault a
 $28.5$~kg share of the structures budget against the $25.75$~kg Structure subsystem total in
-Table~\ref{tab:mass-rollup}. The master spreadsheet now states $25.75$~kg in the requirement's
-``shall'' statement, matching the mass budget; the risk note and verification-plan text
-attached to the same requirement still echo the old $28.5$~kg figure and are worth a pass for
-full internal consistency, but the normative requirement itself is fixed.
+Table~\ref{tab:mass-rollup}. The master spreadsheet now states $25.75$~kg consistently across
+the requirement's ``shall'' statement, risk note, and verification plan (the latter also
+specifying a $3.2$~kg allocation for the vault assembly itself within that total), matching the
+mass budget; no $28.5$~kg figure remains anywhere in the requirement.
 
 \subsubsection{Structural Sketch}
 \begin{figure}[H]
@@ -922,19 +964,16 @@ Mobility & 17.10 & 12.68 \\
 \label{tab:mass-rollup}
 \end{table}
 
-\begin{gapbox}
-\textbf{Partially resolved.} The mobility solution's $17.1$~kg (Section~7.7: wheels, rocker
-suspension, drive motors, mast pan/tilt actuator) is now carried as an explicit Mobility row in
+\textbf{Resolved.} The mobility solution's $17.1$~kg (Section~7.7: wheels, rocker suspension,
+drive motors, mast pan/tilt actuator) is now carried as an explicit Mobility row in
 Table~\ref{tab:mass-budget}/\ref{tab:mass-rollup} above, and the dry-mass total, rollup
 percentages, and cap margin have been recomputed accordingly ($134.90$~kg vs.\ the $147.25$~kg
-cap, $12.35$~kg/$8.4\%$ margin). The corresponding $3.5$~W from the same design has \emph{not}
-been added to the power budget (Table~\ref{tab:power-budget}, Section~7.4) -- it isn't yet clear
-which operating mode(s) draw it or for how long, and the source spreadsheet still needs that line
-item before the power table is fully reconciled.
-\end{gapbox}
+cap, $12.35$~kg/$8.4\%$ margin). The corresponding $3.5$~W is now carried as a Mobility row in
+the power budget as well (Table~\ref{tab:power-budget}, Section~7.4), attributed to the mast
+pan/tilt actuator drawing during the 1-hour Traverse Planning mode.
 
 \subsubsection{Structures Trade Study}
-\noindent\textbf{Study:} Analysis of Landing Leg Structure. Options were scored against six
+\textbf{Study:} Analysis of Landing Leg Structure. Options were scored against six
 pairwise-weighted criteria (Load Bearing Capability $0.25$, Mass per Leg $0.20$, Safety Margin
 at Yield $0.25$, Thermal Conductivity $0.18$, Manufacturability \& TRL $0.25$, Cryogenic
 Ductility $0.05$).
@@ -963,7 +1002,7 @@ Cryogenic Ductility (0.05) & 0.20 & 0.25 & 0.15 \\
 \label{tab:structures-trade}
 \end{table}
 
-\noindent\textbf{Winning option: Baseline tapered-strut Al 7075-T73 leg.} It matches the top
+\textbf{Winning option: Baseline tapered-strut Al 7075-T73 leg.} It matches the top
 score on Load Bearing Capability and Safety Margin at Yield (both $5/5$) while separating itself
 on Manufacturability \& TRL ($5/5$, off-the-shelf/heritage design, simple machining), which is
 the largest single differentiator against the cross-braced and folding-hinge alternatives. This
@@ -975,22 +1014,22 @@ Figure~\ref{fig:structures-sketch}.
 
 \subsubsection{Power Requirements}
 \begin{itemize}[leftmargin=*]
-    \item \reqid{REQ.05.03} --- Per-sol energy draw across all subsystems shall not exceed
+    \item \reqid{REQ.05.03}: Per-sol energy draw across all subsystems shall not exceed
     $90\%$ of the RTG's nominal daily energy output, reserving $\geq 10\%$ margin for anomaly
     response, heater activations, and unplanned relay passes. (Power, CDH, Thermal, Mobility)
-    \item \reqid{REQ.08.01} --- The power system shall generate $\geq 110$~We (BOL) via an
+    \item \reqid{REQ.08.01}: The power system shall generate $\geq 110$~We (BOL) via an
     MMRTG-class RTG and deliver $\geq 80$~We continuous upon Europa arrival, providing
     $\geq 1.9$~kWh usable energy per sol across the 30-sol surface mission. (Power, Thermal,
     System)
-    \item \reqid{REQ.08.02} --- Energy storage shall provide $\geq 2.4$~kWh usable capacity to
+    \item \reqid{REQ.08.02}: Energy storage shall provide $\geq 2.4$~kWh usable capacity to
     (1)~load-level peak draws (drive motors, radar transmission, X-band downlink) beyond
     continuous RTG output, and (2)~sustain night-mode survival heating and critical avionics for
     $\geq 12$~hours, maintaining cell temperature above $-20^\circ$C per REQ.05.01. (Power,
     Thermal)
-    \item \reqid{REQ.03.03} --- Dedicated peak power allocation reserved for radar transmission
+    \item \reqid{REQ.03.03}: Dedicated peak power allocation reserved for radar transmission
     pulses; drive motors commanded off during each active sounding window. (Science/Payload,
     Power, Mobility)
-    \item \reqid{REQ.08.03} --- The power distribution unit shall autonomously detect and
+    \item \reqid{REQ.08.03}: The power distribution unit shall autonomously detect and
     isolate a faulted load bus within $100$~ms of overcurrent/undervoltage detection, maintain
     uninterrupted power to critical loads (flight computer, survival heaters, UHF radio), and
     log each fault event to non-volatile memory, without ground intervention. (Power, CDH,
@@ -1023,11 +1062,14 @@ Thermal & Heaters & 40 & 320.0 & 8.0 \\
 Thermal & Thermal Sensors & 0.5 & 12.0 & 24.0 \\
 Comms & UHF Radio & 35 & 210.0 & 6.0 \\
 Comms & X-band Transponder & 45 & 67.5 & 1.5 \\
+Mobility & Mast Pan/Tilt Actuator & 3.5 & 3.5 & 1.0 \\
 \midrule
-\textbf{Total} & & & \textbf{2006.5 Wh/sol} & \\
+\textbf{Total} & & & \textbf{2010.0 Wh/sol} & \\
 \bottomrule
 \end{tabular}
-\caption{Power budget by component (peak draw and average energy consumption per sol).}
+\caption{Power budget by component (peak draw and average energy consumption per sol). The
+Mobility mast actuator (Section~7.7, 3.6 Mobility Solution) draws its $3.5$~W during Traverse
+Planning, when the rover repositions the mast/antenna assembly ahead of the next drive arc.}
 \label{tab:power-budget}
 \end{table}
 
@@ -1038,19 +1080,29 @@ Comms & X-band Transponder & 45 & 67.5 & 1.5 \\
 \toprule
 \textbf{Mode} & Traverse & Sounding & Comms Relay & Map Gen. & Traverse Plan. & Warm-Up & Night \\
 \midrule
-Avg.\ Power (W) & 124.5 & 81.5 & 116.5 & 71.5 & 40.5 & 121.5 & 70.5 \\
+Avg.\ Power (W) & 124.5 & 81.5 & 116.5 & 71.5 & 44.0 & 121.5 & 70.5 \\
 \bottomrule
 \end{tabular}
 \caption{Average power draw by operating mode.}
 \label{tab:power-modes}
 \end{table}
 
-\noindent The battery (Max Charge $2400$~Wh, Min Safe Charge $480$~Wh) never approaches its
+The battery (Max Charge $2400$~Wh, Min Safe Charge $480$~Wh) never approaches its
 safety floor across the simulated 24-hour sol: lowest observed charge is $2342.1$~Wh (only
 $\sim 58$~Wh, or $2.4\%$, below full), average power usage is $93.92$~W against $110$~W
 generated, and highest charge/discharge rates are $69.5$~W/$14.5$~W respectively. This is
 consistent with REQ.05.03's $90\%$-of-RTG-output cap with $10\%$ reserve: $93.92/110 = 85.4\%$,
-inside the cap with margin to spare. Drive motors and the radar sounder are never scheduled
+inside the cap with margin to spare. (These daily-average and charge-profile figures predate the
+Mobility mast actuator's $3.5$~Wh/sol addition above and have not been re-run in the source
+mode-sequence simulation. As a first-order bound rather than a fresh simulation run: spreading the
+actuator's $3.5$~Wh over the 24-hour sol raises average power usage to
+$93.92 + 3.5/24 \approx 94.07$~W ($85.5\%$ of RTG output, still inside REQ.05.03's $90\%$ cap), and
+the lowest observed charge falls by at most $3.5$~Wh in the worst case (to $\geq 2338.6$~Wh, i.e.\
+$\leq 61.4$~Wh, or $\leq 2.6\%$, below full, still far above the $480$~Wh floor). Neither bound
+changes the margin conclusion, but the exact
+figures should still be regenerated by re-running the source mode-sequence simulation in the
+master spreadsheet before they are cited as final.) Drive motors and the radar sounder are never
+scheduled
 concurrently in the mode matrix (REQ.03.03's stop-and-sound logic), and the flight computer,
 PDU, and thermal sensors stay powered continuously across every mode as the ``always-on'' core
 avionics load.
@@ -1071,7 +1123,7 @@ feed the exported Power Budget/Profile output or the totals above.
 \end{figure}
 
 \subsubsection{Power Trade Study}
-\noindent\textbf{Study:} Analysis of Power Source. Options were scored against five
+\textbf{Study:} Analysis of Power Source. Options were scored against five
 pairwise-weighted criteria (Mass $0.13$, Continuous Power $0.28$, Complexity/Operations $0.13$,
 Radiation \& Cryo Robustness $0.25$, Availability/TRL $0.23$).
 
@@ -1097,7 +1149,7 @@ Availability/TRL (0.23) & 0.68 & 1.13 & 0.68 \\
 \label{tab:power-trade}
 \end{table}
 
-\noindent\textbf{Winning option: RTG (radioisotope thermoelectric generator).} At $5.2$~AU,
+\textbf{Winning option: RTG (radioisotope thermoelectric generator).} At $5.2$~AU,
 solar irradiance has collapsed too far for arrays to deliver continuous power, and the RTG
 scores a perfect $5/5$ on four of the five criteria (Continuous Power, Complexity/Operations,
 Radiation \& Cryo Robustness, and Availability/TRL), losing only on raw mass (score $3/5$,
@@ -1109,17 +1161,17 @@ $\geq 110$~We beginning-of-life requirement.
 
 \subsubsection{Thermal Requirements}
 \begin{itemize}[leftmargin=*]
-    \item \reqid{REQ.05.01} --- Maintain avionics and battery cells within $0$--$40^\circ$C
+    \item \reqid{REQ.05.01}: Maintain avionics and battery cells within $0$--$40^\circ$C
     during active operations and above $-20^\circ$C during night-mode low-power management,
     using RTG-waste-heat-powered active heater elements. (Thermal, Power, Structures)
-    \item \reqid{REQ.09.01} --- Reject up to $500$~W of combined electronics dissipation and
+    \item \reqid{REQ.09.01}: Reject up to $500$~W of combined electronics dissipation and
     routed RTG waste heat through dedicated radiator panels, keeping the avionics vault below
     $40^\circ$C during peak daytime sounding/traverse operations. (Thermal, Electronics, Power,
     CDH)
-    \item \reqid{REQ.09.02} --- Preheat all drive-train actuators and deployment mechanisms
+    \item \reqid{REQ.09.02}: Preheat all drive-train actuators and deployment mechanisms
     above $-40^\circ$C before any commanded motion, completing cold-start warm-up within
     $60$~minutes of the $90$~K surface baseline. (Thermal, Mobility, Structures)
-    \item \reqid{REQ.09.03} --- Combine MLI with routed RTG waste heat to bound the
+    \item \reqid{REQ.09.03}: Combine MLI with routed RTG waste heat to bound the
     equipment-enclosure heat leak such that supplemental electric survival heating does not
     exceed $50$~W and stays within the REQ.05.03 per-sol energy budget. (Thermal, Power,
     Structures)
@@ -1159,20 +1211,20 @@ Comms & X-band Transponder & 45 & 0.95 & 2.25 \\
 \label{tab:heat-loads}
 \end{table}
 
-\noindent In addition to the equipment heat load above, a point-mass thermal equilibrium
+In addition to the equipment heat load above, a point-mass thermal equilibrium
 analysis was performed for the avionics enclosure (area $0.12\ \mathrm{m^2}$, $\alpha = 0.20$,
 $\varepsilon = 0.85$). The hot case ($Q_{int} = 20$~W, daytime operations) equilibrates at
 $T_{hot} \approx 248$~K ($-25^\circ$C); the cold case ($Q_{int} = 5$~W, night survival)
-equilibrates at $T_{cold} \approx 175$~K ($-98^\circ$C) -- a $\sim 73$~K swing. Unlike a
+equilibrates at $T_{cold} \approx 175$~K ($-98^\circ$C): a $\sim 73$~K swing. Unlike a
 Mars-class mission, the problem on Europa is not rejecting heat but retaining it: solar
 irradiance at $5.2$~AU collapses to $\sim 50\ \mathrm{W/m^2}$, so internal dissipation dominates
 the energy balance, and even the operating case falls below the $\sim 253$~K ($-20^\circ$C) lower
 bound for Li-ion battery charging. The survival case sits far outside any electronics or battery
-limit and would freeze the system without intervention -- which is exactly why MLI, routed RTG
+limit and would freeze the system without intervention, which is exactly why MLI, routed RTG
 waste heat, and controlled survival heaters (REQ.09.03) are required rather than optional.
 
 \subsubsection{Thermal Trade Study}
-\noindent\textbf{Study:} Analysis of Night Survival Thermal Architecture. Options were scored
+\textbf{Study:} Analysis of Night Survival Thermal Architecture. Options were scored
 $1$--$5$ against five pairwise-weighted criteria (Mass $0.13$, Power Demand $0.25$,
 Complexity/Integration $0.13$, Radiation Durability $0.25$, Reliability/TRL $0.25$).
 
@@ -1199,7 +1251,7 @@ Reliability/TRL (0.25) & 1.25 & 0.75 & 0.50 \\
 \label{tab:thermal-trade}
 \end{table}
 
-\noindent\textbf{Winning option: MLI and heaters} ($4.79$ vs.\ $3.16$ for aerogel + heaters and
+\textbf{Winning option: MLI and heaters} ($4.79$ vs.\ $3.16$ for aerogel + heaters and
 $2.77$ for PCM with heat pipes). RTG waste heat ($\sim 1.9$~kW thermal) serves as the primary
 survival heat source; MLI limits radiative loss so that supplemental electric survival heating
 stays at or below $50$~W (REQ.09.03), keeping night thermal draw inside the per-sol energy budget
@@ -1217,16 +1269,16 @@ stays at or below $50$~W (REQ.09.03), keeping night thermal draw inside the per-
 
 \subsubsection{Communications Requirements}
 \begin{itemize}[leftmargin=*]
-    \item \reqid{REQ.01.03} --- Maintain $\geq 2$ active relay nodes at all times during surface
+    \item \reqid{REQ.01.03}: Maintain $\geq 2$ active relay nodes at all times during surface
     operations. (System, COMMs)
-    \item \reqid{REQ.04.01} --- Inter-agent mesh network shall achieve terrain-map consensus
+    \item \reqid{REQ.04.01}: Inter-agent mesh network shall achieve terrain-map consensus
     within $\leq 10$~minutes under $\leq 30\%$ packet loss on any single link. (COMMs, CDH)
-    \item \reqid{REQ.10.01} --- Deliver $\geq 55$~MB/Earth-day compressed data at $\geq 128$~kbps
+    \item \reqid{REQ.10.01}: Deliver $\geq 55$~MB/Earth-day compressed data at $\geq 128$~kbps
     return / $\geq 8$~kbps forward. (COMMs, CDH, Science/Payload, Power)
-    \item \reqid{REQ.10.02} --- Obtain $\geq 2$ usable relay contacts/sol totaling $\geq 90$~min
+    \item \reqid{REQ.10.02}: Obtain $\geq 2$ usable relay contacts/sol totaling $\geq 90$~min
     above a $10^\circ$ elevation mask; end-to-end latency $\leq 26$~hours. (COMMs, CDH,
     Science/Payload, GNC)
-    \item \reqid{REQ.10.03} --- Close the proximity link with $\geq 3$~dB margin at the
+    \item \reqid{REQ.10.03}: Close the proximity link with $\geq 3$~dB margin at the
     worst-case $588$~km slant range; retain an X-band DTE beacon $\geq 5$~bps as a relay-loss
     fallback. (COMMs, Power, Structures, CDH)
 \end{itemize}
@@ -1238,7 +1290,7 @@ UHF proximity band on the CCSDS Proximity-1 return/forward pair: $401.6$~MHz ret
 $437.1$~MHz forward, the same split flown by Electra and Electra-Lite on the Mars Relay Network.
 Desired margin is $3$~dB above the $E_b/N_0$ required for a post-decoding bit error rate of
 $10^{-6}$ (CCSDS turbo coding, rate $1/2$, threshold near $1.5$~dB, so the link must clear
-$4.5$~dB total) -- a conservative cushion given that the relay's exact orbit geometry, the
+$4.5$~dB total): a conservative cushion given that the relay's exact orbit geometry, the
 rover's helix gain pattern, and Jupiter's synchrotron noise contribution are all still modeled
 rather than measured. Worst-case geometry assumes both relays fly a $200$~km circular Europa
 orbit; with a $10^\circ$ elevation mask, the slant range at the edge of a pass is $588$~km, and
@@ -1247,7 +1299,7 @@ every link budget term uses that worst case.
 Rover transmit power is $5$~W RF into a $5.0$~dBi quadrifilar helix (near-hemispherical pattern,
 so the rover can close a pass without pointing at anything); the relay carries $8$~W RF into a
 $7.0$~dBi patch array, since its power budget has more slack. System noise temperature is
-$3000$~K at the relay receiver and $4000$~K at the rover receiver -- the number that most
+$3000$~K at the relay receiver and $4000$~K at the rover receiver: the number that most
 separates a Europa proximity link from a Mars one, since at $400$~MHz the receiver picks up
 galactic background noise on top of Jupiter's synchrotron emission. The return link runs
 $128$~kbps (sized to clear $55$~MB in the $90$-minute relay window) and the forward link runs
@@ -1294,9 +1346,9 @@ Margin over $1.5$~dB requirement & $\mathbf{+18.3}$ \\
 \label{tab:link-budget}
 \end{table}
 
-\noindent As a direct-to-Earth sanity check: the rover's X-band low-gain antenna against a DSN
+As a direct-to-Earth sanity check: the rover's X-band low-gain antenna against a DSN
 $34$~m station closes at roughly $6.9$~bps at opposition ($4.2$~AU) and $3.2$~bps at conjunction
-($6.2$~AU) while holding the same $4.5$~dB margin -- enough for a state-of-health beacon, but a
+($6.2$~AU) while holding the same $4.5$~dB margin: enough for a state-of-health beacon, but a
 single $55$~MB sol of science data would take over two years to clear at that rate. This is why
 the relay architecture is foundational rather than a convenience (REQ.10.03's $5$~bps fallback
 floor is set directly from this analysis).
@@ -1312,7 +1364,7 @@ floor is set directly from this analysis).
 \end{figure}
 
 \subsubsection{Communications Trade Study}
-\noindent\textbf{Study:} Analysis of Rover-to-Relay Proximity Link Configuration. Options were
+\textbf{Study:} Analysis of Rover-to-Relay Proximity Link Configuration. Options were
 scored against five pairwise-weighted criteria (Mass $0.13$, Power Demand $0.25$, Data Rate
 Capability $0.25$, Pointing \& Ops Complexity $0.13$, Reliability/TRL $0.25$).
 
@@ -1339,7 +1391,7 @@ Reliability/TRL (0.25) & 1.25 & 0.75 & 0.50 \\
 \label{tab:comms-trade}
 \end{table}
 
-\noindent\textbf{Winning option: UHF quadrifilar helix} ($401.6$/$437.1$~MHz). The X-band option
+\textbf{Winning option: UHF quadrifilar helix} ($401.6$/$437.1$~MHz). The X-band option
 has the raw throughput but fails the other criteria: a two-axis gimbal is a moving mechanism that
 has to survive $90$~K and $100$~krad, and it needs closed-loop tracking of a relay the rover
 cannot see coming. S-band buys data rate the mission does not need, since the UHF return already
@@ -1351,26 +1403,26 @@ through Electra and Electra-Lite heritage on exactly this kind of proximity link
 
 \subsubsection{GNC Requirements}
 \begin{itemize}[leftmargin=*]
-    \item \reqid{REQ.11.01} --- Determine attitude to $\pm 0.5^\circ$ ($3\sigma$) roll/pitch and
+    \item \reqid{REQ.11.01}: Determine attitude to $\pm 0.5^\circ$ ($3\sigma$) roll/pitch and
     heading to $\pm 0.25^\circ$ ($3\sigma$) at every sounding stop, propagating inertially
     between arcs $\leq 5$~m and taking an absolute heading fix from fine sun sensors at each arc
     end. (GNC, Mobility, Science/Payload, CDH)
-    \item \reqid{REQ.11.02} --- Assess terrain $\geq 8$~m ahead via stereo nav cameras before
+    \item \reqid{REQ.11.02}: Assess terrain $\geq 8$~m ahead via stereo nav cameras before
     each drive arc; autonomously reject arcs with a step $>0.20$~m, slope $>20^\circ$, or
     roughness $>0.7$; stop within $0.25$~m of the assessed safe limit. (GNC, Mobility,
     Science/Payload, CDH)
-    \item \reqid{REQ.11.03} --- Follow the planned path with cross-track deviation $\leq 0.5$~m
+    \item \reqid{REQ.11.03}: Follow the planned path with cross-track deviation $\leq 0.5$~m
     over a $50$~m segment and stop within $\pm 0.5$~m of each commanded waypoint, using
     differential drive with wheel slip estimated from the odometry/visual-odometry residual.
     (GNC, Mobility, Science/Payload)
-    \item \reqid{REQ.11.04} --- Halt and enter a navigation hold whenever $1\sigma$ position
+    \item \reqid{REQ.11.04}: Halt and enter a navigation hold whenever $1\sigma$ position
     uncertainty exceeds $0.5$~m; re-initialize via two-way ranging to $\geq 2$ relay agents plus
     local/orbital terrain correlation; do not resume until uncertainty is restored below
     $0.5$~m. (GNC, COMMs, CDH, Mobility)
 \end{itemize}
 
 \subsubsection{Mobility Solution Sketch}
-\noindent\textbf{Configuration: Four-Wheel Differential Drive on a Single-Pivot Rocker.} Four
+\textbf{Configuration: Four-Wheel Differential Drive on a Single-Pivot Rocker.} Four
 independently driven wheels ride on a single-pivot rocker, with no steering actuators. The
 chassis is the $0.90$~m $\times$ $0.60$~m equipment deck already carried in the mass budget, held
 $0.35$~m above the surface so the belly-mounted sounder keeps its standoff. Wheelbase is
@@ -1383,7 +1435,7 @@ continuous subsurface profile: REQ.03.01 calls for a radar trace every $100$~m o
 single transect, and every landing event in a hop or step creates a gap where the localization
 solution has to start over. A hop that lands wrong on a $90$~K ice block can end the mission on
 the spot, with no window for Earth to intervene given the $44$-minute one-way delay; a wheeled
-rocker instead degrades slowly, bearing by bearing, over many sols -- a failure mode better
+rocker instead degrades slowly, bearing by bearing, over many sols: a failure mode better
 suited to a mission with no recovery crew.
 
 \begin{figure}[H]
@@ -1396,7 +1448,7 @@ suited to a mission with no recovery crew.
 Steering is handled entirely by differential drive: opposing wheel rates rotate the chassis about
 the rocker pivot, so every heading change is a deliberate skid across the ice. Skid steering
 slips badly on hard ice ($\mu \approx 0.5$), so wheel odometry is dropped as a position source and
-used instead as a slip observable -- the residual between encoder counts and stereo visual
+used instead as a slip observable: the residual between encoder counts and stereo visual
 odometry becomes the slip estimate, the same approach the MER rovers used on Martian
 sand~\cite{maimone}. Heading is re-anchored with an absolute sun-sensor fix at the end of every
 $5$~m arc so error never integrates across a full traverse segment.
@@ -1425,7 +1477,7 @@ REQ.02.01 limit & 0.50 \\
 \label{tab:loc-budget}
 \end{table}
 
-\noindent In addition to this position-error rollup, the source pointing budget defines
+In addition to this position-error rollup, the source pointing budget defines
 per-component alignment requirements rather than a single combined pointing RSS: the GPR
 antenna boresight must hold $\pm 5^\circ$ of nadir ($\pm 0.5^\circ$ stop-to-stop repeatability,
 REQ.03.02); the fine sun sensor pair resolves the Sun vector to $\pm 0.1^\circ$, which folds into
@@ -1434,7 +1486,7 @@ the stereo nav camera boresight sits $25^\circ$ below the local horizontal with 
 step-detection capability at $8$~m range (REQ.11.02).
 
 \subsubsection{GNC Trade Study}
-\noindent\textbf{Study:} Analysis of the absolute heading reference for surface navigation.
+\textbf{Study:} Analysis of the absolute heading reference for surface navigation.
 Options were scored against five pairwise-weighted criteria (Mass $0.12$, Power Demand $0.23$,
 Complexity/Cost $0.12$, Accuracy $0.30$, Environmental Tolerance $0.23$).
 
@@ -1461,7 +1513,7 @@ Environmental Tolerance (0.23) & 1.15 & 0.46 & 0.46 \\
 \label{tab:gnc-trade}
 \end{table}
 
-\noindent\textbf{Winning option: Fine sun sensor pair with onboard ephemeris.} The star tracker
+\textbf{Winning option: Fine sun sensor pair with onboard ephemeris.} The star tracker
 wins on raw accuracy and loses everywhere else: its detector degrades measurably under the
 Jovian dose, it needs a baffle against Jupiter (which subtends $\sim 11.8^\circ$ from the surface
 and never sets on the sub-Jovian hemisphere), and it costs more than the rest of the GNC sensor
@@ -1486,27 +1538,27 @@ $1$~W, and Cassini flew the same class of sensor further out than Jupiter.
 
 \subsubsection{CDH Requirements}
 \begin{itemize}[leftmargin=*]
-    \item \reqid{REQ.03.04} --- Retain $\geq 7$ sols of uncompressed radar trace data onboard;
+    \item \reqid{REQ.03.04}: Retain $\geq 7$ sols of uncompressed radar trace data onboard;
     apply lossless compression at $\geq 2{:}1$ to all Radar\_Traces records before inter-agent
     relay transmission. (CDH, Science/Payload, COMMs)
-    \item \reqid{REQ.04.01} --- Support mesh-network consensus on shared terrain maps within
+    \item \reqid{REQ.04.01}: Support mesh-network consensus on shared terrain maps within
     $\leq 10$~minutes under degraded ($\leq 30\%$ packet loss) link conditions. (CDH, COMMs)
-    \item \reqid{REQ.05.02} --- Detect and autonomously recover from a single-event latch-up in
+    \item \reqid{REQ.05.02}: Detect and autonomously recover from a single-event latch-up in
     any processor core within $30$~s of occurrence, restoring nominal operations without ground
     intervention, and log each event to non-volatile memory with a timestamp and affected core
     identifier. (CDH, Electronics)
-    \item \reqid{REQ.12.01} --- Provide $\geq 250$~MIPS of radiation-hardened processing
+    \item \reqid{REQ.12.01}: Provide $\geq 250$~MIPS of radiation-hardened processing
     throughput with $\geq 30\%$ processor duty-cycle and volatile-memory margin at the
     worst-case concurrent GNC compute load (visual odometry, hazard assessment, navigation EKF)
     within a single $5$~m drive-arc cycle. (CDH)
-    \item \reqid{REQ.12.02} --- Provide $\geq 1$~GB of EDAC-protected non-volatile mass storage
+    \item \reqid{REQ.12.02}: Provide $\geq 1$~GB of EDAC-protected non-volatile mass storage
     sized to $7$ sols of raw data at the $91.9$~MB/sol generation rate with $\geq 30\%$ margin,
     applying a science-priority retention policy that preserves NOMINAL-flagged radar traces and
     their paired localization records once remaining capacity falls below $10\%$. (CDH)
-    \item \reqid{REQ.12.03} --- Move all payload and navigation data on a cross-strapped
+    \item \reqid{REQ.12.03}: Move all payload and navigation data on a cross-strapped
     SpaceWire primary bus $\geq 20$~Mbps, with an independent RS-422 command/telemetry path
     $\geq 115.2$~kbps that remains available with the primary bus failed. (CDH)
-    \item \reqid{REQ.12.04} --- Timestamp every record against a single onboard timebase held to
+    \item \reqid{REQ.12.04}: Timestamp every record against a single onboard timebase held to
     $\pm 1$~s absolute per sol and $\pm 10$~ms record-to-record, framed with a trace identifier,
     sol index, and CCSDS-compliant packet header. (CDH)
 \end{itemize}
@@ -1532,16 +1584,16 @@ SpaceWire bus entirely, so a single bus failure cannot also take down the contin
 
 Every record is timestamped against a single onboard timebase (RTC plus a $1$~PPS distribution)
 held to $\pm 1$~s absolute per sol and $\pm 10$~ms record-to-record, and framed with a trace
-identifier, sol index, and CCSDS-compliant header (REQ.12.04) -- this is what lets the ground
+identifier, sol index, and CCSDS-compliant header (REQ.12.04): this is what lets the ground
 segment reassemble the Radar\_Traces, Localization\_Log, and Terrain\_and\_Health record sets by
 identifier alone after a lossy pass, rather than depending on packet arrival order. A memory
 scrubber runs a full EDAC scrub of mass memory on an hourly cycle, and the mode manager/FDIR
 function isolates a faulted data bus within $\leq 100$~ms and drives safe-mode entry (REQ.08.03),
 detecting and recovering from a processor single-event latch-up within $30$~s of occurrence
-(REQ.05.02). Figure~\ref{fig:cdh-diagram} traces the full CDH core -- SpaceWire interface,
+(REQ.05.02). Figure~\ref{fig:cdh-diagram} traces the full CDH core: SpaceWire interface,
 processing allocation, RS-422 backup, timebase/framing, EDAC/scrubbing, and mode manager/FDIR on
 one side; mass memory, the lossless compressor, OBC staging RAM, the downlink scheduler,
-science-priority retention, and the contingency-beacon fallback on the other -- against every
+science-priority retention, and the contingency-beacon fallback on the other, against every
 subsystem that feeds it data or draws on its outputs.
 
 \begin{figure}[H]
@@ -1557,7 +1609,7 @@ subsystem that feeds it data or draws on its outputs.
 \subsubsection{Data Budget and Storage Strategy}
 Table~\ref{tab:cdh-data-budget} breaks the $91.85$~MB/sol raw-generation figure down by source.
 Nav-camera stereo hazard pairs dominate the budget even though they are the most compressible and
-most re-collectable product on board -- the rover can re-image ground it drives again, but a
+most re-collectable product on board: the rover can re-image ground it drives again, but a
 discarded NOMINAL-flagged radar trace and its paired localization record cannot be recovered
 without re-driving the transect. That asymmetry is exactly why REQ.12.02's science-priority
 retention policy protects radar traces and their position fixes ahead of everything else once
@@ -1614,7 +1666,7 @@ Battery Emergency & 2.25 \\
 \end{table}
 
 Sized against a $1$~GB EDAC-protected NAND storage board, $7$ sols of raw data is $643$~MB
-(REQ.03.04's storage horizon), which is $64\%$ of device capacity and leaves $36\%$ margin --
+(REQ.03.04's storage horizon), which is $64\%$ of device capacity and leaves $36\%$ margin:
 the figure REQ.12.02 uses as its storage-sizing floor. In nominal operation, though, the buffer
 never gets close to that: the downlink scheduler clears each sol's compressed volume during the
 following relay pass, so mass memory peaks at only about $91.2$~MB ($9.1\%$ of capacity) before
@@ -1624,7 +1676,7 @@ $8{,}000$~KB/min of throughput margin against a sustained need of only about $1{
 producing $45.92$~MB of compressed data per sol; adding REQ.10.01's $20\%$ margin gives the
 $\geq 55$~MB/day delivered-volume floor that sizes the $128$~kbps return link in Section~7.6.
 Compressed data queues in $45$~MB of OBC staging RAM, which peaks at $34.14$~MB ($24\%$ margin)
-at steady state -- the tightest margin anywhere in the CDH design and the first place to look if
+at steady state: the tightest margin anywhere in the CDH design and the first place to look if
 the return link ever slows down or a relay outage lets a backlog build. The downlink scheduler
 clears the full $45.92$~MB in $47.8$ of the $90$-minute relay pass ($53\%$ utilization,
 REQ.10.01/REQ.10.02), and if both relay links are lost the contingency-beacon logic falls back to
@@ -1632,7 +1684,7 @@ the $5$~bps X-band direct-to-Earth beacon from Section~7.6 (REQ.10.03) rather th
 primary science-data path.
 
 \subsubsection{CDH Trade Study}
-\noindent\textbf{Study:} Analysis of the onboard flight computer and mass-storage architecture.
+\textbf{Study:} Analysis of the onboard flight computer and mass-storage architecture.
 Options were scored against five pairwise-weighted criteria (Mass $0.10$, Power Demand $0.15$,
 Processing Throughput $0.20$, Radiation Durability $0.30$, Reliability/TRL $0.25$).
 
@@ -1659,11 +1711,11 @@ Reliability/TRL (0.25) & 1.25 & 0.75 & 0.50 \\
 \label{tab:cdh-trade}
 \end{table}
 
-\noindent\textbf{Winning option: RAD750-class SBC with a $1$~GB rad-hard NAND storage board.}
+\textbf{Winning option: RAD750-class SBC with a $1$~GB rad-hard NAND storage board.}
 Radiation durability and flight heritage carry $55\%$ of the weight between them, and that is
 what decides this. RAD750 parts are latch-up immune by process and qualified past $100$~krad
 (the figure REQ.01.02 already fixes), and the part flew to Jupiter on Juno and is flying there
-again on Europa Clipper -- nothing else in the trade has seen this environment. Throughput is
+again on Europa Clipper; nothing else in the trade has seen this environment. Throughput is
 where it gives ground: roughly $266$~MIPS at $200$~MHz against a peak load near $170$~MIPS during
 Traverse, when visual odometry, hazard assessment, and the navigation EKF all run inside one arc
 cycle. That leaves $36\%$ margin against the $30\%$ floor in REQ.12.01, so the answer is adequate
@@ -1671,7 +1723,7 @@ rather than comfortable, and it is the first term to watch if the visual-odometr
 The RAD5545 buys throughput the mission does not need: peak generation across the whole rover is
 only $29.7$~kbps and the buffer never climbs past $9\%$ of capacity on a nominal sol, so there is
 no processing or storage problem worth its extra mass and lower TRL. The COTS ARM SoC is the
-tempting option and the wrong one -- it wins mass, power, and throughput outright, then loses on
+tempting option and the wrong one; it wins mass, power, and throughput outright, then loses on
 the one axis that ends missions here: at $20$--$50$~krad it is consumed inside the $30$-sol
 surface phase even behind the vault, and TMR voting protects a running computation against
 upsets while doing nothing about total dose. With a $44$-minute one-way light delay there is no
@@ -1721,7 +1773,7 @@ Jet Propulsion Laboratory, ``DSN Telecommunications Link Design Handbook,'' 810-
 NASA/JPL, Pasadena, CA. Available: \url{https://deepspace.jpl.nasa.gov/dsndocs/810-005/}.
 
 \bibitem{ccsds2111}
-Consultative Committee for Space Data Systems, ``Proximity-1 Space Link Protocol --- Physical
+Consultative Committee for Space Data Systems, ``Proximity-1 Space Link Protocol: Physical
 Layer,'' CCSDS 211.1-B-4, 2013.
 
 \bibitem{ccsds1310}
@@ -1864,18 +1916,16 @@ consistently with the master sheet and needed no change; and REQ.07.03's vault m
 now reads $25.75$~kg, matching the Structure subsystem total in the mass budget (see Section~7.3).
 
 \section{Sample Datasets}
-\begin{gapbox}
-Only the single illustrative Radar\_Traces record reproduced in Table~\ref{tab:sample-record}
-(Section~6.2) is available at this time, and it was AI-generated to demonstrate the schema.
-Attach a short exported run (10--20 rows) from \textit{Data Product Space Robotics.xlsx}
-covering at least the Radar\_Traces and Daily Summary sheets before submission.
-\end{gapbox}
+A 20-trace Radar\_Traces export (Sol 1, \texttt{TR-0001}--\texttt{TR-0020}) and the complete
+Daily\_Summary export (Sol 1--2, the full extent of that sheet's current contents), both pulled
+directly from \textit{Data Product Space Robotics.xlsx}, are reproduced in
+Section~6.2 (Tables~\ref{tab:sample-record}, \ref{tab:sample-record-2},
+and~\ref{tab:sample-daily}) rather than duplicated here for length.
 
 \section{Tools Used}
 This report was assembled with the assistance of Claude (Anthropic), which synthesized and
-reorganized the author's prior assignment deliverables into the Section 4.1 template; see the
-disclosure box on the title page. Per-assignment AI-use disclosures carried over from the source
-documents are consolidated below.
+reorganized the author's prior assignment deliverables into the Section 4.1 template. Per-assignment
+AI-use disclosures carried over from the source documents are consolidated below.
 
 \begin{itemize}[leftmargin=*]
     \item \textbf{2.1 Designing a Data Product:} ``Artificial intelligence tools were used to
@@ -1899,13 +1949,13 @@ documents are consolidated below.
     to compare this paper against the assignment rubric and provide a grade estimate.''
 \end{itemize}
 
-\noindent\textbf{3.2 Structures and Mechanisms Design (dedicated AI Use Disclosure):}
+\textbf{3.2 Structures and Mechanisms Design (dedicated AI Use Disclosure):}
 ``The attached rover sketch was generated as an SVG graphic using Claude (model: Claude Opus 5),
 an AI assistant developed by Anthropic, accessed through the claude.ai interface. What the AI
 did: Produced the SVG drawing (linework, layout, labels, and leader lines) based on my direction.
-What the AI did not do: The design content --- component selection, structural configuration,
-materials (Al 7075-T73 struts, Ti-6Al-4V vault), payload (REASON-heritage GPR), and requirements
-traceability --- comes from my own prior coursework (requirements, trade study, and mass budget
+What the AI did not do: The design content, comprising component selection, structural
+configuration, materials (Al 7075-T73 struts, Ti-6Al-4V vault), payload (REASON-heritage GPR),
+and requirements traceability, comes from my own prior coursework (requirements, trade study, and mass budget
 for this mission). The AI drew from those documents rather than originating the design. Process:
 The sketch went through several revision cycles that I directed, including corrections to the
 suspension architecture, GPR mounting orientation (nadir-pointing, belly-mounted), sensor mast
