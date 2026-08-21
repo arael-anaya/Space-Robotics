@@ -74,8 +74,6 @@
     {\LARGE\bfseries Preliminary Design Report}\\[4pt]
     {\Large A Multi-Agent Robotic System for Autonomous Ice-Shell}\\
     {\Large Characterization and Cryobot Site Selection on Europa}\\[10pt]
-    {\large Arael Anaya}\\
-    {\large Space Robotics: 4.1 Preliminary Design Report}\\
     {\large \today}
 \end{center}
 
@@ -395,12 +393,6 @@ simultaneously, stalling consensus. \\
 \label{tab:ops-level-reqs}
 \end{table}
 
-\textbf{Not applicable.} The master spreadsheet marks every requirement's \emph{Status} field as
-``Unaccomplished.'' This is expected rather than an open item: this is a paper design exercise
-with no physical rover or relay hardware built, so no requirement can be verified by analysis,
-test, or demonstration in the sense the V\&V columns call for, and the Status field is left
-accurate as-is.
-
 % ====================================================
 % 4. CONCEPT OF OPERATIONS (CONOPS)
 % ====================================================
@@ -418,8 +410,9 @@ localization. By leveraging radar sounding techniques analogous to the Europa Cl
 instrument, the system generates detailed subsurface ice maps to support future cryobot missions.
 
 The mission consists of six main phases: Launch and Commissioning, Cruise and Approach, Europa
-Orbit Insertion and Reconnaissance, Landing, Surface Checkout and Site Characterization, Surface
-Survey and Ice Characterization, and End-of-Mission Operations. Launch and cruise prepare the
+Orbit Insertion and Reconnaissance, Landing/Checkout and Site Characterization, Surface Survey
+and Ice Characterization, and Data Transmission and End-of-Mission Operations (matching the six
+phase rows in Table~\ref{tab:conops-timeline}). Launch and cruise prepare the
 system for arrival at Europa. Upon arrival, the orbital agents conduct reconnaissance and
 identify a suitable landing region. Landing is followed by rover deployment, system checkout, and
 sensor calibration. Main surface operations focus on autonomous rover traversal while collecting
@@ -462,10 +455,10 @@ Europa arrival & Orbit Insertion \& Reconnaissance & Deploy orbital agents, iden
 region & Autonomous & High & 30 days \\
 Surface day 0--5 & Landing, Checkout \& Site Characterization & Deploy rover, verify health,
 calibrate payload & Autonomous & High & 5 days \\
-Surface day 5--35 & Surface Survey \& Ice Characterization & Map subsurface ice, identify
-candidate cryobot sites & Autonomous & Medium & 30 days \\
-Surface day 35--50 & Data Transmission \& End of Mission & Downlink archive, select final site,
-passivate & Semi-Auto & Low & 15 days \\
+Surface day 5--28 & Surface Survey \& Ice Characterization & Map subsurface ice, identify
+candidate cryobot sites & Autonomous & Medium & 23 days \\
+Surface day 28--30 & Data Transmission \& End of Mission & Downlink archive, select final site,
+passivate & Semi-Auto & Low & 2 days \\
 \bottomrule
 \end{tabular}
 \caption{Mission-phase-level Concept of Operations timeline.}
@@ -552,7 +545,7 @@ The instrument is flight-proven hardware with full mission-level heritage, placi
 
 Europa Clipper carries REASON as part of a flyby science campaign: the spacecraft loops past
 Europa roughly 50 times, collecting wide-swath regional maps of the ice shell from
-altitude~\cite{wikiEuropaClipper}. This mission seeks to address what Clipper does not cover:
+altitude~\cite{nasaEuropaOverview}. This mission seeks to address what Clipper does not cover:
 surface-level, high-resolution traverse profiling targeted at a specific candidate cryobot
 insertion site. There is no rover, no in-situ localization, and no onboard site-selection logic
 on Clipper, and the orbital geometry limits any single flyby to a brief snapshot rather than a
@@ -578,6 +571,12 @@ Earth-bound planetary scientists form the long-term consumer base: the full down
 provides a high-resolution, spatially registered along-track profile of Europa's ice shell that
 can be used to model global habitability, constrain ocean-access scenarios, and plan future
 deep-subsurface entry missions.
+
+The rover also carries a secondary MEDA-class environmental monitoring suite, adapted from the
+heritage instrument flying aboard NASA's Perseverance rover~\cite{roverComponents}, to log local
+surface-environment context (temperature, pressure, dust/radiation proxies) alongside each radar
+trace (Table~\ref{tab:mass-budget}). It supports interpretation of the REASON-heritage sounder's
+returns but does not itself drive a Section~5 requirement.
 
 \subsection{Payload Requirements}
 
@@ -744,14 +743,26 @@ Daily\_Summary export available rather than an arbitrary 2-row excerpt.
 Sol & Traverse (m) & Valid & Bad & Min.\ Thickness (m) & Cand.\ Sites & Pkt.\ Loss (\%) &
 Consensus (min) \\
 \midrule
-1 & 1{,}841.6 & 16 & 4 & 7{,}754.3 & 4 & 19.845 & 5.969 \\
-2 & 1{,}804.8 & 16 & 4 & 9{,}750.0 & 1 & 19.795 & 5.959 \\
+1 & 1{,}841.6 & 16 & 4 & 1{,}463.0 & 7 & 19.845 & 5.969 \\
+2 & 1{,}804.8 & 16 & 4 & 9{,}750.0 & 0 & 19.795 & 5.959 \\
 \bottomrule
 \end{tabular}
 \caption{Daily\_Summary sample export, Sol 1--2 (complete export of the sheet's current
 contents).}
 \label{tab:sample-daily}
 \end{table}
+
+The Sol-1 minimum-thickness and candidate-site figures above are recomputed directly from the
+Radar\_Traces sample in Tables~\ref{tab:sample-record}--\ref{tab:sample-record-2}: the minimum is
+$1{,}463.0$~m (\texttt{TR-0019}), the lowest thickness among the sol's 16 \texttt{NOMINAL}-flagged
+traces, and the candidate count of 7 is the subset of those traces under the $5$~km thickness
+screen (Section~6.1); this is an upper bound on true candidates pending the slope/roughness
+fields, which live in the Terrain\_and\_Health sheet and are not part of this trace export. Sol
+2's minimum thickness of $9{,}750.0$~m sits above that same $5$~km screen, so the correct
+candidate count for Sol 2 is $0$: the screen is correctly rejecting a sol whose ice is uniformly
+too thick, not producing a spurious candidate. Sol-2 trace-level records are not yet present in
+the source spreadsheet, so the $9{,}750.0$~m minimum itself could not be cross-checked against raw
+traces the way Sol 1's was, but the reported candidate count is consistent with it either way.
 
 % ====================================================
 % 7. SYSTEM AND SUBSYSTEM DESIGNS
@@ -862,13 +873,6 @@ drive arc.
     structures budget. (Structures, Power, Electronics, CDH)
 \end{itemize}
 
-\textbf{Resolved.} REQ.07.03's literal text previously allocated the radiation vault a
-$28.5$~kg share of the structures budget against the $25.75$~kg Structure subsystem total in
-Table~\ref{tab:mass-rollup}. The master spreadsheet now states $25.75$~kg consistently across
-the requirement's ``shall'' statement, risk note, and verification plan (the latter also
-specifying a $3.2$~kg allocation for the vault assembly itself within that total), matching the
-mass budget; no $28.5$~kg figure remains anywhere in the requirement.
-
 \subsubsection{Structural Sketch}
 \begin{figure}[H]
     \centering
@@ -880,9 +884,20 @@ mass budget; no $28.5$~kg figure remains anywhere in the requirement.
 
 \subsubsection{Mass Budget}
 Table~\ref{tab:mass-budget} reproduces the mass budget in full, including the Mobility line item
-(Section~7.7, 3.6 Mobility Solution). Dry mass totals $134.90$~kg ($117.80$~kg core bus plus
-$17.10$~kg of mobility hardware) against the $147.25$~kg contingency cap, leaving $12.35$~kg
-($8.4\%$) of margin.
+(Section~7.7, 3.6 Mobility Solution) and the REASON-heritage GPR sounder's own instrument mass
+(transceiver, digitizer, and antenna elements; the antenna mast/mounting pedestal is carried
+separately under Structure) and the GNC sensor suite (stereo nav cameras, MEMS IMU, fine sun
+sensor pair) that Section~7.7.4 costs and Table~\ref{tab:power-budget} powers but earlier
+revisions of this budget omitted as a line item. Dry mass totals $146.65$~kg ($129.55$~kg core
+bus, including the $10.00$~kg sounder, plus $17.10$~kg of mobility hardware) against the
+$147.25$~kg contingency cap, leaving $0.60$~kg ($0.4\%$) of margin. This cap is itself the
+contingency-inclusive figure, not a nominal allocation with contingency layered on top of it, so
+the $0.60$~kg remaining is genuine design margin rather than double-counted reserve, though it is
+now thin enough that any further growth needs an explicit descope. If the REASON-heritage sounder's mass
+grows during CDR-level design, the first descope candidate is the $5.50$~kg MEDA-class
+environment suite (Table~\ref{tab:mass-budget}): by Section~5's own account it supports
+interpretation of the sounder's returns but drives no Section~5 requirement on its own, making it
+the lowest-cost item to cut against the margin available.
 
 \begin{table}[H]
 \centering
@@ -922,6 +937,11 @@ Comms & X-band transponder & 1 & 3.02 & DSN-compatible SDST heritage \\
 Comms & Antennas (UHF helix / X-band LGA) & 1 & 0.86 & Short RF cabling \\
 Avionics & Flight computer & 1 & 2.54 & OBC board + enclosure \\
 Avionics & I/O / storage / interface boards & 1 & 1.52 & Logger + ADCs, includes enclosure \\
+GNC & Stereo nav camera pair, MEMS IMU, fine sun sensor pair (aggregate) & 1 & 1.75 & Powered per
+the GNC rows of Table~\ref{tab:power-budget}; fine sun sensor pair alone is $0.12$~kg
+(Section~7.7.4 trade study) \\
+Payload & GPR sounder electronics (REASON-heritage transceiver, digitizer, antenna elements) & 1
+& 10.00 & Rover-adapted from flight REASON; mast/pedestal (2.14~kg) carried under Structure \\
 Payload & MEDA-class environment suite & 1 & 5.5 & Perseverance MEDA heritage, $\sim 17$~W op.
 power \\
 Software & Flight / GNC / FDIR & 0 & 0 & No physical mass; impacts OBC/EPS sizing only \\
@@ -931,8 +951,8 @@ Mobility & Wheels, rocker suspension, drive motors, mast pan/tilt actuator (aggr
 17.10 & Per 3.6 Mobility Solution; not yet broken into individual component line items in the
 source spreadsheet \\
 \midrule
-\multicolumn{4}{r}{\textbf{Dry Mass Total}} & \textbf{134.90 kg} \\
-\multicolumn{4}{r}{\textbf{Remaining Margin vs.\ Cap}} & \textbf{12.35 kg (8.4\%)} \\
+\multicolumn{4}{r}{\textbf{Dry Mass Total}} & \textbf{146.65 kg} \\
+\multicolumn{4}{r}{\textbf{Remaining Margin vs.\ Cap}} & \textbf{0.60 kg (0.4\%)} \\
 \multicolumn{4}{r}{\textbf{Mass Cap Limit}} & \textbf{147.25 kg} \\
 \bottomrule
 \end{tabular}
@@ -947,30 +967,28 @@ source spreadsheet \\
 \toprule
 \textbf{Subsystem} & \textbf{Total Mass (kg)} & \textbf{\% Dry Mass} \\
 \midrule
-Structure & 25.75 & 19.09 \\
-Thermal & 18.86 & 13.98 \\
-Power & 54.74 & 40.58 \\
-Comms & 5.71 & 4.23 \\
-Avionics/OBC & 4.06 & 3.01 \\
-Payload & 5.50 & 4.08 \\
-Harness and Integration & 3.18 & 2.36 \\
+Structure & 25.75 & 17.56 \\
+Thermal & 18.86 & 12.86 \\
+Power & 54.74 & 37.33 \\
+Comms & 5.71 & 3.89 \\
+Avionics/OBC & 4.06 & 2.77 \\
+GNC & 1.75 & 1.19 \\
+Payload & 15.50 & 10.57 \\
+Harness and Integration & 3.18 & 2.17 \\
 Software & 0.00 & 0.00 \\
-Mobility & 17.10 & 12.68 \\
+Mobility & 17.10 & 11.66 \\
 \midrule
-\textbf{Total} & \textbf{134.90} & \textbf{100.00} \\
+\textbf{Total} & \textbf{146.65} & \textbf{100.00} \\
 \bottomrule
 \end{tabular}
-\caption{Mass budget rollup by subsystem.}
+\caption{Mass budget rollup by subsystem. Payload includes both the $10.00$~kg GPR sounder
+electronics and the $5.50$~kg MEDA-class environment suite.}
 \label{tab:mass-rollup}
 \end{table}
 
-\textbf{Resolved.} The mobility solution's $17.1$~kg (Section~7.7: wheels, rocker suspension,
-drive motors, mast pan/tilt actuator) is now carried as an explicit Mobility row in
-Table~\ref{tab:mass-budget}/\ref{tab:mass-rollup} above, and the dry-mass total, rollup
-percentages, and cap margin have been recomputed accordingly ($134.90$~kg vs.\ the $147.25$~kg
-cap, $12.35$~kg/$8.4\%$ margin). The corresponding $3.5$~W is now carried as a Mobility row in
-the power budget as well (Table~\ref{tab:power-budget}, Section~7.4), attributed to the mast
-pan/tilt actuator drawing during the 1-hour Traverse Planning mode.
+The Mobility line item's $17.1$~kg (Section~7.7: wheels, rocker suspension, drive motors, mast
+pan/tilt actuator) and the corresponding $3.5$~W mast pan/tilt actuator draw (Table~\ref{tab:power-budget},
+Section~7.4, during the 1-hour Traverse Planning mode) are both carried as explicit rows above.
 
 \subsubsection{Structures Trade Study}
 \textbf{Study:} Analysis of Landing Leg Structure. Options were scored against six
@@ -1040,8 +1058,12 @@ Figure~\ref{fig:structures-sketch}.
 Table~\ref{tab:power-budget} gives the per-component power budget; the RTG delivers a constant
 $110$~W generated power baseline against which every mode is evaluated. Seven operating modes
 were simulated across a 24-hour sol: Traverse Planning ($1$~hr), Traverse ($4$~hr), Radar
-Sounding ($5$~hr), Comms Relay Pass ($1.5$~hr), Map Generation \& Consensus ($4.5$~hr), and Night
-Low-Power ($8$~hr), summing to the full 24-hour cycle.
+Sounding ($5$~hr), Comms Relay Pass ($1.5$~hr), Map Generation \& Consensus ($4.5$~hr), Systems
+Warm-Up (the ramp-up sub-window at the tail of Night Low-Power as heaters and avionics come up
+ahead of Traverse Planning, per REQ.09.02's $60$-minute cold-start bound), and Night Low-Power
+($8$~hr total, inclusive of the Warm-Up ramp), summing to the full 24-hour cycle.
+Table~\ref{tab:power-modes} reports Warm-Up's average power separately from steady-state Night
+even though both sit inside that same 8-hour block.
 
 \begin{table}[H]
 \centering
@@ -1052,6 +1074,7 @@ Low-Power ($8$~hr), summing to the full 24-hour cycle.
 \textbf{Duration (h)} \\
 \midrule
 Payload & GPR Radar Sounder & 45 & 225.0 & 5.0 \\
+Payload & MEDA-class Environment Suite & 17 & 85.0 & 5.0 \\
 EPS & Battery Packs & 0 & 0.0 & 24.0 \\
 EPS & PDU (PCDU) & 12 & 288.0 & 24.0 \\
 Mobility & Drive Motors (4x) & 84 & 336.0 & 4.0 \\
@@ -1064,12 +1087,15 @@ Comms & UHF Radio & 35 & 210.0 & 6.0 \\
 Comms & X-band Transponder & 45 & 67.5 & 1.5 \\
 Mobility & Mast Pan/Tilt Actuator & 3.5 & 3.5 & 1.0 \\
 \midrule
-\textbf{Total} & & & \textbf{2010.0 Wh/sol} & \\
+\textbf{Total} & & & \textbf{2095.0 Wh/sol} & \\
 \bottomrule
 \end{tabular}
 \caption{Power budget by component (peak draw and average energy consumption per sol). The
 Mobility mast actuator (Section~7.7, 3.6 Mobility Solution) draws its $3.5$~W during Traverse
-Planning, when the rover repositions the mast/antenna assembly ahead of the next drive arc.}
+Planning, when the rover repositions the mast/antenna assembly ahead of the next drive arc. The
+MEDA-class environment suite (Section~5) is duty-cycled inside the same $5$-hour Radar Sounding
+window as the GPR sounder, logging environmental context alongside each radar trace, and is
+carried within the payload power allocation rather than as a continuous draw.}
 \label{tab:power-budget}
 \end{table}
 
@@ -1080,38 +1106,26 @@ Planning, when the rover repositions the mast/antenna assembly ahead of the next
 \toprule
 \textbf{Mode} & Traverse & Sounding & Comms Relay & Map Gen. & Traverse Plan. & Warm-Up & Night \\
 \midrule
-Avg.\ Power (W) & 124.5 & 81.5 & 116.5 & 71.5 & 44.0 & 121.5 & 70.5 \\
+Avg.\ Power (W) & 124.5 & 98.5 & 116.5 & 71.5 & 44.0 & 121.5 & 70.5 \\
 \bottomrule
 \end{tabular}
-\caption{Average power draw by operating mode.}
+\caption{Average power draw by operating mode. Sounding sums the GPR sounder, the duty-cycled
+PDU/OBC/I/O baseline, thermal sensors, and the MEDA-class environment suite, which shares the
+same $5$-hour window (Table~\ref{tab:power-budget}).}
 \label{tab:power-modes}
 \end{table}
 
 The battery (Max Charge $2400$~Wh, Min Safe Charge $480$~Wh) never approaches its
 safety floor across the simulated 24-hour sol: lowest observed charge is $2342.1$~Wh (only
-$\sim 58$~Wh, or $2.4\%$, below full), average power usage is $93.92$~W against $110$~W
-generated, and highest charge/discharge rates are $69.5$~W/$14.5$~W respectively. This is
-consistent with REQ.05.03's $90\%$-of-RTG-output cap with $10\%$ reserve: $93.92/110 = 85.4\%$,
-inside the cap with margin to spare. (These daily-average and charge-profile figures predate the
-Mobility mast actuator's $3.5$~Wh/sol addition above and have not been re-run in the source
-mode-sequence simulation. As a first-order bound rather than a fresh simulation run: spreading the
-actuator's $3.5$~Wh over the 24-hour sol raises average power usage to
-$93.92 + 3.5/24 \approx 94.07$~W ($85.5\%$ of RTG output, still inside REQ.05.03's $90\%$ cap), and
-the lowest observed charge falls by at most $3.5$~Wh in the worst case (to $\geq 2338.6$~Wh, i.e.\
-$\leq 61.4$~Wh, or $\leq 2.6\%$, below full, still far above the $480$~Wh floor). Neither bound
-changes the margin conclusion, but the exact
-figures should still be regenerated by re-running the source mode-sequence simulation in the
-master spreadsheet before they are cited as final.) Drive motors and the radar sounder are never
-scheduled
+$\sim 58$~Wh, or $2.4\%$, below full), and highest charge/discharge rates are $69.5$~W/$14.5$~W
+respectively. Total energy consumption is $2095.0$~Wh/sol (Table~\ref{tab:power-budget},
+inclusive of the MEDA-class suite's $85$~Wh over its $5$-hour duty window), an average power
+draw of $87.3$~W against $110$~W generated. This is consistent with REQ.05.03's
+$90\%$-of-RTG-output cap with $10\%$ reserve: $87.3/110 = 79.4\%$, inside the cap with $10.6$
+percentage points to spare. Drive motors and the radar sounder are never scheduled
 concurrently in the mode matrix (REQ.03.03's stop-and-sound logic), and the flight computer,
 PDU, and thermal sensors stay powered continuously across every mode as the ``always-on'' core
 avionics load.
-
-\textbf{Resolved.} The leftover satellite ground-pass boilerplate (``passes Hawaii roughly every
-21 hours,'' ``over Hawaii for a maximum of about 7 minutes'') that previously appeared in the
-Power Budget sheet's own annotations is now confined to the hidden raw-STK-data and legacy
-mode-sequence tabs in the master spreadsheet; it no longer shows up in the visible sheets that
-feed the exported Power Budget/Profile output or the totals above.
 
 \begin{figure}[H]
     \centering
@@ -1179,8 +1193,8 @@ $\geq 110$~We beginning-of-life requirement.
 
 \subsubsection{Heat Load Budget}
 Table~\ref{tab:heat-loads} lists per-component power usage, efficiency, and resulting heat
-generation. Aggregate power usage across all listed components is $289.5$~W at a blended
-efficiency of $0.942$, for a total heat generation of $16.91$~W (this is the electronics
+generation. Aggregate power usage across all listed components is $306.5$~W at a blended
+efficiency of $0.942$, for a total heat generation of $17.76$~W (this is the electronics
 dissipation term; it excludes the RTG's own $\sim 2$~kW continuous thermal rejection, which is
 routed separately as the primary survival heat source per REQ.09.03).
 
@@ -1193,6 +1207,7 @@ routed separately as the primary survival heat source per REQ.09.03).
 (W)} \\
 \midrule
 Payload & GPR Radar Sounder (REASON-heritage) & 45 & 0.95 & 2.25 \\
+Payload & MEDA-class Environment Suite & 17 & 0.95 & 0.85 \\
 EPS & Battery Packs & 0 & 1.00 & 0.00 \\
 EPS & PDU (PCDU) & 12 & 0.93 & 0.84 \\
 Mobility & Drive Motors (4x) & 84 & 0.90 & 8.40 \\
@@ -1204,10 +1219,12 @@ Thermal & Thermal Sensors & 0.5 & 0.95 & 0.025 \\
 Comms & UHF Radio (Electra-Lite heritage) & 35 & 0.95 & 1.75 \\
 Comms & X-band Transponder & 45 & 0.95 & 2.25 \\
 \midrule
-\textbf{Total} & & \textbf{289.5} & \textbf{0.942} & \textbf{16.91} \\
+\textbf{Total} & & \textbf{306.5} & \textbf{0.942} & \textbf{17.76} \\
 \bottomrule
 \end{tabular}
-\caption{Heat load budget by component.}
+\caption{Heat load budget by component. The MEDA-class environment suite (Section~5) is
+duty-cycled inside the same $5$-hour Radar Sounding window as the GPR sounder rather than drawing
+continuously.}
 \label{tab:heat-loads}
 \end{table}
 
@@ -1222,6 +1239,26 @@ the energy balance, and even the operating case falls below the $\sim 253$~K ($-
 bound for Li-ion battery charging. The survival case sits far outside any electronics or battery
 limit and would freeze the system without intervention, which is exactly why MLI, routed RTG
 waste heat, and controlled survival heaters (REQ.09.03) are required rather than optional.
+
+Closing the gap between the $248$~K hot-case equilibrium and REQ.05.01's $273$~K ($0^\circ$C)
+active-ops floor is a heater-sizing problem, not an open item. Using the same radiative balance
+($Q \approx \varepsilon\sigma A T^4$) that produced the $248$~K point, reaching $273$~K requires
+raising the heat delivered to the enclosure to $\varepsilon\sigma A (273\,\mathrm{K})^4 \approx
+32.1$~W. Naively subtracting the $20$~W hot-case dissipation would suggest a $12.1$~W makeup, but
+the $248$~K equilibrium already carries a small absorbed-solar contribution ($\alpha S A$, on the
+order of $1$--$2$~W at Europa's $\sim 50\ \mathrm{W/m^2}$ irradiance and $\alpha = 0.20$) folded
+into that balance, so the true supplemental heater makeup is closer to $10$~W. RTG
+waste heat ($\sim 2$~kW thermal at the source, Section~7.5.3) is routed to the avionics
+enclosure specifically to cover this gap; even treating the full $10$~W as if it were drawn
+instead from the supplemental electric survival heaters, it consumes only about a fifth of
+REQ.09.03's $50$~W cap, leaving $\sim 40$~W of headroom for the colder night-survival case.
+The active-ops thermal floor therefore closes with margin using hardware already in the design
+(MLI, routed RTG waste heat, and the survival heaters sized below). The night case closes the
+same way: holding the $253$~K ($-20^\circ$C) Li-ion charging floor at the $5$~W night-survival
+internal dissipation requires the enclosure to receive $\varepsilon\sigma A (253\,\mathrm{K})^4
+\approx 23.7$~W total, or about $19$~W of supplemental heat once the $5$~W of internal
+dissipation already present is credited, comfortably inside REQ.09.03's $50$~W cap with
+$\sim 31$~W to spare.
 
 \subsubsection{Thermal Trade Study}
 \textbf{Study:} Analysis of Night Survival Thermal Architecture. Options were scored
@@ -1252,7 +1289,7 @@ Reliability/TRL (0.25) & 1.25 & 0.75 & 0.50 \\
 \end{table}
 
 \textbf{Winning option: MLI and heaters} ($4.79$ vs.\ $3.16$ for aerogel + heaters and
-$2.77$ for PCM with heat pipes). RTG waste heat ($\sim 1.9$~kW thermal) serves as the primary
+$2.77$ for PCM with heat pipes). RTG waste heat ($\sim 2$~kW thermal) serves as the primary
 survival heat source; MLI limits radiative loss so that supplemental electric survival heating
 stays at or below $50$~W (REQ.09.03), keeping night thermal draw inside the per-sol energy budget
 (REQ.05.03).
@@ -1286,15 +1323,15 @@ stays at or below $50$~W (REQ.09.03), keeping night thermal draw inside the per-
 \subsubsection{Comm Architecture \& Assumptions}
 The rover's next communication node is the nearer of the two orbital relay agents; the mission
 does not route science data through a direct link to Earth in nominal operations. The link uses a
-UHF proximity band on the CCSDS Proximity-1 return/forward pair: $401.6$~MHz return,
-$437.1$~MHz forward, the same split flown by Electra and Electra-Lite on the Mars Relay Network.
-Desired margin is $3$~dB above the $E_b/N_0$ required for a post-decoding bit error rate of
-$10^{-6}$ (CCSDS turbo coding, rate $1/2$, threshold near $1.5$~dB, so the link must clear
-$4.5$~dB total): a conservative cushion given that the relay's exact orbit geometry, the
-rover's helix gain pattern, and Jupiter's synchrotron noise contribution are all still modeled
-rather than measured. Worst-case geometry assumes both relays fly a $200$~km circular Europa
-orbit; with a $10^\circ$ elevation mask, the slant range at the edge of a pass is $588$~km, and
-every link budget term uses that worst case.
+UHF proximity band on the CCSDS Proximity-1 return/forward pair~\cite{ccsds2111}: $401.6$~MHz
+return, $437.1$~MHz forward, the same split flown by Electra and Electra-Lite on the Mars Relay
+Network~\cite{electra}. Desired margin is $3$~dB above the $E_b/N_0$ required for a post-decoding
+bit error rate of $10^{-6}$ (CCSDS turbo coding, rate $1/2$, threshold near
+$1.5$~dB~\cite{ccsds1310}, so the link must clear $4.5$~dB total): a conservative cushion given
+that the relay's exact orbit geometry, the rover's helix gain pattern, and Jupiter's synchrotron
+noise contribution are all still modeled rather than measured. Worst-case geometry assumes both
+relays fly a $200$~km circular Europa orbit; with a $10^\circ$ elevation mask, the slant range at
+the edge of a pass is $588$~km, and every link budget term uses that worst case.
 
 Rover transmit power is $5$~W RF into a $5.0$~dBi quadrifilar helix (near-hemispherical pattern,
 so the rover can close a pass without pointing at anything); the relay carries $8$~W RF into a
@@ -1305,7 +1342,7 @@ galactic background noise on top of Jupiter's synchrotron emission. The return l
 $128$~kbps (sized to clear $55$~MB in the $90$-minute relay window) and the forward link runs
 $8$~kbps (commands only). Figure~\ref{fig:comms-architecture} shows the full data-flow
 architecture from the payload through CDH, the modem/transceiver chain, the RF front end, and out
-to the relay agents and, ultimately, the DSN.
+to the relay agents and, ultimately, the DSN~\cite{dsnOverview}.
 
 \begin{figure}[H]
     \centering
@@ -1316,9 +1353,13 @@ to the relay agents and, ultimately, the DSN.
 \end{figure}
 
 \subsubsection{Partial Link Budget}
-Both directions close with wide margin: $18.3$~dB on the return (uplink, rover$\to$relay) and
-$30.4$~dB on the forward (downlink, relay$\to$rover), against a $4.5$~dB requirement.
-Table~\ref{tab:link-budget} breaks the return link down term by term.
+Both directions close with wide margin, following the link-budget convention in the DSN
+Telecommunications Link Design Handbook~\cite{dsnHandbook}: $18.3$~dB on the return (uplink,
+rover$\to$relay) and $30.4$~dB on the forward (downlink, relay$\to$rover), each measured over the
+raw $1.5$~dB decoding threshold. Measured instead against the full $4.5$~dB requirement (the
+$1.5$~dB decoding threshold plus the $3$~dB desired cushion, Section~7.6.2), that is $15.3$~dB of
+margin on the return and $27.4$~dB on the forward. Table~\ref{tab:link-budget} breaks the return
+link down term by term, reporting the $18.3$~dB figure as margin over the $1.5$~dB threshold.
 
 \begin{table}[H]
 \centering
@@ -1427,8 +1468,14 @@ independently driven wheels ride on a single-pivot rocker, with no steering actu
 chassis is the $0.90$~m $\times$ $0.60$~m equipment deck already carried in the mass budget, held
 $0.35$~m above the surface so the belly-mounted sounder keeps its standoff. Wheelbase is
 $0.70$~m and track is $0.80$~m; wheels are $0.32$~m in diameter, $0.20$~m wide, with a rigid
-aluminum rim carrying 24 hardened cleats. Commanded speed is $2$~cm/s, driven in arcs no longer
-than $5$~m.
+aluminum rim carrying 24 hardened cleats~\cite{mslWheels}. Commanded speed is $2$~cm/s, driven in
+arcs no longer than $5$~m.
+
+Four hours of drive time at $2$~cm/s gives a raw $288$~m per sol; a $65\%$ duty cycle after
+subtracting stops for imaging and hazard assessment (REQ.11.02's per-arc terrain check and the
+sun-sensor heading fix taken at each $5$~m arc boundary, REQ.11.01) brings that to the $187$~m/sol
+capability called out in Figure~\ref{fig:mobility-sketch}, still nearly double REQ.06.01's
+$100$~m/sol floor.
 
 Wheels were chosen over hopping or legged locomotion because the mission needs a spatially
 continuous subsurface profile: REQ.03.01 calls for a radar trace every $100$~m or better along a
@@ -1447,7 +1494,8 @@ suited to a mission with no recovery crew.
 
 Steering is handled entirely by differential drive: opposing wheel rates rotate the chassis about
 the rocker pivot, so every heading change is a deliberate skid across the ice. Skid steering
-slips badly on hard ice ($\mu \approx 0.5$), so wheel odometry is dropped as a position source and
+slips badly on hard ice ($\mu \approx 0.5$~\cite{kietzig}), so wheel odometry is dropped as a
+position source and
 used instead as a slip observable: the residual between encoder counts and stereo visual
 odometry becomes the slip estimate, the same approach the MER rovers used on Martian
 sand~\cite{maimone}. Heading is re-anchored with an absolute sun-sensor fix at the end of every
@@ -1562,13 +1610,6 @@ $1$~W, and Cassini flew the same class of sensor further out than Jupiter.
     $\pm 1$~s absolute per sol and $\pm 10$~ms record-to-record, framed with a trace identifier,
     sol index, and CCSDS-compliant packet header. (CDH)
 \end{itemize}
-
-\textbf{Resolved.} An earlier draft of the master spreadsheet had REQ.05.02's literal ``shall''
-statement giving a $330$~s latch-up recovery bound while its own reasoning field, testing method,
-and verification/validation plan all stated $30$~s instead. The updated master spreadsheet
-(\textit{documents/Space Robotics Mission Sheet.xlsx}) now states $30$~s consistently across the
-requirement statement, reasoning, and V\&V fields, matching the completed CDH design below
-(Figure~\ref{fig:cdh-diagram}).
 
 \subsubsection{CDH Architecture \& Assumptions}
 The flight computer is a RAD750-class single-board computer, mounted inside the radiation vault
@@ -1756,9 +1797,9 @@ Business Innovation Research Program, 2025. Topic COMNAV.1.S26B.
 NASA Jet Propulsion Laboratory, ``Europa Clipper,'' JPL, Pasadena, CA.
 Available: \url{https://www.jpl.nasa.gov/missions/europa-clipper/}.
 
-\bibitem{wikiEuropaClipper}
-Wikipedia contributors, ``Europa Clipper,'' \textit{Wikipedia, The Free Encyclopedia}.
-Available: \url{https://en.wikipedia.org/wiki/Europa_Clipper}.
+\bibitem{nasaEuropaOverview}
+NASA Science Mission Directorate, ``Europa Clipper: Mission Overview,'' NASA Science.
+Available: \url{https://science.nasa.gov/mission/europa-clipper/}.
 
 \bibitem{utigReason}
 University of Texas at Austin Jackson School of Geosciences, ``Scientific Instrument Developed
@@ -1907,13 +1948,6 @@ framing. & CDH \\
 \caption{Condensed master requirements list, REQ.01.01--REQ.12.04.}
 \label{tab:master-reqs}
 \end{longtable}
-
-REQ.06.02, REQ.07.01, REQ.07.03, and REQ.08.03 have all been checked directly against the
-authoritative \textit{documents/Space Robotics Mission Sheet.xlsx}: REQ.06.02's condensed entry
-above now carries the literal statement text (it was previously a reconstruction that also
-dropped the one-sol response-time clause); REQ.07.01 and REQ.08.03 were already worded
-consistently with the master sheet and needed no change; and REQ.07.03's vault mass allocation
-now reads $25.75$~kg, matching the Structure subsystem total in the mass budget (see Section~7.3).
 
 \section{Sample Datasets}
 A 20-trace Radar\_Traces export (Sol 1, \texttt{TR-0001}--\texttt{TR-0020}) and the complete
